@@ -1,0 +1,43 @@
+-- This is a line comment.
+fn test(x i32):
+    return 32
+end
+
+---
+    This is a block comment.
+---
+fn add(x i32, y i32) i32 => x + y 
+
+fn sub(x i32, y i32) i32:
+    return x - y
+end
+
+fn main():
+    if londoners.length() > 10:
+        print("yes")
+        true
+    else:
+        print("no")
+        false
+    end
+
+    -- let x = if londoners.length > 10 then true else false and  
+
+    loop:
+       let x = if a > 10 and not false => 1 else => 2
+       let x = if a > 10 => 1 else => 2
+       break
+       continue
+    end
+
+    let x = for x in people:
+        if x.city == "London":
+            yield true 
+        end 
+    end
+
+    let elm = document.query("test")
+    elm.setAttribute("test", a == 10)
+    for child in elm.children => child.remove()
+end
+

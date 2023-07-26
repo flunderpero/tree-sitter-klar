@@ -1,0 +1,303 @@
+================================================================================
+Function definition with block
+================================================================================
+
+fn test():
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters)
+      (multi_expression_block))))
+
+================================================================================
+Function definition with block and return statement
+================================================================================
+
+fn test() i32:
+    return 42
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters)
+      (type)
+      (multi_expression_block
+        (return)
+        (int)))))
+
+================================================================================
+Function definition with parameters, block, and binary expression return statement
+================================================================================
+
+fn test(x i32, y i32) i32:
+    return x + y
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters
+        (parameter
+          (identifier)
+          (type))
+        (parameter
+          (identifier)
+          (type)))
+      (type)
+      (multi_expression_block
+        (return)
+        (binary
+          (identifier)
+          (identifier))))))
+
+================================================================================
+Function definition with single expression
+================================================================================
+
+fn test() i32 => 42
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters)
+      (type)
+      (single_expression_block
+        (int)))))
+
+================================================================================
+Function definition with parameters and single expression
+================================================================================
+
+fn test(x i32, y i32) i32 => x < y
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters
+        (parameter
+          (identifier)
+          (type))
+        (parameter
+          (identifier)
+          (type)))
+      (type)
+      (single_expression_block
+        (binary
+          (identifier)
+          (identifier))))))
+
+================================================================================
+Function calls
+================================================================================
+
+fn main():
+    test()
+    test("string", 42, some_variable, a == 10)
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters)
+      (multi_expression_block
+        (function_call
+          (identifier)
+          (function_call_args))
+        (function_call
+          (identifier)
+          (function_call_args
+            (string)
+            (int)
+            (identifier)
+            (binary
+              (identifier)
+              (int))))))))
+
+================================================================================
+Comments
+================================================================================
+
+-- A line comment.
+fn test():
+    return -- A trailing comment.
+    --- "aaa"
+        A block comment.
+        - Make sure we can put one or two dashes in a block comment.
+        -- -- -- --
+    ---
+end -- A trailing comment.
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment)
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters)
+      (multi_expression_block
+        (return)
+        (comment)
+        (comment))))
+  (comment))
+
+================================================================================
+String literal.
+================================================================================
+
+fn test():
+    let a = "some string"
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters)
+      (multi_expression_block
+        (let
+          (identifier)
+          (string))))))
+
+================================================================================
+Binary expression.
+================================================================================
+
+fn test():
+    return 42 + 7 - 3
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters)
+      (multi_expression_block
+        (return)
+        (binary
+          (binary
+            (int)
+            (int))
+          (int))))))
+
+================================================================================
+Conditional: if then
+================================================================================
+
+fn test() bool:
+    if a == 42:
+        return true
+    end
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters)
+      (type)
+      (multi_expression_block
+        (if_then_else
+          (binary
+            (identifier)
+            (int))
+          (multi_expression_block
+            (return)
+            (bool)))
+        (MISSING "end")))))
+
+================================================================================
+Conditional: if then else
+================================================================================
+
+fn test() bool:
+    if a == 42:
+        return true
+    else => return false
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (ERROR
+    (identifier)
+    (parameters)
+    (type)
+    (binary
+      (identifier)
+      (int))
+    (multi_expression_block
+      (return)
+      (bool)
+      (identifier)
+      (ERROR)
+      (return)
+      (bool))))
+
+================================================================================
+Loops
+================================================================================
+
+fn test():
+    let names = for x in people => x.name
+    loop:
+    end
+    while a > 42 => a = a - 1
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters)
+      (multi_expression_block
+        (let
+          (identifier)
+          (for
+            (identifier)
+            (identifier)
+            (single_expression_block
+              (member
+                (identifier)))))
+        (identifier)
+        (loop
+          (multi_expression_block))
+        (while
+          (binary
+            (identifier)
+            (int))
+          (single_expression_block
+            (identifier)))
+        (ERROR)
+        (binary
+          (identifier)
+          (int))))))
