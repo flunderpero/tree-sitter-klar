@@ -19,6 +19,9 @@
       "scope": "source.klar",
       "file-types": [
         "kl"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
       ]
     }
   ]

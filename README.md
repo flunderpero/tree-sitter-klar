@@ -32,3 +32,6 @@ Build and test:
 
     ./node_modules/.bin/tree-sitter generate && ./node_modules/.bin/tree-sitter test
 
+Update grammar in NeoVim:
+
+    :TSUpdate

@@ -12,7 +12,7 @@ end
     (function_declaration
       (identifier)
       (parameters)
-      (multi_expression_block))))
+      (multi_block))))
 
 ================================================================================
 Function definition with block and return statement
@@ -30,7 +30,7 @@ end
       (identifier)
       (parameters)
       (type)
-      (multi_expression_block
+      (multi_block
         (return)
         (int)))))
 
@@ -56,7 +56,7 @@ end
           (identifier)
           (type)))
       (type)
-      (multi_expression_block
+      (multi_block
         (return)
         (binary
           (identifier)
@@ -76,7 +76,7 @@ fn test() i32 => 42
       (identifier)
       (parameters)
       (type)
-      (single_expression_block
+      (single_block
         (int)))))
 
 ================================================================================
@@ -99,7 +99,7 @@ fn test(x i32, y i32) i32 => x < y
           (identifier)
           (type)))
       (type)
-      (single_expression_block
+      (single_block
         (binary
           (identifier)
           (identifier))))))
@@ -120,7 +120,7 @@ end
     (function_declaration
       (identifier)
       (parameters)
-      (multi_expression_block
+      (multi_block
         (function_call
           (identifier)
           (function_call_args))
@@ -156,10 +156,10 @@ end -- A trailing comment.
     (function_declaration
       (identifier)
       (parameters)
-      (multi_expression_block
-        (return)
-        (comment)
-        (comment))))
+      (multi_block
+        (return))
+      (comment)
+      (comment)))
   (comment))
 
 ================================================================================
@@ -168,6 +168,7 @@ String literal.
 
 fn test():
     let a = "some string"
+    let b = "\"escape\"\nsequences\\"
 end
 
 --------------------------------------------------------------------------------
@@ -177,10 +178,52 @@ end
     (function_declaration
       (identifier)
       (parameters)
-      (multi_expression_block
+      (multi_block
         (let
           (identifier)
-          (string))))))
+          (string))
+        (let
+          (identifier)
+          (string
+            (escape_sequence)
+            (escape_sequence)
+            (escape_sequence)
+            (escape_sequence)))))))
+
+================================================================================
+Format string.
+================================================================================
+
+fn test():
+    let a = f"some string {a} {1 + 2}{person.name} {{escaped}}"
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters)
+      (multi_block
+        (let
+          (identifier)
+          (format_string
+            (format_string_part)
+            (format_string_expr
+              (identifier))
+            (format_string_part)
+            (format_string_expr
+              (binary
+                (int)
+                (int)))
+            (format_string_expr
+              (member
+                (identifier)
+                (identifier)))
+            (format_string_part)
+            (format_string_part)
+            (format_string_part)))))))
 
 ================================================================================
 Binary expression.
@@ -197,7 +240,7 @@ end
     (function_declaration
       (identifier)
       (parameters)
-      (multi_expression_block
+      (multi_block
         (return)
         (binary
           (binary
@@ -223,15 +266,14 @@ end
       (identifier)
       (parameters)
       (type)
-      (multi_expression_block
+      (multi_block
         (if_then_else
           (binary
             (identifier)
             (int))
-          (multi_expression_block
+          (multi_block
             (return)
-            (bool)))
-        (MISSING "end")))))
+            (bool)))))))
 
 ================================================================================
 Conditional: if then else
@@ -246,20 +288,22 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (ERROR
-    (identifier)
-    (parameters)
-    (type)
-    (binary
+  (declaration
+    (function_declaration
       (identifier)
-      (int))
-    (multi_expression_block
-      (return)
-      (bool)
-      (identifier)
-      (ERROR)
-      (return)
-      (bool))))
+      (parameters)
+      (type)
+      (multi_block
+        (if_then_else
+          (binary
+            (identifier)
+            (int))
+          (multi_block
+            (return)
+            (bool))
+          (single_block
+            (return)))
+        (bool)))))
 
 ================================================================================
 Loops
@@ -279,25 +323,186 @@ end
     (function_declaration
       (identifier)
       (parameters)
-      (multi_expression_block
+      (multi_block
         (let
           (identifier)
           (for
             (identifier)
             (identifier)
-            (single_expression_block
+            (single_block
               (member
+                (identifier)
                 (identifier)))))
-        (identifier)
         (loop
-          (multi_expression_block))
+          (multi_block))
         (while
           (binary
             (identifier)
             (int))
-          (single_expression_block
-            (identifier)))
-        (ERROR)
-        (binary
+          (single_block
+            (assignment
+              (identifier)
+              (binary
+                (identifier)
+                (int)))))))))
+
+================================================================================
+Structs
+================================================================================
+
+struct Person:
+    name str
+    age i32
+    city str
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (struct
+      (identifier)
+      (field
+        (identifier)
+        (type))
+      (field
+        (identifier)
+        (type))
+      (field
+        (identifier)
+        (type)))))
+
+================================================================================
+Enums
+================================================================================
+
+enum Color:
+    Red
+    Green
+    Blue
+    Yellow(intensity i32, hue i32)
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (enum
+      (identifier)
+      (enum_variant
+        (identifier))
+      (enum_variant
+        (identifier))
+      (enum_variant
+        (identifier))
+      (enum_variant
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type))
+          (parameter
+            (identifier)
+            (type)))))))
+
+================================================================================
+Member access
+================================================================================
+
+fn main():
+    let a = person.name
+    person.name = "John"
+    if person.name == "John":
+        return person.full_name()
+    end
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters)
+      (multi_block
+        (let
           (identifier)
-          (int))))))
+          (member
+            (identifier)
+            (identifier)))
+        (assignment
+          (member
+            (identifier)
+            (identifier))
+          (string))
+        (if_then_else
+          (binary
+            (member
+              (identifier)
+              (identifier))
+            (string))
+          (multi_block
+            (return)
+            (member
+              (identifier)
+              (function_call
+                (identifier)
+                (function_call_args)))))))))
+
+================================================================================
+Pattern matching.
+================================================================================
+
+fn main():
+    match "Ok":
+        "Ok" => print("Ok")
+        "Error" => print("Error")
+        else => print("Unknown")
+    end
+    let res = match "Ok":
+        "Ok" => "Ok"
+        else => "Unknown"
+    end
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (identifier)
+      (parameters)
+      (multi_block
+        (match
+          (string)
+          (match_arm
+            (string)
+            (single_block
+              (function_call
+                (identifier)
+                (function_call_args
+                  (string)))))
+          (match_arm
+            (string)
+            (single_block
+              (function_call
+                (identifier)
+                (function_call_args
+                  (string)))))
+          (match_default_arm
+            (single_block
+              (function_call
+                (identifier)
+                (function_call_args
+                  (string))))))
+        (let
+          (identifier)
+          (match
+            (string)
+            (match_arm
+              (string)
+              (single_block
+                (string)))
+            (match_default_arm
+              (single_block
+                (string)))))))))

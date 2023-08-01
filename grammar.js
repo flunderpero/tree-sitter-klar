@@ -22,7 +22,7 @@ module.exports = grammar({
     rules: {
         source_file: ($) => repeat($.declaration),
 
-        declaration: ($) => choice($.function_declaration),
+        declaration: ($) => choice($.function_declaration, $.struct, $.enum),
 
         function_declaration: ($) =>
             seq(
@@ -39,14 +39,30 @@ module.exports = grammar({
 
         parameter: ($) => seq(field("name", $.identifier), field("type", $.type)),
 
-        type: ($) => choice("bool", "i32", "str", "void"),
+        struct: ($) =>
+            seq("struct", field("name", $.identifier), ":", repeat($.field), "end"),
 
-        _block: ($) =>
-            choice($.single_expression_block, $.multi_expression_block),
+        field: ($) => seq(field("name", $.identifier), field("type", $.type)),
 
-        multi_expression_block: ($) => seq(":", repeat($._statement_or_expression), "end"),
+        type: ($) => choice("bool", "i32", "str", "void", $.identifier),
 
-        single_expression_block: ($) => seq("=>", $._expression),
+        enum: ($) =>
+            seq(
+                "enum",
+                field("name", $.identifier),
+                ":",
+                repeat($.enum_variant),
+                "end",
+            ),
+
+        enum_variant: ($) =>
+            seq(field("name", $.identifier), optional($.parameters)),
+
+        _block: ($) => choice($.single_block, seq($.multi_block, "end")),
+
+        multi_block: ($) => seq(":", repeat($._statement_or_expression)),
+
+        single_block: ($) => seq("=>", $._statement_or_expression),
 
         if_then_else: ($) =>
             seq(
@@ -65,8 +81,7 @@ module.exports = grammar({
                 choice(seq("else", field("else_body", $._block)), "end"),
             ),
 
-        _if_block: ($) =>
-            choice($.single_expression_block, seq($.multi_expression_block)),
+        _if_block: ($) => choice($.single_block, $.multi_block),
 
         _statement: ($) => choice($.return, $.let, $.break, $.continue),
 
@@ -87,11 +102,9 @@ module.exports = grammar({
             ),
 
         member: ($) =>
-            seq(
-                field("variable", $.identifier),
-                ".",
-                field("member", repeat(seq(".", $.identifier))),
-            ),
+            seq(field("variable", $.identifier), ".", field("member", $._member)),
+
+        _member: ($) => choice($.identifier, $.member, $.function_call),
 
         function_call: ($) =>
             seq(field("name", $.identifier), $.function_call_args),
@@ -104,14 +117,17 @@ module.exports = grammar({
 
         _expression: ($) =>
             choice(
+                $.binary,
+                $.unary,
+                $.match,
                 $.function_call,
                 $.identifier,
                 $.member,
-                $.binary,
-                $.unary,
                 $.int,
+                $.format_string,
                 $.string,
                 $.bool,
+                $.assignment,
                 $.if_then_else,
                 $.yield,
                 $.loop,
@@ -122,6 +138,13 @@ module.exports = grammar({
         bool: ($) => choice("true", "false"),
 
         yield: ($) => seq("yield", $._expression),
+
+        assignment: ($) =>
+            seq(
+                field("variable", choice($.member, $.identifier)),
+                "=",
+                $._expression,
+            ),
 
         loop: ($) => seq("loop", field("body", $._block)),
 
@@ -136,6 +159,20 @@ module.exports = grammar({
 
         while: ($) =>
             seq("while", field("condition", $._expression), field("body", $._block)),
+
+        match: ($) =>
+            seq(
+                "match",
+                field("expression", $._expression),
+                ":",
+                repeat($.match_arm),
+                optional($.match_default_arm),
+                "end",
+            ),
+
+        match_arm: ($) => seq(field("pattern", $._expression), $._block),
+
+        match_default_arm: ($) => seq("else", $._block),
 
         binary: ($) =>
             field(
@@ -185,20 +222,67 @@ module.exports = grammar({
 
         int: ($) => /\d+/,
 
-        string: ($) => /"[^"]*"/,
+        string: ($) =>
+            seq(
+                '"',
+                repeat(
+                    choice(
+                        $._string_content,
+                        $.escape_sequence,
+                    ),
+                ),
+                token.immediate('"'),
+            ),
+        _string_content: (_) =>
+            token.immediate(prec(1, /[^"\n\\]+/)),
+
+        escape_sequence: (_) =>
+            token.immediate(
+                seq(
+                    "\\",
+                    choice(
+                        /[^xuU]/,
+                        /\d{2,3}/,
+                        /x[0-9a-fA-F]{2,}/,
+                        /u[0-9a-fA-F]{4}/,
+                        /U[0-9a-fA-F]{8}/,
+                    ),
+                ),
+            ),
+
+        format_string: ($) =>
+            seq(
+                "f",
+                field("delimiter", '"'),
+                repeat($._format_string_part),
+                field("delimiter", '"'),
+            ),
+
+        _format_string_part: ($) =>
+            choice($.format_string_part, $.format_string_expr),
+
+        format_string_part: ($) => choice(/[^{"]+/, "{{", "}}"),
+
+        format_string_expr: ($) =>
+            seq("{", field("expression", $._expression), "}"),
 
         comment: ($) =>
-            token(choice(
-                seq(
-                    field("start", alias("--", "comment_start")),
-                    field("content", alias(/.*/, "comment_content")),
+            token(
+                choice(
+                    seq(
+                        field("start", alias("--", "comment_start")),
+                        field("content", alias(/.*/, "comment_content")),
+                    ),
+                    seq(
+                        field("start", alias("---", "comment_start")),
+                        field(
+                            "content",
+                            alias(repeat(choice(/.|\n|\r/)), "comment_content"),
+                        ),
+                        field("end", alias("---", "comment_end")),
+                    ),
                 ),
-                seq(
-                    field("start", alias("---", "comment_start")),
-                    field("content", alias(repeat(choice(/.|\n|\r/)), "comment_content")),
-                    field("end", alias("---", "comment_end")),
-                ),
-            )),
+            ),
     },
 });
 

@@ -1,3 +1,17 @@
+struct Person:
+    name str
+    age i32
+    city str
+end
+
+enum Color:
+    Red
+    Green
+    Blue(i32)
+    Yellow(intensity i32, hue i32)
+end
+
+
 -- This is a line comment.
 fn test(x i32):
     return 32
@@ -13,6 +27,19 @@ fn sub(x i32, y i32) i32:
 end
 
 fn main():
+    match x:
+        1 => print("one")
+        2 => print("two")
+        else:
+            print("other")
+            return
+        end
+    end
+
+    print(f"Hello {x} {y} {z}")
+
+    print("Hello\tescape\n\"sequences\"")
+
     if londoners.length() > 10:
         print("yes")
         true
@@ -22,6 +49,10 @@ fn main():
     end
 
     -- let x = if londoners.length > 10 then true else false and  
+    while a < 10:
+        print(a)
+        a = a + 1
+    end
 
     loop:
        let x = if a > 10 and not false => 1 else => 2
