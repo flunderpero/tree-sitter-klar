@@ -8,12 +8,32 @@ enum Color:
     Red
     Green
     Blue(i32)
-    Yellow(intensity i32, hue i32)
+    Yellow(i32, i32)
+end
+
+impl Person:
+    fn greet(self):
+        print(f"Hello {self.name}")
+    end
+end
+
+trait Greeter:
+    fn greet(mut self)
+
+    fn default_impl(self):
+        print("default")
+    end
+end
+
+impl Greeter for Person:
+    fn greet(self):
+        print(f"Hello {self.name}")
+    end
 end
 
 
 -- This is a line comment.
-fn test(x i32):
+fn test(x i32, y i32?):
     return 32
 end
 
@@ -22,11 +42,41 @@ end
 ---
 fn add(x i32, y i32) i32 => x + y 
 
-fn sub(x i32, y i32) i32:
+fn sub(x i32, y i32) i32?:
     return x - y
 end
 
+fn do_math(f (fn(a i32, b i32) i32), x i32, y i32) i32:
+    return f(x, y)
+end
+
 fn main():
+    struct InnerStruct:
+        x i32?
+        y i32
+    end
+
+    enum InnerEnum:
+        A
+    end
+
+    let optional str? = None
+
+    mut mutable i32 = 1
+
+    let no_initializer i32
+
+    mut no_initializer i32
+
+    let list [i32] = [1, 2, 3]
+
+    let person Person{ name: "John", age, city: "London" }
+
+    match optional:
+        Some(x) => print(x)
+        None => print("none")
+    end
+
     match x:
         1 => print("one")
         2 => print("two")
@@ -36,9 +86,23 @@ fn main():
         end
     end
 
+    fn inner_function():
+        print("inner")
+    end
+
     print(f"Hello {x} {y} {z}")
 
     print("Hello\tescape\n\"sequences\"")
+
+    print("""Hello
+        multiline
+        string
+    """)
+
+    print(f"""Hello
+        multiline {x} {y} {z}
+        interpolated string
+    """)
 
     if londoners.length() > 10:
         print("yes")

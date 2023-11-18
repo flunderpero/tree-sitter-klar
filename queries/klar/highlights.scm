@@ -1,11 +1,105 @@
+(type) @type
+(comment) @comment
+(int) @number
+(string) @string
+(escape_sequence) @string.escape
+(bool) @boolean
+(self) @variable.builtin
+"?" @keyword.operator
+"fn" @keyword.function
+"return" @keyword.return
+[
+    (let)
+    (mut)
+    "in"
+    "yield"
+    "struct"
+    "enum"
+    "impl"
+    "trait"
+    "end"
+] @keyword
+
+[
+    "if"
+    "else"
+    "match"
+] @conditional
+
+[
+    "for"
+    "while"
+    "loop"
+    "break"
+    "continue"
+] @repeat
+
+[
+    "="
+    "~="
+    "=="
+    "<="
+    ">="
+    "<"
+    ">"
+    "+"
+    "-"
+    "%"
+    "/"
+    "//"
+    "*"
+    "^"
+    "&"
+    "~"
+    "|"
+    ">>"
+    "<<"
+] @operator
+    
+[
+    "and"
+    "or"
+    "not"
+] @keyword.operator
+
+[
+    ","
+] @punctuation.delimiter
+
+[
+    "("
+    ")"
+] @punctuation.paren
+
+[
+    "["
+    "]"
+] @punctuation.bracket
+
+[
+    "{"
+    "}"
+] @punctuation.braces
+
+(ERROR) @error
+
 (identifier) @variable
+
+(match
+  (match_arm
+    pattern: (identifier) @type
+  )
+)
 
 (parameter
   name: (identifier) @parameter
 )
 
-(function_declaration
+(function_signature
   name: (identifier) @function
+)
+
+(function_declaration
   [
     (single_block "=>" @keyword.function) 
     ((multi_block ":" @keyword.function) "end" @keyword.function)
@@ -18,14 +112,37 @@
   member:(identifier) @field
 )
 
+(struct_instantiation (struct_field_assignment
+  name: (identifier) @field
+))
+
 (struct
   name: (identifier) @type.definition
-  "end" @keyword
+  ":" @keyword
 )
 
 (enum
   name: (identifier) @type.definition
-  "end" @keyword
+  ":" @keyword
+)
+
+(trait
+  name: (identifier) @type.definition
+  ":" @keyword
+)
+
+
+(impl
+  name: (identifier) @type
+  ":" @keyword
+)
+
+(impl
+  for: (identifier) @type
+)
+
+(impl
+  "for" @keyword
 )
 
 (enum_variant
@@ -78,77 +195,9 @@
   ]
 )
 
-(format_string) @string
+(interpolated_string) @string
  
 (function_call
   name: (identifier) @function
 )
 
-(type) @type
-(comment) @comment
-(int) @number
-(string) @string
-(escape_sequence) @string.escape
-(bool) @boolean
-"fn" @keyword.function
-"return" @keyword.return
-[
-    "let"
-    "in"
-    "yield"
-    "struct"
-    "enum"
-] @keyword
-
-[
-    "if"
-    "else"
-    "match"
-] @conditional
-
-[
-    "for"
-    "while"
-    "loop"
-    "break"
-    "continue"
-] @repeat
-
-[
-    "="
-    "~="
-    "=="
-    "<="
-    ">="
-    "<"
-    ">"
-    "+"
-    "-"
-    "%"
-    "/"
-    "//"
-    "*"
-    "^"
-    "&"
-    "~"
-    "|"
-    ">>"
-    "<<"
-] @operator
-    
-[
-    "and"
-    "or"
-    "not"
-] @keyword.operator
-
-[
-    ","
-] @punctuation.delimiter
-
-[
-    "("
-    ")"
-] @punctuation.bracket
-
-(ERROR) @error

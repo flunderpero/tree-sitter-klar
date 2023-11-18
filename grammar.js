@@ -20,31 +20,85 @@ module.exports = grammar({
     word: ($) => $.identifier,
 
     rules: {
-        source_file: ($) => repeat($.declaration),
+        source_file: ($) => repeat(choice($.declaration, $.impl, $.trait)),
 
         declaration: ($) => choice($.function_declaration, $.struct, $.enum),
 
-        function_declaration: ($) =>
+        impl: ($) =>
+            seq(
+                "impl",
+                field("name", $.identifier),
+                optional(seq("for", field("for", $.identifier))),
+                ":",
+                repeat($.function_declaration),
+                "end",
+            ),
+
+        trait: ($) =>
+            seq(
+                "trait",
+                field("name", $.identifier),
+                ":",
+                repeat(choice($.function_signature, $.function_declaration)),
+                "end",
+            ),
+
+        function_signature: ($) =>
             seq(
                 "fn",
                 field("name", $.identifier),
                 $.parameters,
                 optional(field("return_type", $.type)),
-                field("body", $._block),
             ),
+
+        function_declaration: ($) =>
+            seq($.function_signature, field("body", $._block)),
 
         parameters: ($) => seq("(", optional($._parameters), ")"),
 
-        _parameters: ($) => seq(comma_sep($.parameter)),
+        _parameters: ($) =>
+            comma_sep(choice($.self, seq(optional($.mut), $.parameter))),
 
         parameter: ($) => seq(field("name", $.identifier), field("type", $.type)),
+
+        self: ($) => "self",
+
+        mut: ($) => "mut",
+
+        let: ($) => "let",
 
         struct: ($) =>
             seq("struct", field("name", $.identifier), ":", repeat($.field), "end"),
 
+        struct_instantiation: ($) =>
+            seq(
+                "{",
+                optional(comma_sep($.struct_field_assignment)),
+                "}",
+            ),
+
+        struct_field_assignment: ($) =>
+            seq(field("name", $.identifier), optional(seq(":", field("value", $._expression)))),
+
         field: ($) => seq(field("name", $.identifier), field("type", $.type)),
 
-        type: ($) => choice("bool", "i32", "str", "void", $.identifier),
+        type: ($) => seq(field("type", $._type), optional(field("optional", "?"))),
+
+        _type: ($) =>
+            choice(
+                "bool",
+                "i32",
+                "str",
+                "void",
+                $.identifier,
+                $.function_type,
+                $._array_type,
+            ),
+
+        _array_type: ($) => seq("[", $._type, "]"),
+
+        function_type: ($) =>
+            seq("(", "fn", $.parameters, optional(field("return_type", $.type)), ")"),
 
         enum: ($) =>
             seq(
@@ -56,13 +110,17 @@ module.exports = grammar({
             ),
 
         enum_variant: ($) =>
-            seq(field("name", $.identifier), optional($.parameters)),
+            seq(field("name", $.identifier), optional($.type_list)),
+
+        type_list: ($) => seq("(", optional($._type_list), ")"),
+
+        _type_list: ($) => comma_sep(choice($.self, $.type)),
 
         _block: ($) => choice($.single_block, seq($.multi_block, "end")),
 
-        multi_block: ($) => seq(":", repeat($._statement_or_expression)),
+        multi_block: ($) => seq(":", repeat($._block_content)),
 
-        single_block: ($) => seq("=>", $._statement_or_expression),
+        single_block: ($) => seq("=>", $._block_content),
 
         if_then_else: ($) =>
             seq(
@@ -83,9 +141,16 @@ module.exports = grammar({
 
         _if_block: ($) => choice($.single_block, $.multi_block),
 
-        _statement: ($) => choice($.return, $.let, $.break, $.continue),
+        _statement: ($) =>
+            choice(
+                $.return,
+                $.variable_declaration,
+                $.break,
+                $.continue,
+                $.declaration,
+            ),
 
-        _statement_or_expression: ($) => choice($._statement, $._expression),
+        _block_content: ($) => choice($._statement, $._expression),
 
         return: ($) => prec.left(seq("return", optional($._expression))),
 
@@ -93,12 +158,15 @@ module.exports = grammar({
 
         continue: ($) => seq("continue"),
 
-        let: ($) =>
-            seq(
-                "let",
-                field("name", $.identifier),
-                "=",
-                field("value", $._expression),
+        variable_declaration: ($) =>
+            prec.right(
+                1,
+                seq(
+                    choice($.let, $.mut),
+                    field("name", $.identifier),
+                    optional(field("type", $.type)),
+                    optional(seq("=", field("value", $._expression))),
+                ),
             ),
 
         member: ($) =>
@@ -115,18 +183,21 @@ module.exports = grammar({
 
         parameter: ($) => seq(field("name", $.identifier), field("type", $.type)),
 
+        array_literal: ($) => seq("[", optional(comma_sep($._literal)), "]"),
+
+        _literal: ($) =>
+            choice($.int, $.string, $.bool, $.array_literal, $.interpolated_string),
+
         _expression: ($) =>
             choice(
                 $.binary,
                 $.unary,
                 $.match,
                 $.function_call,
-                $.identifier,
                 $.member,
-                $.int,
-                $.format_string,
-                $.string,
-                $.bool,
+                $.struct_instantiation,
+                $._literal,
+                $.identifier,
                 $.assignment,
                 $.if_then_else,
                 $.yield,
@@ -223,18 +294,31 @@ module.exports = grammar({
         int: ($) => /\d+/,
 
         string: ($) =>
-            seq(
-                '"',
-                repeat(
-                    choice(
-                        $._string_content,
-                        $.escape_sequence,
-                    ),
+            choice(
+                // Single-line string
+                seq(
+                    '"',
+                    repeat(choice($._string_content, $.escape_sequence)),
+                    token.immediate('"'),
                 ),
-                token.immediate('"'),
+                // Multiline string
+                seq(
+                    '"""',
+                    repeat(
+                        choice(
+                            $._multiline_string_content,
+                            $.escape_sequence,
+                            token.immediate('"'),
+                            token.immediate('""'),
+                        ),
+                    ),
+                    token.immediate('"""'),
+                ),
             ),
-        _string_content: (_) =>
-            token.immediate(prec(1, /[^"\n\\]+/)),
+
+        _string_content: (_) => token.immediate(prec(1, /[^"\n\\]+/)),
+
+        _multiline_string_content: (_) => token.immediate(prec(1, /[^\\"]+/)),
 
         escape_sequence: (_) =>
             token.immediate(
@@ -250,21 +334,42 @@ module.exports = grammar({
                 ),
             ),
 
-        format_string: ($) =>
-            seq(
-                "f",
-                field("delimiter", '"'),
-                repeat($._format_string_part),
-                field("delimiter", '"'),
+        interpolated_string: ($) =>
+            choice(
+                // Single-line interpolated string
+                seq(
+                    'f"',
+                    repeat(
+                        choice(
+                            $._interpolated_content,
+                            $._expression_within_braces,
+                            $.escape_sequence,
+                        ),
+                    ),
+                    token.immediate('"'),
+                ),
+                // Multiline interpolated string
+                seq(
+                    'f"""',
+                    repeat(
+                        choice(
+                            $._multiline_interpolated_content,
+                            $._expression_within_braces,
+                            $.escape_sequence,
+                            token.immediate('"'),
+                            token.immediate('""'),
+                        ),
+                    ),
+                    token.immediate('"""'),
+                ),
             ),
 
-        _format_string_part: ($) =>
-            choice($.format_string_part, $.format_string_expr),
+        _interpolated_content: (_) => token.immediate(prec(1, /[^"{\n\\]+/)),
 
-        format_string_part: ($) => choice(/[^{"]+/, "{{", "}}"),
+        _multiline_interpolated_content: (_) =>
+            token.immediate(prec(1, /[^"\\{]+/)),
 
-        format_string_expr: ($) =>
-            seq("{", field("expression", $._expression), "}"),
+        _expression_within_braces: ($) => seq("{", $._expression, "}"),
 
         comment: ($) =>
             token(

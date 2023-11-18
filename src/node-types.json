@@ -1,5 +1,36 @@
 [
   {
+    "type": "array_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "int",
+          "named": true
+        },
+        {
+          "type": "interpolated_string",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "assignment",
     "named": true,
     "fields": {
@@ -23,6 +54,10 @@
       "required": true,
       "types": [
         {
+          "type": "array_literal",
+          "named": true
+        },
+        {
           "type": "assignment",
           "named": true
         },
@@ -36,10 +71,6 @@
         },
         {
           "type": "for",
-          "named": true
-        },
-        {
-          "type": "format_string",
           "named": true
         },
         {
@@ -59,6 +90,10 @@
           "named": true
         },
         {
+          "type": "interpolated_string",
+          "named": true
+        },
+        {
           "type": "loop",
           "named": true
         },
@@ -72,6 +107,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_instantiation",
           "named": true
         },
         {
@@ -98,6 +137,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_literal",
+            "named": true
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -111,10 +154,6 @@
           },
           {
             "type": "for",
-            "named": true
-          },
-          {
-            "type": "format_string",
             "named": true
           },
           {
@@ -134,6 +173,10 @@
             "named": true
           },
           {
+            "type": "interpolated_string",
+            "named": true
+          },
+          {
             "type": "loop",
             "named": true
           },
@@ -147,6 +190,10 @@
           },
           {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_instantiation",
             "named": true
           },
           {
@@ -254,6 +301,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_literal",
+            "named": true
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -267,10 +318,6 @@
           },
           {
             "type": "for",
-            "named": true
-          },
-          {
-            "type": "format_string",
             "named": true
           },
           {
@@ -290,6 +337,10 @@
             "named": true
           },
           {
+            "type": "interpolated_string",
+            "named": true
+          },
+          {
             "type": "loop",
             "named": true
           },
@@ -303,6 +354,10 @@
           },
           {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_instantiation",
             "named": true
           },
           {
@@ -405,7 +460,7 @@
       "required": false,
       "types": [
         {
-          "type": "parameters",
+          "type": "type_list",
           "named": true
         }
       ]
@@ -474,6 +529,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_literal",
+            "named": true
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -487,10 +546,6 @@
           },
           {
             "type": "for",
-            "named": true
-          },
-          {
-            "type": "format_string",
             "named": true
           },
           {
@@ -510,6 +565,10 @@
             "named": true
           },
           {
+            "type": "interpolated_string",
+            "named": true
+          },
+          {
             "type": "loop",
             "named": true
           },
@@ -523,6 +582,10 @@
           },
           {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_instantiation",
             "named": true
           },
           {
@@ -550,117 +613,6 @@
         ]
       }
     }
-  },
-  {
-    "type": "format_string",
-    "named": true,
-    "fields": {
-      "delimiter": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "\"",
-            "named": false
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "format_string_expr",
-          "named": true
-        },
-        {
-          "type": "format_string_part",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "format_string_expr",
-    "named": true,
-    "fields": {
-      "expression": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "bool",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "format_string",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if_then_else",
-            "named": true
-          },
-          {
-            "type": "int",
-            "named": true
-          },
-          {
-            "type": "loop",
-            "named": true
-          },
-          {
-            "type": "match",
-            "named": true
-          },
-          {
-            "type": "member",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "while",
-            "named": true
-          },
-          {
-            "type": "yield",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "format_string_part",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "function_call",
@@ -697,6 +649,10 @@
       "required": false,
       "types": [
         {
+          "type": "array_literal",
+          "named": true
+        },
+        {
           "type": "assignment",
           "named": true
         },
@@ -710,10 +666,6 @@
         },
         {
           "type": "for",
-          "named": true
-        },
-        {
-          "type": "format_string",
           "named": true
         },
         {
@@ -733,6 +685,10 @@
           "named": true
         },
         {
+          "type": "interpolated_string",
+          "named": true
+        },
+        {
           "type": "loop",
           "named": true
         },
@@ -746,6 +702,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_instantiation",
           "named": true
         },
         {
@@ -784,7 +744,23 @@
             "named": true
           }
         ]
-      },
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "function_signature",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_signature",
+    "named": true,
+    "fields": {
       "name": {
         "multiple": false,
         "required": true,
@@ -818,6 +794,32 @@
     }
   },
   {
+    "type": "function_type",
+    "named": true,
+    "fields": {
+      "return_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "if_then_else",
     "named": true,
     "fields": {
@@ -825,6 +827,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "array_literal",
+            "named": true
+          },
           {
             "type": "assignment",
             "named": true
@@ -839,10 +845,6 @@
           },
           {
             "type": "for",
-            "named": true
-          },
-          {
-            "type": "format_string",
             "named": true
           },
           {
@@ -862,6 +864,10 @@
             "named": true
           },
           {
+            "type": "interpolated_string",
+            "named": true
+          },
+          {
             "type": "loop",
             "named": true
           },
@@ -875,6 +881,10 @@
           },
           {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_instantiation",
             "named": true
           },
           {
@@ -926,9 +936,19 @@
     }
   },
   {
-    "type": "let",
+    "type": "impl",
     "named": true,
     "fields": {
+      "for": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -938,77 +958,104 @@
             "named": true
           }
         ]
-      },
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "bool",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "format_string",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if_then_else",
-            "named": true
-          },
-          {
-            "type": "int",
-            "named": true
-          },
-          {
-            "type": "loop",
-            "named": true
-          },
-          {
-            "type": "match",
-            "named": true
-          },
-          {
-            "type": "member",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "while",
-            "named": true
-          },
-          {
-            "type": "yield",
-            "named": true
-          }
-        ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "function_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interpolated_string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if_then_else",
+          "named": true
+        },
+        {
+          "type": "int",
+          "named": true
+        },
+        {
+          "type": "interpolated_string",
+          "named": true
+        },
+        {
+          "type": "loop",
+          "named": true
+        },
+        {
+          "type": "match",
+          "named": true
+        },
+        {
+          "type": "member",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_instantiation",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        },
+        {
+          "type": "yield",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1044,6 +1091,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_literal",
+            "named": true
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -1057,10 +1108,6 @@
           },
           {
             "type": "for",
-            "named": true
-          },
-          {
-            "type": "format_string",
             "named": true
           },
           {
@@ -1080,6 +1127,10 @@
             "named": true
           },
           {
+            "type": "interpolated_string",
+            "named": true
+          },
+          {
             "type": "loop",
             "named": true
           },
@@ -1093,6 +1144,10 @@
           },
           {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_instantiation",
             "named": true
           },
           {
@@ -1134,6 +1189,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_literal",
+            "named": true
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -1147,10 +1206,6 @@
           },
           {
             "type": "for",
-            "named": true
-          },
-          {
-            "type": "format_string",
             "named": true
           },
           {
@@ -1170,6 +1225,10 @@
             "named": true
           },
           {
+            "type": "interpolated_string",
+            "named": true
+          },
+          {
             "type": "loop",
             "named": true
           },
@@ -1183,6 +1242,10 @@
           },
           {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_instantiation",
             "named": true
           },
           {
@@ -1277,6 +1340,10 @@
       "required": false,
       "types": [
         {
+          "type": "array_literal",
+          "named": true
+        },
+        {
           "type": "assignment",
           "named": true
         },
@@ -1297,11 +1364,11 @@
           "named": true
         },
         {
-          "type": "for",
+          "type": "declaration",
           "named": true
         },
         {
-          "type": "format_string",
+          "type": "for",
           "named": true
         },
         {
@@ -1321,7 +1388,7 @@
           "named": true
         },
         {
-          "type": "let",
+          "type": "interpolated_string",
           "named": true
         },
         {
@@ -1345,7 +1412,15 @@
           "named": true
         },
         {
+          "type": "struct_instantiation",
+          "named": true
+        },
+        {
           "type": "unary",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -1394,7 +1469,15 @@
       "required": false,
       "types": [
         {
+          "type": "mut",
+          "named": true
+        },
+        {
           "type": "parameter",
+          "named": true
+        },
+        {
+          "type": "self",
           "named": true
         }
       ]
@@ -1409,6 +1492,10 @@
       "required": false,
       "types": [
         {
+          "type": "array_literal",
+          "named": true
+        },
+        {
           "type": "assignment",
           "named": true
         },
@@ -1422,10 +1509,6 @@
         },
         {
           "type": "for",
-          "named": true
-        },
-        {
-          "type": "format_string",
           "named": true
         },
         {
@@ -1445,6 +1528,10 @@
           "named": true
         },
         {
+          "type": "interpolated_string",
+          "named": true
+        },
+        {
           "type": "loop",
           "named": true
         },
@@ -1458,6 +1545,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_instantiation",
           "named": true
         },
         {
@@ -1484,6 +1575,10 @@
       "required": true,
       "types": [
         {
+          "type": "array_literal",
+          "named": true
+        },
+        {
           "type": "assignment",
           "named": true
         },
@@ -1504,11 +1599,11 @@
           "named": true
         },
         {
-          "type": "for",
+          "type": "declaration",
           "named": true
         },
         {
-          "type": "format_string",
+          "type": "for",
           "named": true
         },
         {
@@ -1528,7 +1623,7 @@
           "named": true
         },
         {
-          "type": "let",
+          "type": "interpolated_string",
           "named": true
         },
         {
@@ -1552,7 +1647,15 @@
           "named": true
         },
         {
+          "type": "struct_instantiation",
+          "named": true
+        },
+        {
           "type": "unary",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -1576,6 +1679,14 @@
       "types": [
         {
           "type": "declaration",
+          "named": true
+        },
+        {
+          "type": "impl",
+          "named": true
+        },
+        {
+          "type": "trait",
           "named": true
         }
       ]
@@ -1623,15 +1734,212 @@
     }
   },
   {
-    "type": "type",
+    "type": "struct_field_assignment",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "bool",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if_then_else",
+            "named": true
+          },
+          {
+            "type": "int",
+            "named": true
+          },
+          {
+            "type": "interpolated_string",
+            "named": true
+          },
+          {
+            "type": "loop",
+            "named": true
+          },
+          {
+            "type": "match",
+            "named": true
+          },
+          {
+            "type": "member",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_instantiation",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          },
+          {
+            "type": "yield",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "struct_instantiation",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "identifier",
+          "type": "struct_field_assignment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "trait",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "function_declaration",
+          "named": true
+        },
+        {
+          "type": "function_signature",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type",
+    "named": true,
+    "fields": {
+      "optional": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "?",
+            "named": false
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "[",
+            "named": false
+          },
+          {
+            "type": "]",
+            "named": false
+          },
+          {
+            "type": "bool",
+            "named": false
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "i32",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "str",
+            "named": false
+          },
+          {
+            "type": "void",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "type_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -1661,6 +1969,10 @@
       "required": true,
       "types": [
         {
+          "type": "array_literal",
+          "named": true
+        },
+        {
           "type": "assignment",
           "named": true
         },
@@ -1674,10 +1986,6 @@
         },
         {
           "type": "for",
-          "named": true
-        },
-        {
-          "type": "format_string",
           "named": true
         },
         {
@@ -1697,6 +2005,10 @@
           "named": true
         },
         {
+          "type": "interpolated_string",
+          "named": true
+        },
+        {
           "type": "loop",
           "named": true
         },
@@ -1713,6 +2025,10 @@
           "named": true
         },
         {
+          "type": "struct_instantiation",
+          "named": true
+        },
+        {
           "type": "unary",
           "named": true
         },
@@ -1722,6 +2038,124 @@
         },
         {
           "type": "yield",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "variable_declaration",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "bool",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if_then_else",
+            "named": true
+          },
+          {
+            "type": "int",
+            "named": true
+          },
+          {
+            "type": "interpolated_string",
+            "named": true
+          },
+          {
+            "type": "loop",
+            "named": true
+          },
+          {
+            "type": "match",
+            "named": true
+          },
+          {
+            "type": "member",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_instantiation",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          },
+          {
+            "type": "yield",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "mut",
           "named": true
         }
       ]
@@ -1754,6 +2188,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_literal",
+            "named": true
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -1767,10 +2205,6 @@
           },
           {
             "type": "for",
-            "named": true
-          },
-          {
-            "type": "format_string",
             "named": true
           },
           {
@@ -1790,6 +2224,10 @@
             "named": true
           },
           {
+            "type": "interpolated_string",
+            "named": true
+          },
+          {
             "type": "loop",
             "named": true
           },
@@ -1803,6 +2241,10 @@
           },
           {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_instantiation",
             "named": true
           },
           {
@@ -1830,6 +2272,10 @@
       "required": true,
       "types": [
         {
+          "type": "array_literal",
+          "named": true
+        },
+        {
           "type": "assignment",
           "named": true
         },
@@ -1843,10 +2289,6 @@
         },
         {
           "type": "for",
-          "named": true
-        },
-        {
-          "type": "format_string",
           "named": true
         },
         {
@@ -1866,6 +2308,10 @@
           "named": true
         },
         {
+          "type": "interpolated_string",
+          "named": true
+        },
+        {
           "type": "loop",
           "named": true
         },
@@ -1879,6 +2325,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_instantiation",
           "named": true
         },
         {
@@ -1898,6 +2348,14 @@
   },
   {
     "type": "\"",
+    "named": false
+  },
+  {
+    "type": "\"\"",
+    "named": false
+  },
+  {
+    "type": "\"\"\"",
     "named": false
   },
   {
@@ -1985,6 +2443,18 @@
     "named": false
   },
   {
+    "type": "?",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
     "type": "^",
     "named": false
   },
@@ -2025,7 +2495,11 @@
     "named": true
   },
   {
-    "type": "f",
+    "type": "f\"",
+    "named": false
+  },
+  {
+    "type": "f\"\"\"",
     "named": false
   },
   {
@@ -2053,6 +2527,10 @@
     "named": false
   },
   {
+    "type": "impl",
+    "named": false
+  },
+  {
     "type": "in",
     "named": false
   },
@@ -2062,7 +2540,7 @@
   },
   {
     "type": "let",
-    "named": false
+    "named": true
   },
   {
     "type": "loop",
@@ -2071,6 +2549,10 @@
   {
     "type": "match",
     "named": false
+  },
+  {
+    "type": "mut",
+    "named": true
   },
   {
     "type": "not",
@@ -2085,11 +2567,19 @@
     "named": false
   },
   {
+    "type": "self",
+    "named": true
+  },
+  {
     "type": "str",
     "named": false
   },
   {
     "type": "struct",
+    "named": false
+  },
+  {
+    "type": "trait",
     "named": false
   },
   {
@@ -2113,19 +2603,11 @@
     "named": false
   },
   {
-    "type": "{{",
-    "named": false
-  },
-  {
     "type": "|",
     "named": false
   },
   {
     "type": "}",
-    "named": false
-  },
-  {
-    "type": "}}",
     "named": false
   },
   {

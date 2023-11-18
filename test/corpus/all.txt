@@ -10,8 +10,9 @@ end
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters)
+      (function_signature
+        (identifier)
+        (parameters))
       (multi_block))))
 
 ================================================================================
@@ -27,9 +28,10 @@ end
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters)
-      (type)
+      (function_signature
+        (identifier)
+        (parameters)
+        (type))
       (multi_block
         (return)
         (int)))))
@@ -38,7 +40,7 @@ end
 Function definition with parameters, block, and binary expression return statement
 ================================================================================
 
-fn test(x i32, y i32) i32:
+fn test(mut x i32, y i32?) i32?:
     return x + y
 end
 
@@ -47,15 +49,17 @@ end
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters
-        (parameter
-          (identifier)
-          (type))
-        (parameter
-          (identifier)
-          (type)))
-      (type)
+      (function_signature
+        (identifier)
+        (parameters
+          (mut)
+          (parameter
+            (identifier)
+            (type))
+          (parameter
+            (identifier)
+            (type)))
+        (type))
       (multi_block
         (return)
         (binary
@@ -73,9 +77,10 @@ fn test() i32 => 42
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters)
-      (type)
+      (function_signature
+        (identifier)
+        (parameters)
+        (type))
       (single_block
         (int)))))
 
@@ -90,19 +95,87 @@ fn test(x i32, y i32) i32 => x < y
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters
-        (parameter
-          (identifier)
-          (type))
-        (parameter
-          (identifier)
-          (type)))
-      (type)
+      (function_signature
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type))
+          (parameter
+            (identifier)
+            (type)))
+        (type))
       (single_block
         (binary
           (identifier)
           (identifier))))))
+
+================================================================================
+Functions inside functions
+================================================================================
+
+fn test():
+    fn inner():
+        let a = 1
+    end
+end
+
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters))
+      (multi_block
+        (declaration
+          (function_declaration
+            (function_signature
+              (identifier)
+              (parameters))
+            (multi_block
+              (variable_declaration
+                (let)
+                (identifier)
+                (int)))))))))
+
+================================================================================
+Function type
+================================================================================
+
+fn test(f (fn(name str) i32)) (fn(name str) i32):
+    return f
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type
+              (function_type
+                (parameters
+                  (parameter
+                    (identifier)
+                    (type)))
+                (type)))))
+        (type
+          (function_type
+            (parameters
+              (parameter
+                (identifier)
+                (type)))
+            (type))))
+      (multi_block
+        (return)
+        (identifier)))))
 
 ================================================================================
 Function calls
@@ -118,8 +191,9 @@ end
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters)
+      (function_signature
+        (identifier)
+        (parameters))
       (multi_block
         (function_call
           (identifier)
@@ -133,6 +207,61 @@ end
             (binary
               (identifier)
               (int))))))))
+
+================================================================================
+Array type and array literal
+================================================================================
+
+fn test(a [bool], b [MyType]) [i32] => [1, 2, 3]
+
+fn test():
+    let a [i32] = []
+    let multi [[str]] = [["a", "b"], ["c", "d"]]
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type))
+          (parameter
+            (identifier)
+            (type
+              (identifier))))
+        (type))
+      (single_block
+        (array_literal
+          (int)
+          (int)
+          (int)))))
+  (declaration
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters))
+      (multi_block
+        (variable_declaration
+          (let)
+          (identifier)
+          (type)
+          (array_literal))
+        (variable_declaration
+          (let)
+          (identifier)
+          (type)
+          (array_literal
+            (array_literal
+              (string)
+              (string))
+            (array_literal
+              (string)
+              (string))))))))
 
 ================================================================================
 Comments
@@ -154,8 +283,9 @@ end -- A trailing comment.
   (comment)
   (declaration
     (function_declaration
-      (identifier)
-      (parameters)
+      (function_signature
+        (identifier)
+        (parameters))
       (multi_block
         (return))
       (comment)
@@ -176,13 +306,16 @@ end
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters)
+      (function_signature
+        (identifier)
+        (parameters))
       (multi_block
-        (let
+        (variable_declaration
+          (let)
           (identifier)
           (string))
-        (let
+        (variable_declaration
+          (let)
           (identifier)
           (string
             (escape_sequence)
@@ -191,11 +324,12 @@ end
             (escape_sequence)))))))
 
 ================================================================================
-Format string.
+Multiline string literal.
 ================================================================================
 
 fn test():
-    let a = f"some string {a} {1 + 2}{person.name} {{escaped}}"
+    let a = """some " "" 
+    multiline string"""
 end
 
 --------------------------------------------------------------------------------
@@ -203,27 +337,190 @@ end
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters)
+      (function_signature
+        (identifier)
+        (parameters))
       (multi_block
-        (let
+        (variable_declaration
+          (let)
           (identifier)
-          (format_string
-            (format_string_part)
-            (format_string_expr
+          (string))))))
+
+================================================================================
+Optional type in let.
+================================================================================
+
+fn test():
+    let a str? = "some string"
+    let b str? = None
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters))
+      (multi_block
+        (variable_declaration
+          (let)
+          (identifier)
+          (type)
+          (string))
+        (variable_declaration
+          (let)
+          (identifier)
+          (type)
+          (identifier))))))
+
+================================================================================
+`let` without initialization.
+================================================================================
+
+fn test():
+    let a str
+    let b str?
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters))
+      (multi_block
+        (variable_declaration
+          (let)
+          (identifier)
+          (type))
+        (variable_declaration
+          (let)
+          (identifier)
+          (type))))))
+
+================================================================================
+Variable declaration with `mut`.
+================================================================================
+
+fn test():
+    mut a str = "some string"
+    mut b str? = None
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters))
+      (multi_block
+        (variable_declaration
+          (mut)
+          (identifier)
+          (type)
+          (string))
+        (variable_declaration
+          (mut)
+          (identifier)
+          (type)
+          (identifier))))))
+
+================================================================================
+`mut` without initialization.
+================================================================================
+
+fn test():
+    mut a str
+    mut b str?
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters))
+      (multi_block
+        (variable_declaration
+          (mut)
+          (identifier)
+          (type))
+        (variable_declaration
+          (mut)
+          (identifier)
+          (type))))))
+
+================================================================================
+String interpolation.
+================================================================================
+
+fn test():
+    let a = f"some string {a} {1 + 2}{person.name} \{escaped\}"
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters))
+      (multi_block
+        (variable_declaration
+          (let)
+          (identifier)
+          (interpolated_string
+            (identifier)
+            (binary
+              (int)
+              (int))
+            (member
+              (identifier)
               (identifier))
-            (format_string_part)
-            (format_string_expr
-              (binary
-                (int)
-                (int)))
-            (format_string_expr
-              (member
-                (identifier)
-                (identifier)))
-            (format_string_part)
-            (format_string_part)
-            (format_string_part)))))))
+            (escape_sequence)
+            (escape_sequence)))))))
+
+================================================================================
+Multiline string interpolation.
+================================================================================
+
+fn test():
+    let a = f"""some string 
+    {a} {1 + 2}
+    {person.name} \{escaped\}"""
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters))
+      (multi_block
+        (variable_declaration
+          (let)
+          (identifier)
+          (interpolated_string
+            (identifier)
+            (binary
+              (int)
+              (int))
+            (member
+              (identifier)
+              (identifier))
+            (escape_sequence)
+            (escape_sequence)))))))
 
 ================================================================================
 Binary expression.
@@ -238,8 +535,9 @@ end
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters)
+      (function_signature
+        (identifier)
+        (parameters))
       (multi_block
         (return)
         (binary
@@ -263,9 +561,10 @@ end
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters)
-      (type)
+      (function_signature
+        (identifier)
+        (parameters)
+        (type))
       (multi_block
         (if_then_else
           (binary
@@ -290,9 +589,10 @@ end
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters)
-      (type)
+      (function_signature
+        (identifier)
+        (parameters)
+        (type))
       (multi_block
         (if_then_else
           (binary
@@ -321,10 +621,12 @@ end
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters)
+      (function_signature
+        (identifier)
+        (parameters))
       (multi_block
-        (let
+        (variable_declaration
+          (let)
           (identifier)
           (for
             (identifier)
@@ -356,6 +658,12 @@ struct Person:
     city str
 end
 
+fn main():
+    struct InsideFunction:
+        a i32
+    end
+end
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -370,7 +678,160 @@ end
         (type))
       (field
         (identifier)
-        (type)))))
+        (type))))
+  (declaration
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters))
+      (multi_block
+        (declaration
+          (struct
+            (identifier)
+            (field
+              (identifier)
+              (type))))))))
+
+================================================================================
+Struct instantiation
+================================================================================
+
+fn main():
+    let person = Person { name: "John", age, address: { city: "London" } }
+end
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters))
+      (multi_block
+        (variable_declaration
+          (let)
+          (identifier)
+          (identifier))
+        (struct_instantiation
+          (struct_field_assignment
+            (identifier)
+            (string))
+          (struct_field_assignment
+            (identifier))
+          (struct_field_assignment
+            (identifier)
+            (struct_instantiation
+              (struct_field_assignment
+                (identifier)
+                (string)))))))))
+
+================================================================================
+Implementation block
+================================================================================
+
+impl Person:
+    fn new(name str) Person:
+        return Person(name)
+    end
+
+    fn greet(self):
+        print(self.name)
+    end
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (impl
+    (identifier)
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type)))
+        (type
+          (identifier)))
+      (multi_block
+        (return)
+        (function_call
+          (identifier)
+          (function_call_args
+            (identifier)))))
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters
+          (self)))
+      (multi_block
+        (function_call
+          (identifier)
+          (function_call_args
+            (member
+              (identifier)
+              (identifier))))))))
+
+================================================================================
+Trait
+================================================================================
+
+trait Greeter:
+    fn greet(self)
+
+    fn with_default_impl(self):
+        print("Hello")
+    end
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (trait
+    (identifier)
+    (function_signature
+      (identifier)
+      (parameters
+        (self)))
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters
+          (self)))
+      (multi_block
+        (function_call
+          (identifier)
+          (function_call_args
+            (string)))))))
+
+================================================================================
+Trait implementation
+================================================================================
+
+impl Greeter for Person:
+    fn greet(self):
+        print(self.name)
+    end
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (impl
+    (identifier)
+    (identifier)
+    (function_declaration
+      (function_signature
+        (identifier)
+        (parameters
+          (self)))
+      (multi_block
+        (function_call
+          (identifier)
+          (function_call_args
+            (member
+              (identifier)
+              (identifier))))))))
 
 ================================================================================
 Enums
@@ -380,7 +841,7 @@ enum Color:
     Red
     Green
     Blue
-    Yellow(intensity i32, hue i32)
+    Yellow(i32, i32)
 end
 
 --------------------------------------------------------------------------------
@@ -397,13 +858,9 @@ end
         (identifier))
       (enum_variant
         (identifier)
-        (parameters
-          (parameter
-            (identifier)
-            (type))
-          (parameter
-            (identifier)
-            (type)))))))
+        (type_list
+          (type)
+          (type))))))
 
 ================================================================================
 Member access
@@ -422,10 +879,12 @@ end
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters)
+      (function_signature
+        (identifier)
+        (parameters))
       (multi_block
-        (let
+        (variable_declaration
+          (let)
           (identifier)
           (member
             (identifier)
@@ -470,8 +929,9 @@ end
 (source_file
   (declaration
     (function_declaration
-      (identifier)
-      (parameters)
+      (function_signature
+        (identifier)
+        (parameters))
       (multi_block
         (match
           (string)
@@ -495,7 +955,8 @@ end
                 (identifier)
                 (function_call_args
                   (string))))))
-        (let
+        (variable_declaration
+          (let)
           (identifier)
           (match
             (string)
