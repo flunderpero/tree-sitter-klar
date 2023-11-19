@@ -86,12 +86,6 @@
     "}"
 ] @punctuation.braces
 
-(match
-  (match_arm
-    pattern: (identifier) @type
-  )
-)
-
 (parameter
   name: (identifier) @parameter
 )
@@ -120,8 +114,8 @@
 
 (parameter (identifier) @variable.parameter @parameter)
 
-(member 
-  member:(identifier) @field
+(field_access 
+  field: (identifier) @field
 )
 
 (struct_instantiation (struct_field_assignment

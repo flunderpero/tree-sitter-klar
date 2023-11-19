@@ -239,10 +239,16 @@ module.exports = grammar({
                 ),
             ),
 
-        member: ($) =>
-            seq(field("variable", $._identifier), ".", field("member", $._member)),
-
-        _member: ($) => choice($._identifier, $.member, $.function_call),
+        field_access: ($) =>
+            prec.right(
+                1,
+                dot_sep(
+                    field(
+                        "target",
+                        choice(field("field", $._identifier), $.function_call),
+                    ),
+                ),
+            ),
 
         function_call: ($) =>
             seq(field("name", $._identifier), $.function_call_args),
@@ -264,7 +270,7 @@ module.exports = grammar({
                 $.unary,
                 $.match,
                 $.function_call,
-                $.member,
+                $.field_access,
                 $.struct_instantiation,
                 $._literal,
                 $._identifier,
@@ -283,7 +289,7 @@ module.exports = grammar({
 
         assignment: ($) =>
             seq(
-                field("variable", choice($.member, $._identifier)),
+                field("variable", choice($.field_access, $._identifier)),
                 "=",
                 $._expression,
             ),
@@ -483,4 +489,8 @@ module.exports = grammar({
 
 function comma_sep(rule) {
     return seq(rule, repeat(seq(",", rule)));
+}
+
+function dot_sep(rule) {
+    return seq(rule, repeat(seq(".", rule)));
 }

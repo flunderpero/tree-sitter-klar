@@ -62,11 +62,11 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "field_access",
             "named": true
           },
           {
-            "type": "member",
+            "type": "identifier",
             "named": true
           },
           {
@@ -105,6 +105,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "for",
           "named": true
         },
@@ -134,10 +138,6 @@
         },
         {
           "type": "match",
-          "named": true
-        },
-        {
-          "type": "member",
           "named": true
         },
         {
@@ -200,6 +200,10 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -229,10 +233,6 @@
           },
           {
             "type": "match",
-            "named": true
-          },
-          {
-            "type": "member",
             "named": true
           },
           {
@@ -376,6 +376,10 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -405,10 +409,6 @@
           },
           {
             "type": "match",
-            "named": true
-          },
-          {
-            "type": "member",
             "named": true
           },
           {
@@ -739,6 +739,40 @@
     }
   },
   {
+    "type": "field_access",
+    "named": true,
+    "fields": {
+      "field": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      },
+      "target": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "function_call",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "for",
     "named": true,
     "fields": {
@@ -795,6 +829,10 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -824,10 +862,6 @@
           },
           {
             "type": "match",
-            "named": true
-          },
-          {
-            "type": "member",
             "named": true
           },
           {
@@ -943,6 +977,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "for",
           "named": true
         },
@@ -972,10 +1010,6 @@
         },
         {
           "type": "match",
-          "named": true
-        },
-        {
-          "type": "member",
           "named": true
         },
         {
@@ -1146,6 +1180,10 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -1175,10 +1213,6 @@
           },
           {
             "type": "match",
-            "named": true
-          },
-          {
-            "type": "member",
             "named": true
           },
           {
@@ -1334,6 +1368,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "for",
           "named": true
         },
@@ -1363,10 +1401,6 @@
         },
         {
           "type": "match",
-          "named": true
-        },
-        {
-          "type": "member",
           "named": true
         },
         {
@@ -1453,6 +1487,10 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -1482,10 +1520,6 @@
           },
           {
             "type": "match",
-            "named": true
-          },
-          {
-            "type": "member",
             "named": true
           },
           {
@@ -1563,6 +1597,10 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -1592,10 +1630,6 @@
           },
           {
             "type": "match",
-            "named": true
-          },
-          {
-            "type": "member",
             "named": true
           },
           {
@@ -1664,56 +1698,6 @@
     }
   },
   {
-    "type": "member",
-    "named": true,
-    "fields": {
-      "member": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "member",
-            "named": true
-          },
-          {
-            "type": "self",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          }
-        ]
-      },
-      "variable": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "self",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "multi_block",
     "named": true,
     "fields": {},
@@ -1754,6 +1738,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "for",
           "named": true
         },
@@ -1783,10 +1771,6 @@
         },
         {
           "type": "match",
-          "named": true
-        },
-        {
-          "type": "member",
           "named": true
         },
         {
@@ -1914,6 +1898,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "for",
           "named": true
         },
@@ -1943,10 +1931,6 @@
         },
         {
           "type": "match",
-          "named": true
-        },
-        {
-          "type": "member",
           "named": true
         },
         {
@@ -2021,6 +2005,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "for",
           "named": true
         },
@@ -2050,10 +2038,6 @@
         },
         {
           "type": "match",
-          "named": true
-        },
-        {
-          "type": "member",
           "named": true
         },
         {
@@ -2214,6 +2198,10 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -2243,10 +2231,6 @@
           },
           {
             "type": "match",
-            "named": true
-          },
-          {
-            "type": "member",
             "named": true
           },
           {
@@ -2448,6 +2432,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "for",
           "named": true
         },
@@ -2477,10 +2465,6 @@
         },
         {
           "type": "match",
-          "named": true
-        },
-        {
-          "type": "member",
           "named": true
         },
         {
@@ -2571,6 +2555,10 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -2600,10 +2588,6 @@
           },
           {
             "type": "match",
-            "named": true
-          },
-          {
-            "type": "member",
             "named": true
           },
           {
@@ -2699,6 +2683,10 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -2728,10 +2716,6 @@
           },
           {
             "type": "match",
-            "named": true
-          },
-          {
-            "type": "member",
             "named": true
           },
           {
@@ -2795,6 +2779,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "for",
           "named": true
         },
@@ -2824,10 +2812,6 @@
         },
         {
           "type": "match",
-          "named": true
-        },
-        {
-          "type": "member",
           "named": true
         },
         {

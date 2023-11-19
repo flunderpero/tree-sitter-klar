@@ -67,8 +67,10 @@ end
       (multi_block
         (return)
         (binary
-          (identifier)
-          (identifier))))))
+          (field_access
+            (identifier))
+          (field_access
+            (identifier)))))))
 
 ================================================================================
 Function definition with single expression
@@ -115,8 +117,10 @@ fn test(x i32, y i32) i32 => x < y
           (type_identifier)))
       (single_block
         (binary
-          (identifier)
-          (identifier))))))
+          (field_access
+            (identifier))
+          (field_access
+            (identifier)))))))
 
 ================================================================================
 Functions inside functions
@@ -180,30 +184,36 @@ end
               (type_identifier))
             (single_block
               (binary
-                (identifier)
+                (field_access
+                  (identifier))
                 (int)))))
-        (identifier)
+        (field_access
+          (identifier))
         (assignment
-          (identifier)
+          (field_access
+            (identifier))
           (closure
             (closure_parameter
               (identifier))
             (single_block
               (binary
-                (identifier)
+                (field_access
+                  (identifier))
                 (int)))))
-        (function_call
-          (identifier)
-          (function_call_args
-            (closure
-              (closure_parameter
-                (identifier)
-                (type
-                  (type_identifier)))
-              (single_block
-                (binary
+        (field_access
+          (function_call
+            (identifier)
+            (function_call_args
+              (closure
+                (closure_parameter
                   (identifier)
-                  (int))))))))))
+                  (type
+                    (type_identifier)))
+                (single_block
+                  (binary
+                    (field_access
+                      (identifier))
+                    (int)))))))))))
 
 ================================================================================
 Function type
@@ -283,18 +293,22 @@ end
         (identifier)
         (parameters))
       (multi_block
-        (function_call
-          (identifier)
-          (function_call_args))
-        (function_call
-          (identifier)
-          (function_call_args
-            (string)
-            (int)
+        (field_access
+          (function_call
             (identifier)
-            (binary
-              (identifier)
-              (int))))))))
+            (function_call_args)))
+        (field_access
+          (function_call
+            (identifier)
+            (function_call_args
+              (string)
+              (int)
+              (field_access
+                (identifier))
+              (binary
+                (field_access
+                  (identifier))
+                (int)))))))))
 
 ================================================================================
 Array type and array literal
@@ -473,7 +487,8 @@ end
           (identifier)
           (type
             (type_identifier))
-          (type_identifier))))))
+          (field_access
+            (type_identifier)))))))
 
 ================================================================================
 `let` without initialization.
@@ -533,7 +548,8 @@ end
           (identifier)
           (type
             (type_identifier))
-          (type_identifier))))))
+          (field_access
+            (type_identifier)))))))
 
 ================================================================================
 `mut` without initialization.
@@ -585,11 +601,12 @@ end
           (let)
           (identifier)
           (interpolated_string
-            (identifier)
+            (field_access
+              (identifier))
             (binary
               (int)
               (int))
-            (member
+            (field_access
               (identifier)
               (identifier))
             (escape_sequence)
@@ -618,11 +635,12 @@ end
           (let)
           (identifier)
           (interpolated_string
-            (identifier)
+            (field_access
+              (identifier))
             (binary
               (int)
               (int))
-            (member
+            (field_access
               (identifier)
               (identifier))
             (escape_sequence)
@@ -675,7 +693,8 @@ end
       (multi_block
         (if_then_else
           (binary
-            (identifier)
+            (field_access
+              (identifier))
             (int))
           (multi_block
             (return)
@@ -704,7 +723,8 @@ end
       (multi_block
         (if_then_else
           (binary
-            (identifier)
+            (field_access
+              (identifier))
             (int))
           (multi_block
             (return)
@@ -738,22 +758,26 @@ end
           (identifier)
           (for
             (identifier)
-            (identifier)
+            (field_access
+              (identifier))
             (single_block
-              (member
+              (field_access
                 (identifier)
                 (identifier)))))
         (loop
           (multi_block))
         (while
           (binary
-            (identifier)
+            (field_access
+              (identifier))
             (int))
           (single_block
             (assignment
-              (identifier)
+              (field_access
+                (identifier))
               (binary
-                (identifier)
+                (field_access
+                  (identifier))
                 (int)))))))))
 
 ================================================================================
@@ -823,7 +847,8 @@ end
         (variable_declaration
           (let)
           (identifier)
-          (type_identifier))
+          (field_access
+            (type_identifier)))
         (struct_instantiation
           (struct_field_assignment
             (identifier)
@@ -929,7 +954,8 @@ end
           (type_identifier)))
       (multi_block
         (return)
-        (identifier)))))
+        (field_access
+          (identifier))))))
 
 ================================================================================
 Implementation block
@@ -963,22 +989,25 @@ end
             (type_identifier)))
         (multi_block
           (return)
-          (function_call
-            (type_identifier)
-            (function_call_args
-              (identifier)))))
+          (field_access
+            (function_call
+              (type_identifier)
+              (function_call_args
+                (field_access
+                  (identifier)))))))
       (function_definition
         (function_declaration
           (identifier)
           (parameters
             (self)))
         (multi_block
-          (function_call
-            (identifier)
-            (function_call_args
-              (member
-                (self)
-                (identifier)))))))))
+          (field_access
+            (function_call
+              (identifier)
+              (function_call_args
+                (field_access
+                  (self)
+                  (identifier))))))))))
 
 ================================================================================
 Trait (TODO: Function signatures without return type are note parsed correctly)
@@ -1020,10 +1049,11 @@ end
           (parameters
             (self)))
         (multi_block
-          (function_call
-            (identifier)
-            (function_call_args
-              (string))))))))
+          (field_access
+            (function_call
+              (identifier)
+              (function_call_args
+                (string)))))))))
 
 ================================================================================
 Trait implementation
@@ -1048,12 +1078,13 @@ end
           (parameters
             (self)))
         (multi_block
-          (function_call
-            (identifier)
-            (function_call_args
-              (member
-                (self)
-                (identifier)))))))))
+          (field_access
+            (function_call
+              (identifier)
+              (function_call_args
+                (field_access
+                  (self)
+                  (identifier))))))))))
 
 ================================================================================
 Enums
@@ -1087,14 +1118,14 @@ end
             (type_identifier)))))))
 
 ================================================================================
-Member access
+Field access
 ================================================================================
 
 fn main():
     let a = person.name
     person.name = "John"
     if person.name == "John":
-        return person.full_name()
+        return person.full_name().to_str().test
     end
 end
 
@@ -1110,27 +1141,31 @@ end
         (variable_declaration
           (let)
           (identifier)
-          (member
+          (field_access
             (identifier)
             (identifier)))
         (assignment
-          (member
+          (field_access
             (identifier)
             (identifier))
           (string))
         (if_then_else
           (binary
-            (member
+            (field_access
               (identifier)
               (identifier))
             (string))
           (multi_block
             (return)
-            (member
+            (field_access
               (identifier)
               (function_call
                 (identifier)
-                (function_call_args)))))))))
+                (function_call_args))
+              (function_call
+                (identifier)
+                (function_call_args))
+              (identifier))))))))
 
 ================================================================================
 Pattern matching.
@@ -1162,23 +1197,26 @@ end
           (match_arm
             (string)
             (single_block
-              (function_call
-                (identifier)
-                (function_call_args
-                  (string)))))
+              (field_access
+                (function_call
+                  (identifier)
+                  (function_call_args
+                    (string))))))
           (match_arm
             (string)
             (single_block
-              (function_call
-                (identifier)
-                (function_call_args
-                  (string)))))
+              (field_access
+                (function_call
+                  (identifier)
+                  (function_call_args
+                    (string))))))
           (match_default_arm
             (single_block
-              (function_call
-                (identifier)
-                (function_call_args
-                  (string))))))
+              (field_access
+                (function_call
+                  (identifier)
+                  (function_call_args
+                    (string)))))))
         (variable_declaration
           (let)
           (identifier)
