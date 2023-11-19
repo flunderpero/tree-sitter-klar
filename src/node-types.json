@@ -101,6 +101,10 @@
           "named": true
         },
         {
+          "type": "closure",
+          "named": true
+        },
+        {
           "type": "for",
           "named": true
         },
@@ -189,6 +193,10 @@
           },
           {
             "type": "bool",
+            "named": true
+          },
+          {
+            "type": "closure",
             "named": true
           },
           {
@@ -364,6 +372,10 @@
             "named": true
           },
           {
+            "type": "closure",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -440,6 +452,74 @@
     "type": "break",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "closure",
+    "named": true,
+    "fields": {
+      "return_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "closure_parameter",
+          "named": true
+        },
+        {
+          "type": "multi_block",
+          "named": true
+        },
+        {
+          "type": "single_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "closure_parameter",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "continue",
@@ -711,6 +791,10 @@
             "named": true
           },
           {
+            "type": "closure",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -852,6 +936,10 @@
         },
         {
           "type": "bool",
+          "named": true
+        },
+        {
+          "type": "closure",
           "named": true
         },
         {
@@ -1054,6 +1142,10 @@
             "named": true
           },
           {
+            "type": "closure",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -1234,6 +1326,10 @@
           "named": true
         },
         {
+          "type": "closure",
+          "named": true
+        },
+        {
           "type": "escape_sequence",
           "named": true
         },
@@ -1353,6 +1449,10 @@
             "named": true
           },
           {
+            "type": "closure",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -1456,6 +1556,10 @@
           },
           {
             "type": "bool",
+            "named": true
+          },
+          {
+            "type": "closure",
             "named": true
           },
           {
@@ -1638,6 +1742,10 @@
           "named": true
         },
         {
+          "type": "closure",
+          "named": true
+        },
+        {
           "type": "continue",
           "named": true
         },
@@ -1802,6 +1910,10 @@
           "named": true
         },
         {
+          "type": "closure",
+          "named": true
+        },
+        {
           "type": "for",
           "named": true
         },
@@ -1894,6 +2006,10 @@
         },
         {
           "type": "break",
+          "named": true
+        },
+        {
+          "type": "closure",
           "named": true
         },
         {
@@ -2091,6 +2207,10 @@
           },
           {
             "type": "bool",
+            "named": true
+          },
+          {
+            "type": "closure",
             "named": true
           },
           {
@@ -2324,6 +2444,10 @@
           "named": true
         },
         {
+          "type": "closure",
+          "named": true
+        },
+        {
           "type": "for",
           "named": true
         },
@@ -2440,6 +2564,10 @@
           },
           {
             "type": "bool",
+            "named": true
+          },
+          {
+            "type": "closure",
             "named": true
           },
           {
@@ -2567,6 +2695,10 @@
             "named": true
           },
           {
+            "type": "closure",
+            "named": true
+          },
+          {
             "type": "for",
             "named": true
           },
@@ -2656,6 +2788,10 @@
         },
         {
           "type": "bool",
+          "named": true
+        },
+        {
+          "type": "closure",
           "named": true
         },
         {

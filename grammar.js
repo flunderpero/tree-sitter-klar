@@ -119,6 +119,19 @@ module.exports = grammar({
 
         parameter: ($) => seq(field("name", $._identifier), field("type", $.type)),
 
+        closure: ($) =>
+            seq(
+                "fn",
+                "(",
+                optional(comma_sep($.closure_parameter)),
+                ")",
+                optional(field("return_type", $.type)),
+                $._block,
+            ),
+
+        closure_parameter: ($) =>
+            seq(field("name", $._identifier), optional(field("type", $.type))),
+
         self: () => "self",
 
         mut: () => "mut",
@@ -261,6 +274,7 @@ module.exports = grammar({
                 $.loop,
                 $.for,
                 $.while,
+                $.closure,
             ),
 
         bool: () => choice("true", "false"),

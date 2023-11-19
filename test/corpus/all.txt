@@ -150,6 +150,62 @@ end
                 (int)))))))))
 
 ================================================================================
+Closures
+================================================================================
+
+fn main():
+    let f = fn(x i32) i32 => x + 1
+    lef g = fn(x) => x + 1
+    foo(fn(x i32) => x + 1)
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration_or_definition
+    (function_definition
+      (function_declaration
+        (identifier)
+        (parameters))
+      (multi_block
+        (variable_declaration
+          (let)
+          (identifier)
+          (closure
+            (closure_parameter
+              (identifier)
+              (type
+                (type_identifier)))
+            (type
+              (type_identifier))
+            (single_block
+              (binary
+                (identifier)
+                (int)))))
+        (identifier)
+        (assignment
+          (identifier)
+          (closure
+            (closure_parameter
+              (identifier))
+            (single_block
+              (binary
+                (identifier)
+                (int)))))
+        (function_call
+          (identifier)
+          (function_call_args
+            (closure
+              (closure_parameter
+                (identifier)
+                (type
+                  (type_identifier)))
+              (single_block
+                (binary
+                  (identifier)
+                  (int))))))))))
+
+================================================================================
 Function type
 ================================================================================
 

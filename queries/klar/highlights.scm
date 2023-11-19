@@ -107,6 +107,17 @@
   ]
 )
 
+(closure_parameter
+  name: (identifier) @parameter
+)
+
+(closure
+  [
+    (single_block "=>" @keyword.function) 
+    ((multi_block ":" @keyword.function) "end" @keyword.function)
+  ]
+)
+
 (parameter (identifier) @variable.parameter @parameter)
 
 (member 

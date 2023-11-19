@@ -102,7 +102,7 @@ fn main():
         end
     end
 
-    my_ver.iter().filter(fn(x) => x > 10).map(fn(x) => x * 2).collect()
+    my_ver.iter().filter(fn(x) => x > 10)
 
     fn inner_function():
         print("inner")
