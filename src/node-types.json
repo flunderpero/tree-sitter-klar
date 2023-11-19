@@ -507,6 +507,10 @@
         {
           "type": "enum_variant_declaration",
           "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
         }
       ]
     }
@@ -2205,6 +2209,10 @@
         },
         {
           "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
           "named": true
         }
       ]

@@ -51,12 +51,6 @@ fn test(x i32, y i32?) Str:
     return 32
 end
 
-extern:
-    fn double_str(s str) str
-
-    fn double_i32(i32) i32
-end
-
 ---
     This is a block comment.
 ---

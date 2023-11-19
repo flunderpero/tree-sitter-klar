@@ -32,6 +32,29 @@ module.exports = grammar({
                 $.trait_definition,
             ),
 
+        struct_declaration: ($) =>
+            seq(
+                "struct",
+                field("name", $._identifier),
+                optional($.type_parameters),
+                ":",
+                repeat($.field),
+                "end",
+            ),
+
+        enum_declaration: ($) =>
+            seq(
+                "enum",
+                field("name", $._identifier),
+                optional($.type_parameters),
+                ":",
+                repeat($.enum_variant_declaration),
+                "end",
+            ),
+
+        enum_variant_declaration: ($) =>
+            seq(field("name", $._identifier), optional($.type_list)),
+
         impl_definition: ($) =>
             seq(
                 "impl",
@@ -49,6 +72,7 @@ module.exports = grammar({
             seq(
                 "trait",
                 field("name", $._identifier),
+                optional($.type_parameters),
                 ":",
                 optional(repeat(choice($.function_declaration, $.function_definition))),
                 "end",
@@ -95,21 +119,11 @@ module.exports = grammar({
 
         parameter: ($) => seq(field("name", $._identifier), field("type", $.type)),
 
-        self: ($) => "self",
+        self: () => "self",
 
-        mut: ($) => "mut",
+        mut: () => "mut",
 
-        let: ($) => "let",
-
-        struct_declaration: ($) =>
-            seq(
-                "struct",
-                field("name", $._identifier),
-                optional($.type_parameters),
-                ":",
-                repeat($.field),
-                "end",
-            ),
+        let: () => "let",
 
         struct_instantiation: ($) =>
             seq("{", optional(comma_sep($.struct_field_assignment)), "}"),
@@ -155,18 +169,6 @@ module.exports = grammar({
                 ),
             ),
 
-        enum_declaration: ($) =>
-            seq(
-                "enum",
-                field("name", $._identifier),
-                ":",
-                repeat($.enum_variant_declaration),
-                "end",
-            ),
-
-        enum_variant_declaration: ($) =>
-            seq(field("name", $._identifier), optional($.type_list)),
-
         type_list: ($) => seq("(", optional($._type_list), ")"),
 
         _type_list: ($) => comma_sep(choice($.self, $.type)),
@@ -209,9 +211,9 @@ module.exports = grammar({
 
         return: ($) => prec.left(seq("return", optional($._expression))),
 
-        break: ($) => seq("break"),
+        break: () => seq("break"),
 
-        continue: ($) => seq("continue"),
+        continue: () => seq("continue"),
 
         variable_declaration: ($) =>
             prec.right(
@@ -261,7 +263,7 @@ module.exports = grammar({
                 $.while,
             ),
 
-        bool: ($) => choice("true", "false"),
+        bool: () => choice("true", "false"),
 
         yield: ($) => seq("yield", $._expression),
 
@@ -365,7 +367,7 @@ module.exports = grammar({
                 /[A-Z][a-zA-Z0-9_]*/,
             ),
 
-        int: ($) => /\d+/,
+        int: () => /\d+/,
 
         string: ($) =>
             choice(
@@ -445,7 +447,7 @@ module.exports = grammar({
 
         _expression_within_braces: ($) => seq("{", $._expression, "}"),
 
-        comment: ($) =>
+        comment: () =>
             token(
                 choice(
                     seq(

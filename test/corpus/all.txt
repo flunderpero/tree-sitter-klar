@@ -794,6 +794,14 @@ impl Bar<T> for Foo<T>:
     end
 end
 
+enum Option<T>:
+    Some(T)
+    None
+end
+
+trait Foo<A, B>:
+end
+
 fn foo<T, U>(a T, b U) T:
     return a
 end
@@ -827,6 +835,24 @@ end
             (type_parameters
               (type_identifier))))
         (multi_block))))
+  (declaration_or_definition
+    (enum_declaration
+      (type_identifier)
+      (type_parameters
+        (type_identifier))
+      (enum_variant_declaration
+        (type_identifier)
+        (type_list
+          (type
+            (type_identifier))))
+      (enum_variant_declaration
+        (type_identifier))))
+  (declaration_or_definition
+    (trait_definition
+      (type_identifier)
+      (type_parameters
+        (type_identifier)
+        (type_identifier))))
   (declaration_or_definition
     (function_definition
       (function_declaration
