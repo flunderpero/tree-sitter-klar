@@ -77,15 +77,14 @@
 [
     "["
     "]"
+    "<"
+    ">"
 ] @punctuation.bracket
 
 [
     "{"
     "}"
 ] @punctuation.braces
-
-(ERROR) @error
-
 
 (match
   (match_arm

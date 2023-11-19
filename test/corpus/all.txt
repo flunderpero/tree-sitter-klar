@@ -776,6 +776,74 @@ end
                 (string)))))))))
 
 ================================================================================
+Generics
+================================================================================
+
+struct Foo<T>:
+    a T
+end
+
+impl Bar<T> for Foo<T>:
+    fn new() Foo<T>:
+    end
+end
+
+fn foo<T, U>(a T, b U) T:
+    return a
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration_or_definition
+    (struct_declaration
+      (type_identifier)
+      (type_parameters
+        (type_identifier))
+      (field
+        (identifier)
+        (type
+          (type_identifier)))))
+  (declaration_or_definition
+    (impl_definition
+      (type_identifier)
+      (type_parameters
+        (type_identifier))
+      (type_identifier)
+      (type_parameters
+        (type_identifier))
+      (function_definition
+        (function_declaration
+          (identifier)
+          (parameters)
+          (type
+            (type_identifier)
+            (type_parameters
+              (type_identifier))))
+        (multi_block))))
+  (declaration_or_definition
+    (function_definition
+      (function_declaration
+        (identifier)
+        (type_parameters
+          (type_identifier)
+          (type_identifier))
+        (parameters
+          (parameter
+            (identifier)
+            (type
+              (type_identifier)))
+          (parameter
+            (identifier)
+            (type
+              (type_identifier))))
+        (type
+          (type_identifier)))
+      (multi_block
+        (return)
+        (identifier)))))
+
+================================================================================
 Implementation block
 ================================================================================
 

@@ -1,8 +1,8 @@
 extern:
-    fn function_a(a i32, b i32) i32
+    fn function_a<T>(a T, b i32) i32
     fn function_b(c i32, d str) str
-    struct A:
-        x i32
+    struct A<I, O>:
+        x Foo<I>
         y str
     end
     impl A:
@@ -33,11 +33,11 @@ impl Person:
 end
 
 trait Greeter:
-    fn greet(mut self)
-
     fn default_impl(self):
         print("default")
     end
+
+    fn greet(self)
 end
 
 impl Greeter for Person:
@@ -67,7 +67,7 @@ fn sub(x i32, y i32) i32?:
 end
 
 fn do_math(f (fn(i32, i32) i32)?, x i32, y i32) fn(i32) i32:
-    return fn((z) => f(x, y))
+    return fn((z i32) => f(x, y))
 end
 
 fn main():

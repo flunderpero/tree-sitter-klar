@@ -20,7 +20,8 @@ module.exports = grammar({
     word: ($) => $.identifier,
 
     rules: {
-        source_file: ($) => repeat(choice($.declaration_or_definition, $.extern_declaration)),
+        source_file: ($) =>
+            repeat(choice($.declaration_or_definition, $.extern_declaration)),
 
         declaration_or_definition: ($) =>
             choice(
@@ -35,7 +36,10 @@ module.exports = grammar({
             seq(
                 "impl",
                 field("name", $._identifier),
-                optional(seq("for", field("for", $._identifier))),
+                optional($.type_parameters),
+                optional(
+                    seq("for", field("for", $._identifier), optional($.type_parameters)),
+                ),
                 ":",
                 repeat($.function_definition),
                 "end",
@@ -75,6 +79,7 @@ module.exports = grammar({
                 seq(
                     "fn",
                     field("name", $._identifier),
+                    optional($.type_parameters),
                     $.parameters,
                     optional(field("return_type", $.type)),
                 ),
@@ -97,7 +102,14 @@ module.exports = grammar({
         let: ($) => "let",
 
         struct_declaration: ($) =>
-            seq("struct", field("name", $._identifier), ":", repeat($.field), "end"),
+            seq(
+                "struct",
+                field("name", $._identifier),
+                optional($.type_parameters),
+                ":",
+                repeat($.field),
+                "end",
+            ),
 
         struct_instantiation: ($) =>
             seq("{", optional(comma_sep($.struct_field_assignment)), "}"),
@@ -111,21 +123,32 @@ module.exports = grammar({
         field: ($) => seq(field("name", $._identifier), field("type", $.type)),
 
         type: ($) =>
-            choice(
-                choice($.type_identifier, $.function_type, $._array_type),
+            prec.left(choice(
+                choice(
+                    seq($.type_identifier, optional($.type_parameters)),
+                    $.function_type,
+                    $._array_type,
+                ),
                 seq(
                     choice(
-                        $.type_identifier,
+                        seq($.type_identifier, optional($.type_parameters)),
                         seq("(", $.function_type, ")"),
                         $._array_type,
                     ),
                     "?",
                 ),
+            )),
+
+        _type: ($) =>
+            choice(
+                seq($.type_identifier, optional($.type_parameters)),
+                $.function_type,
+                $._array_type,
             ),
 
-        _type: ($) => choice($.type_identifier, $.function_type, $._array_type),
-
         _array_type: ($) => seq("[", $._type, "]"),
+
+        type_parameters: ($) => seq("<", comma_sep($.type_identifier), ">"),
 
         function_type: ($) =>
             prec.right(
