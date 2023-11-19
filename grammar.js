@@ -123,30 +123,24 @@ module.exports = grammar({
         field: ($) => seq(field("name", $._identifier), field("type", $.type)),
 
         type: ($) =>
-            prec.left(choice(
+            prec.left(
                 choice(
-                    seq($.type_identifier, optional($.type_parameters)),
-                    $.function_type,
-                    $._array_type,
-                ),
-                seq(
-                    choice(
-                        seq($.type_identifier, optional($.type_parameters)),
-                        seq("(", $.function_type, ")"),
-                        $._array_type,
+                    choice($._regular_type, $.array_type, $.function_type),
+                    seq(
+                        choice(
+                            $._regular_type,
+                            $.array_type,
+                            seq("(", $.function_type, ")"),
+                        ),
+                        "?",
                     ),
-                    "?",
                 ),
-            )),
-
-        _type: ($) =>
-            choice(
-                seq($.type_identifier, optional($.type_parameters)),
-                $.function_type,
-                $._array_type,
             ),
 
-        _array_type: ($) => seq("[", $._type, "]"),
+        _regular_type: ($) =>
+            prec.left(seq($.type_identifier, optional($.type_parameters))),
+
+        array_type: ($) => seq("[", choice($._regular_type, $.array_type), "]"),
 
         type_parameters: ($) => seq("<", comma_sep($.type_identifier), ">"),
 

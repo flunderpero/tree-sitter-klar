@@ -262,13 +262,16 @@ end
           (parameter
             (identifier)
             (type
-              (type_identifier)))
+              (array_type
+                (type_identifier))))
           (parameter
             (identifier)
             (type
-              (type_identifier))))
+              (array_type
+                (type_identifier)))))
         (type
-          (type_identifier)))
+          (array_type
+            (type_identifier))))
       (single_block
         (array_literal
           (int)
@@ -284,13 +287,16 @@ end
           (let)
           (identifier)
           (type
-            (type_identifier))
+            (array_type
+              (type_identifier)))
           (array_literal))
         (variable_declaration
           (let)
           (identifier)
           (type
-            (type_identifier))
+            (array_type
+              (array_type
+                (type_identifier))))
           (array_literal
             (array_literal
               (string)
