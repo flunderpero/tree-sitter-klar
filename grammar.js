@@ -20,15 +20,16 @@ module.exports = grammar({
     word: ($) => $.identifier,
 
     rules: {
-        source_file: ($) => repeat(choice($.declaration, $.impl, $.trait)),
+        source_file: ($) =>
+            repeat(choice($.declaration, $.impl, $.trait, $.extern)),
 
         declaration: ($) => choice($.function_declaration, $.struct, $.enum),
 
         impl: ($) =>
             seq(
                 "impl",
-                field("name", $.identifier),
-                optional(seq("for", field("for", $.identifier))),
+                field("name", $._identifier),
+                optional(seq("for", field("for", $._identifier))),
                 ":",
                 repeat($.function_declaration),
                 "end",
@@ -37,18 +38,38 @@ module.exports = grammar({
         trait: ($) =>
             seq(
                 "trait",
-                field("name", $.identifier),
+                field("name", $._identifier),
                 ":",
-                repeat(choice($.function_signature, $.function_declaration)),
+                optional(repeat(choice($.function_signature, $.function_declaration))),
+                "end",
+            ),
+
+        extern: ($) =>
+            seq(
+                "extern",
+                ":",
+                repeat(choice($.function_signature, $.struct, $.extern_impl)),
+                "end",
+            ),
+
+        extern_impl: ($) =>
+            seq(
+                "impl",
+                field("name", $._identifier),
+                optional(seq("for", field("for", $._identifier))),
+                ":",
+                repeat($.function_signature),
                 "end",
             ),
 
         function_signature: ($) =>
-            seq(
-                "fn",
-                field("name", $.identifier),
-                $.parameters,
-                optional(field("return_type", $.type)),
+            prec.right(
+                seq(
+                    "fn",
+                    field("name", $._identifier),
+                    $.parameters,
+                    optional(field("return_type", $.type)),
+                ),
             ),
 
         function_declaration: ($) =>
@@ -59,7 +80,7 @@ module.exports = grammar({
         _parameters: ($) =>
             comma_sep(choice($.self, seq(optional($.mut), $.parameter))),
 
-        parameter: ($) => seq(field("name", $.identifier), field("type", $.type)),
+        parameter: ($) => seq(field("name", $._identifier), field("type", $.type)),
 
         self: ($) => "self",
 
@@ -68,49 +89,58 @@ module.exports = grammar({
         let: ($) => "let",
 
         struct: ($) =>
-            seq("struct", field("name", $.identifier), ":", repeat($.field), "end"),
+            seq("struct", field("name", $._identifier), ":", repeat($.field), "end"),
 
         struct_instantiation: ($) =>
-            seq(
-                "{",
-                optional(comma_sep($.struct_field_assignment)),
-                "}",
-            ),
+            seq("{", optional(comma_sep($.struct_field_assignment)), "}"),
 
         struct_field_assignment: ($) =>
-            seq(field("name", $.identifier), optional(seq(":", field("value", $._expression)))),
-
-        field: ($) => seq(field("name", $.identifier), field("type", $.type)),
-
-        type: ($) => seq(field("type", $._type), optional(field("optional", "?"))),
-
-        _type: ($) =>
-            choice(
-                "bool",
-                "i32",
-                "str",
-                "void",
-                $.identifier,
-                $.function_type,
-                $._array_type,
+            seq(
+                field("name", $._identifier),
+                optional(seq(":", field("value", $._expression))),
             ),
+
+        field: ($) => seq(field("name", $._identifier), field("type", $.type)),
+
+        type: ($) =>
+            choice(
+                choice($.type_identifier, $.function_type, $._array_type),
+                seq(
+                    choice(
+                        $.type_identifier,
+                        seq("(", $.function_type, ")"),
+                        $._array_type,
+                    ),
+                    "?",
+                ),
+            ),
+
+        _type: ($) => choice($.type_identifier, $.function_type, $._array_type),
 
         _array_type: ($) => seq("[", $._type, "]"),
 
         function_type: ($) =>
-            seq("(", "fn", $.parameters, optional(field("return_type", $.type)), ")"),
+            prec.right(
+                seq(
+                    "fn",
+                    "(",
+                    comma_sep($.type),
+                    ")",
+                    optional(field("return_type", $.type)),
+                ),
+            ),
 
         enum: ($) =>
             seq(
                 "enum",
-                field("name", $.identifier),
+                field("name", $._identifier),
                 ":",
                 repeat($.enum_variant),
                 "end",
             ),
 
         enum_variant: ($) =>
-            seq(field("name", $.identifier), optional($.type_list)),
+            seq(field("name", $._identifier), optional($.type_list)),
 
         type_list: ($) => seq("(", optional($._type_list), ")"),
 
@@ -163,25 +193,25 @@ module.exports = grammar({
                 1,
                 seq(
                     choice($.let, $.mut),
-                    field("name", $.identifier),
+                    field("name", $._identifier),
                     optional(field("type", $.type)),
                     optional(seq("=", field("value", $._expression))),
                 ),
             ),
 
         member: ($) =>
-            seq(field("variable", $.identifier), ".", field("member", $._member)),
+            seq(field("variable", $._identifier), ".", field("member", $._member)),
 
-        _member: ($) => choice($.identifier, $.member, $.function_call),
+        _member: ($) => choice($._identifier, $.member, $.function_call),
 
         function_call: ($) =>
-            seq(field("name", $.identifier), $.function_call_args),
+            seq(field("name", $._identifier), $.function_call_args),
 
         function_call_args: ($) => seq("(", optional($._function_call_args), ")"),
 
         _function_call_args: ($) => seq(comma_sep($._expression)),
 
-        parameter: ($) => seq(field("name", $.identifier), field("type", $.type)),
+        parameter: ($) => seq(field("name", $._identifier), field("type", $.type)),
 
         array_literal: ($) => seq("[", optional(comma_sep($._literal)), "]"),
 
@@ -197,7 +227,7 @@ module.exports = grammar({
                 $.member,
                 $.struct_instantiation,
                 $._literal,
-                $.identifier,
+                $._identifier,
                 $.assignment,
                 $.if_then_else,
                 $.yield,
@@ -212,7 +242,7 @@ module.exports = grammar({
 
         assignment: ($) =>
             seq(
-                field("variable", choice($.member, $.identifier)),
+                field("variable", choice($.member, $._identifier)),
                 "=",
                 $._expression,
             ),
@@ -222,7 +252,7 @@ module.exports = grammar({
         for: ($) =>
             seq(
                 "for",
-                field("variable", $.identifier),
+                field("variable", $._identifier),
                 field("in", "in"),
                 field("iterator", $._expression),
                 field("body", $._block),
@@ -289,7 +319,26 @@ module.exports = grammar({
                 seq(field("operation", choice("not", "-")), $._expression),
             ),
 
-        identifier: ($) => /[a-zA-Z][a-zA-Z0-9_]*/,
+        _identifier: ($) => choice($.type_identifier, $.identifier, $.self),
+
+        identifier: ($) => /[a-z][a-zA-Z0-9_]*/,
+
+        type_identifier: ($) =>
+            choice(
+                "bool",
+                "str",
+                "i8",
+                "i16",
+                "i32",
+                "i64",
+                "u8",
+                "u16",
+                "u32",
+                "u64",
+                "isize",
+                "usize",
+                /[A-Z][a-zA-Z0-9_]*/,
+            ),
 
         int: ($) => /\d+/,
 

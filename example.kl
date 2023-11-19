@@ -1,3 +1,18 @@
+extern:
+    fn function_a(a i32, b i32) i32
+    fn function_b(c i32, d str) str
+    struct A:
+        x i32
+        y str
+    end
+    impl A:
+        fn function_c(self, a i32) i32
+    end
+    impl ToStr for A:
+        fn to_str(self) str
+    end
+end
+
 struct Person:
     name str
     age i32
@@ -31,10 +46,15 @@ impl Greeter for Person:
     end
 end
 
-
 -- This is a line comment.
-fn test(x i32, y i32?):
+fn test(x i32, y i32?) Str:
     return 32
+end
+
+extern:
+    fn double_str(s str) str
+
+    fn double_i32(i32) i32
 end
 
 ---
@@ -46,14 +66,14 @@ fn sub(x i32, y i32) i32?:
     return x - y
 end
 
-fn do_math(f (fn(a i32, b i32) i32), x i32, y i32) i32:
-    return f(x, y)
+fn do_math(f (fn(i32, i32) i32)?, x i32, y i32) fn(i32) i32:
+    return fn((z) => f(x, y))
 end
 
 fn main():
     struct InnerStruct:
         x i32?
-        y i32
+        y Str
     end
 
     enum InnerEnum:
@@ -70,7 +90,7 @@ fn main():
 
     let list [i32] = [1, 2, 3]
 
-    let person Person{ name: "John", age, city: "London" }
+    let person = Person{ name: "John", age, city: "London" }
 
     match optional:
         Some(x) => print(x)
@@ -86,6 +106,8 @@ fn main():
         end
     end
 
+    my_ver.iter().filter(fn(x) => x > 10).map(fn(x) => x * 2).collect()
+
     fn inner_function():
         print("inner")
     end
@@ -95,7 +117,7 @@ fn main():
     print("Hello\tescape\n\"sequences\"")
 
     print("""Hello
-        multiline
+        multiline\n
         string
     """)
 

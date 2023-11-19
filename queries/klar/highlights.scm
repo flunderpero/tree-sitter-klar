@@ -1,3 +1,5 @@
+(identifier) @variable
+(type_identifier) @type
 (type) @type
 (comment) @comment
 (int) @number
@@ -14,6 +16,7 @@
     "in"
     "yield"
     "struct"
+    "extern"
     "enum"
     "impl"
     "trait"
@@ -83,7 +86,6 @@
 
 (ERROR) @error
 
-(identifier) @variable
 
 (match
   (match_arm

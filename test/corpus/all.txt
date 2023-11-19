@@ -31,7 +31,8 @@ end
       (function_signature
         (identifier)
         (parameters)
-        (type))
+        (type
+          (type_identifier)))
       (multi_block
         (return)
         (int)))))
@@ -55,11 +56,14 @@ end
           (mut)
           (parameter
             (identifier)
-            (type))
+            (type
+              (type_identifier)))
           (parameter
             (identifier)
-            (type)))
-        (type))
+            (type
+              (type_identifier))))
+        (type
+          (type_identifier)))
       (multi_block
         (return)
         (binary
@@ -80,7 +84,8 @@ fn test() i32 => 42
       (function_signature
         (identifier)
         (parameters)
-        (type))
+        (type
+          (type_identifier)))
       (single_block
         (int)))))
 
@@ -100,11 +105,14 @@ fn test(x i32, y i32) i32 => x < y
         (parameters
           (parameter
             (identifier)
-            (type))
+            (type
+              (type_identifier)))
           (parameter
             (identifier)
-            (type)))
-        (type))
+            (type
+              (type_identifier))))
+        (type
+          (type_identifier)))
       (single_block
         (binary
           (identifier)
@@ -145,37 +153,61 @@ end
 Function type
 ================================================================================
 
-fn test(f (fn(name str) i32)) (fn(name str) i32):
-    return f
+extern:
+    fn a(f fn(str) i32) fn(str) i32
 end
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration
-    (function_declaration
-      (function_signature
-        (identifier)
-        (parameters
-          (parameter
-            (identifier)
-            (type
-              (function_type
-                (parameters
-                  (parameter
-                    (identifier)
-                    (type)))
-                (type)))))
-        (type
-          (function_type
-            (parameters
-              (parameter
-                (identifier)
-                (type)))
-            (type))))
-      (multi_block
-        (return)
-        (identifier)))))
+  (extern
+    (function_signature
+      (identifier)
+      (parameters
+        (parameter
+          (identifier)
+          (type
+            (function_type
+              (type
+                (type_identifier))
+              (type
+                (type_identifier))))))
+      (type
+        (function_type
+          (type
+            (type_identifier))
+          (type
+            (type_identifier)))))))
+
+================================================================================
+Function type with optional parameter
+================================================================================
+
+extern:
+    fn a(f (fn(str?) i32)?) (fn(str) i32)?
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extern
+    (function_signature
+      (identifier)
+      (parameters
+        (parameter
+          (identifier)
+          (type
+            (function_type
+              (type
+                (type_identifier))
+              (type
+                (type_identifier))))))
+      (type
+        (function_type
+          (type
+            (type_identifier))
+          (type
+            (type_identifier)))))))
 
 ================================================================================
 Function calls
@@ -229,12 +261,14 @@ end
         (parameters
           (parameter
             (identifier)
-            (type))
+            (type
+              (type_identifier)))
           (parameter
             (identifier)
             (type
-              (identifier))))
-        (type))
+              (type_identifier))))
+        (type
+          (type_identifier)))
       (single_block
         (array_literal
           (int)
@@ -249,12 +283,14 @@ end
         (variable_declaration
           (let)
           (identifier)
-          (type)
+          (type
+            (type_identifier))
           (array_literal))
         (variable_declaration
           (let)
           (identifier)
-          (type)
+          (type
+            (type_identifier))
           (array_literal
             (array_literal
               (string)
@@ -367,13 +403,15 @@ end
         (variable_declaration
           (let)
           (identifier)
-          (type)
+          (type
+            (type_identifier))
           (string))
         (variable_declaration
           (let)
           (identifier)
-          (type)
-          (identifier))))))
+          (type
+            (type_identifier))
+          (type_identifier))))))
 
 ================================================================================
 `let` without initialization.
@@ -396,11 +434,13 @@ end
         (variable_declaration
           (let)
           (identifier)
-          (type))
+          (type
+            (type_identifier)))
         (variable_declaration
           (let)
           (identifier)
-          (type))))))
+          (type
+            (type_identifier)))))))
 
 ================================================================================
 Variable declaration with `mut`.
@@ -423,13 +463,15 @@ end
         (variable_declaration
           (mut)
           (identifier)
-          (type)
+          (type
+            (type_identifier))
           (string))
         (variable_declaration
           (mut)
           (identifier)
-          (type)
-          (identifier))))))
+          (type
+            (type_identifier))
+          (type_identifier))))))
 
 ================================================================================
 `mut` without initialization.
@@ -452,11 +494,13 @@ end
         (variable_declaration
           (mut)
           (identifier)
-          (type))
+          (type
+            (type_identifier)))
         (variable_declaration
           (mut)
           (identifier)
-          (type))))))
+          (type
+            (type_identifier)))))))
 
 ================================================================================
 String interpolation.
@@ -564,7 +608,8 @@ end
       (function_signature
         (identifier)
         (parameters)
-        (type))
+        (type
+          (type_identifier)))
       (multi_block
         (if_then_else
           (binary
@@ -592,7 +637,8 @@ end
       (function_signature
         (identifier)
         (parameters)
-        (type))
+        (type
+          (type_identifier)))
       (multi_block
         (if_then_else
           (binary
@@ -669,16 +715,19 @@ end
 (source_file
   (declaration
     (struct
-      (identifier)
+      (type_identifier)
       (field
         (identifier)
-        (type))
+        (type
+          (type_identifier)))
       (field
         (identifier)
-        (type))
+        (type
+          (type_identifier)))
       (field
         (identifier)
-        (type))))
+        (type
+          (type_identifier)))))
   (declaration
     (function_declaration
       (function_signature
@@ -687,10 +736,11 @@ end
       (multi_block
         (declaration
           (struct
-            (identifier)
+            (type_identifier)
             (field
               (identifier)
-              (type))))))))
+              (type
+                (type_identifier)))))))))
 
 ================================================================================
 Struct instantiation
@@ -711,7 +761,7 @@ end
         (variable_declaration
           (let)
           (identifier)
-          (identifier))
+          (type_identifier))
         (struct_instantiation
           (struct_field_assignment
             (identifier)
@@ -743,20 +793,21 @@ end
 
 (source_file
   (impl
-    (identifier)
+    (type_identifier)
     (function_declaration
       (function_signature
         (identifier)
         (parameters
           (parameter
             (identifier)
-            (type)))
+            (type
+              (type_identifier))))
         (type
-          (identifier)))
+          (type_identifier)))
       (multi_block
         (return)
         (function_call
-          (identifier)
+          (type_identifier)
           (function_call_args
             (identifier)))))
     (function_declaration
@@ -769,15 +820,17 @@ end
           (identifier)
           (function_call_args
             (member
-              (identifier)
+              (self)
               (identifier))))))))
 
 ================================================================================
-Trait
+Trait (TODO: Function signatures without return type are note parsed correctly)
 ================================================================================
 
 trait Greeter:
-    fn greet(self)
+    fn greet_every_one(self) fn(str) str
+
+    fn greet(self) 
 
     fn with_default_impl(self):
         print("Hello")
@@ -788,13 +841,23 @@ end
 
 (source_file
   (trait
-    (identifier)
+    (type_identifier)
     (function_signature
       (identifier)
       (parameters
-        (self)))
+        (self))
+      (type
+        (function_type
+          (type
+            (type_identifier))
+          (type
+            (type_identifier)))))
     (function_declaration
       (function_signature
+        (ERROR
+          (identifier)
+          (parameters
+            (self)))
         (identifier)
         (parameters
           (self)))
@@ -818,8 +881,8 @@ end
 
 (source_file
   (impl
-    (identifier)
-    (identifier)
+    (type_identifier)
+    (type_identifier)
     (function_declaration
       (function_signature
         (identifier)
@@ -830,7 +893,7 @@ end
           (identifier)
           (function_call_args
             (member
-              (identifier)
+              (self)
               (identifier))))))))
 
 ================================================================================
@@ -849,18 +912,20 @@ end
 (source_file
   (declaration
     (enum
-      (identifier)
+      (type_identifier)
       (enum_variant
-        (identifier))
+        (type_identifier))
       (enum_variant
-        (identifier))
+        (type_identifier))
       (enum_variant
-        (identifier))
+        (type_identifier))
       (enum_variant
-        (identifier)
+        (type_identifier)
         (type_list
-          (type)
-          (type))))))
+          (type
+            (type_identifier))
+          (type
+            (type_identifier)))))))
 
 ================================================================================
 Member access
@@ -967,3 +1032,64 @@ end
             (match_default_arm
               (single_block
                 (string)))))))))
+
+================================================================================
+Extern blocks
+================================================================================
+
+extern:
+    fn a(s str) str
+    fn b(b i32)
+    struct Foo:
+        a i32
+    end
+    impl Foo:
+        fn new() Foo
+    end
+    impl ToStr for Foo:
+        fn to_str(self) str
+    end
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extern
+    (function_signature
+      (identifier)
+      (parameters
+        (parameter
+          (identifier)
+          (type
+            (type_identifier))))
+      (type
+        (type_identifier)))
+    (function_signature
+      (identifier)
+      (parameters
+        (parameter
+          (identifier)
+          (type
+            (type_identifier)))))
+    (struct
+      (type_identifier)
+      (field
+        (identifier)
+        (type
+          (type_identifier))))
+    (extern_impl
+      (type_identifier)
+      (function_signature
+        (identifier)
+        (parameters)
+        (type
+          (type_identifier))))
+    (extern_impl
+      (type_identifier)
+      (type_identifier)
+      (function_signature
+        (identifier)
+        (parameters
+          (self))
+        (type
+          (type_identifier))))))
