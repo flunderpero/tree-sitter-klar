@@ -97,11 +97,11 @@
   name: (identifier) @parameter
 )
 
-(function_signature
+(function_declaration
   name: (identifier) @function
 )
 
-(function_declaration
+(function_definition
   [
     (single_block "=>" @keyword.function) 
     ((multi_block ":" @keyword.function) "end" @keyword.function)
@@ -118,36 +118,36 @@
   name: (identifier) @field
 ))
 
-(struct
+(struct_declaration
   name: (identifier) @type.definition
   ":" @keyword
 )
 
-(enum
+(enum_declaration
   name: (identifier) @type.definition
   ":" @keyword
 )
 
-(trait
+(trait_definition
   name: (identifier) @type.definition
   ":" @keyword
 )
 
 
-(impl
+(impl_definition
   name: (identifier) @type
   ":" @keyword
 )
 
-(impl
+(impl_definition
   for: (identifier) @type
 )
 
-(impl
+(impl_definition
   "for" @keyword
 )
 
-(enum_variant
+(enum_variant_declaration
   name: (identifier) @type.definition
 )
 

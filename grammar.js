@@ -20,35 +20,43 @@ module.exports = grammar({
     word: ($) => $.identifier,
 
     rules: {
-        source_file: ($) =>
-            repeat(choice($.declaration, $.impl, $.trait, $.extern)),
+        source_file: ($) => repeat(choice($.declaration_or_definition, $.extern_declaration)),
 
-        declaration: ($) => choice($.function_declaration, $.struct, $.enum),
+        declaration_or_definition: ($) =>
+            choice(
+                $.function_definition,
+                $.struct_declaration,
+                $.enum_declaration,
+                $.impl_definition,
+                $.trait_definition,
+            ),
 
-        impl: ($) =>
+        impl_definition: ($) =>
             seq(
                 "impl",
                 field("name", $._identifier),
                 optional(seq("for", field("for", $._identifier))),
                 ":",
-                repeat($.function_declaration),
+                repeat($.function_definition),
                 "end",
             ),
 
-        trait: ($) =>
+        trait_definition: ($) =>
             seq(
                 "trait",
                 field("name", $._identifier),
                 ":",
-                optional(repeat(choice($.function_signature, $.function_declaration))),
+                optional(repeat(choice($.function_declaration, $.function_definition))),
                 "end",
             ),
 
-        extern: ($) =>
+        extern_declaration: ($) =>
             seq(
                 "extern",
                 ":",
-                repeat(choice($.function_signature, $.struct, $.extern_impl)),
+                repeat(
+                    choice($.function_declaration, $.struct_declaration, $.extern_impl),
+                ),
                 "end",
             ),
 
@@ -58,11 +66,11 @@ module.exports = grammar({
                 field("name", $._identifier),
                 optional(seq("for", field("for", $._identifier))),
                 ":",
-                repeat($.function_signature),
+                repeat($.function_declaration),
                 "end",
             ),
 
-        function_signature: ($) =>
+        function_declaration: ($) =>
             prec.right(
                 seq(
                     "fn",
@@ -72,8 +80,8 @@ module.exports = grammar({
                 ),
             ),
 
-        function_declaration: ($) =>
-            seq($.function_signature, field("body", $._block)),
+        function_definition: ($) =>
+            seq($.function_declaration, field("body", $._block)),
 
         parameters: ($) => seq("(", optional($._parameters), ")"),
 
@@ -88,7 +96,7 @@ module.exports = grammar({
 
         let: ($) => "let",
 
-        struct: ($) =>
+        struct_declaration: ($) =>
             seq("struct", field("name", $._identifier), ":", repeat($.field), "end"),
 
         struct_instantiation: ($) =>
@@ -130,16 +138,16 @@ module.exports = grammar({
                 ),
             ),
 
-        enum: ($) =>
+        enum_declaration: ($) =>
             seq(
                 "enum",
                 field("name", $._identifier),
                 ":",
-                repeat($.enum_variant),
+                repeat($.enum_variant_declaration),
                 "end",
             ),
 
-        enum_variant: ($) =>
+        enum_variant_declaration: ($) =>
             seq(field("name", $._identifier), optional($.type_list)),
 
         type_list: ($) => seq("(", optional($._type_list), ")"),
@@ -177,7 +185,7 @@ module.exports = grammar({
                 $.variable_declaration,
                 $.break,
                 $.continue,
-                $.declaration,
+                $.declaration_or_definition,
             ),
 
         _block_content: ($) => choice($._statement, $._expression),

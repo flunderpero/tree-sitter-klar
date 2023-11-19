@@ -414,17 +414,7 @@
     "fields": {}
   },
   {
-    "type": "break",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "continue",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "declaration",
+    "type": "declaration_or_definition",
     "named": true,
     "fields": {},
     "children": {
@@ -432,22 +422,30 @@
       "required": true,
       "types": [
         {
-          "type": "enum",
+          "type": "enum_declaration",
           "named": true
         },
         {
-          "type": "function_declaration",
+          "type": "function_definition",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "impl_definition",
+          "named": true
+        },
+        {
+          "type": "struct_declaration",
+          "named": true
+        },
+        {
+          "type": "trait_definition",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "enum",
+    "type": "enum_declaration",
     "named": true,
     "fields": {
       "name": {
@@ -474,14 +472,14 @@
       "required": false,
       "types": [
         {
-          "type": "enum_variant",
+          "type": "enum_variant_declaration",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "enum_variant",
+    "type": "enum_variant_declaration",
     "named": true,
     "fields": {
       "name": {
@@ -515,7 +513,7 @@
     }
   },
   {
-    "type": "extern",
+    "type": "extern_declaration",
     "named": true,
     "fields": {},
     "children": {
@@ -527,11 +525,11 @@
           "named": true
         },
         {
-          "type": "function_signature",
+          "type": "function_declaration",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "struct_declaration",
           "named": true
         }
       ]
@@ -583,7 +581,7 @@
       "required": false,
       "types": [
         {
-          "type": "function_signature",
+          "type": "function_declaration",
           "named": true
         }
       ]
@@ -890,40 +888,6 @@
     "type": "function_declaration",
     "named": true,
     "fields": {
-      "body": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "end",
-            "named": false
-          },
-          {
-            "type": "multi_block",
-            "named": true
-          },
-          {
-            "type": "single_block",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "function_signature",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "function_signature",
-    "named": true,
-    "fields": {
       "name": {
         "multiple": false,
         "required": true,
@@ -959,6 +923,40 @@
       "types": [
         {
           "type": "parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_definition",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": false
+          },
+          {
+            "type": "multi_block",
+            "named": true
+          },
+          {
+            "type": "single_block",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "function_declaration",
           "named": true
         }
       ]
@@ -1115,7 +1113,7 @@
     }
   },
   {
-    "type": "impl",
+    "type": "impl_definition",
     "named": true,
     "fields": {
       "for": {
@@ -1160,7 +1158,7 @@
       "required": false,
       "types": [
         {
-          "type": "function_declaration",
+          "type": "function_definition",
           "named": true
         }
       ]
@@ -1599,7 +1597,7 @@
           "named": true
         },
         {
-          "type": "declaration",
+          "type": "declaration_or_definition",
           "named": true
         },
         {
@@ -1858,7 +1856,7 @@
           "named": true
         },
         {
-          "type": "declaration",
+          "type": "declaration_or_definition",
           "named": true
         },
         {
@@ -1945,19 +1943,11 @@
       "required": false,
       "types": [
         {
-          "type": "declaration",
+          "type": "declaration_or_definition",
           "named": true
         },
         {
-          "type": "extern",
-          "named": true
-        },
-        {
-          "type": "impl",
-          "named": true
-        },
-        {
-          "type": "trait",
+          "type": "extern_declaration",
           "named": true
         }
       ]
@@ -1979,7 +1969,7 @@
     }
   },
   {
-    "type": "struct",
+    "type": "struct_declaration",
     "named": true,
     "fields": {
       "name": {
@@ -2138,7 +2128,7 @@
     }
   },
   {
-    "type": "trait",
+    "type": "trait_definition",
     "named": true,
     "fields": {
       "name": {
@@ -2169,7 +2159,7 @@
           "named": true
         },
         {
-          "type": "function_signature",
+          "type": "function_definition",
           "named": true
         }
       ]
@@ -2781,7 +2771,7 @@
   },
   {
     "type": "break",
-    "named": false
+    "named": true
   },
   {
     "type": "comment",
@@ -2789,7 +2779,7 @@
   },
   {
     "type": "continue",
-    "named": false
+    "named": true
   },
   {
     "type": "else",
