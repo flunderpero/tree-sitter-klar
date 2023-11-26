@@ -13,7 +13,7 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block))))
+      (block))))
 
 ================================================================================
 Function definition with block and return statement
@@ -33,7 +33,7 @@ end
         (parameters)
         (type
           (type_identifier)))
-      (multi_block
+      (block
         (return)
         (int)))))
 
@@ -64,13 +64,11 @@ end
               (type_identifier))))
         (type
           (type_identifier)))
-      (multi_block
+      (block
         (return)
         (binary
-          (field_access
-            (identifier))
-          (field_access
-            (identifier)))))))
+          (identifier)
+          (identifier))))))
 
 ================================================================================
 Function definition with single expression
@@ -88,7 +86,7 @@ fn test() i32 => 42
         (parameters)
         (type
           (type_identifier)))
-      (single_block
+      (block
         (int)))))
 
 ================================================================================
@@ -115,12 +113,10 @@ fn test(x i32, y i32) i32 => x < y
               (type_identifier))))
         (type
           (type_identifier)))
-      (single_block
+      (block
         (binary
-          (field_access
-            (identifier))
-          (field_access
-            (identifier)))))))
+          (identifier)
+          (identifier))))))
 
 ================================================================================
 Functions inside functions
@@ -141,13 +137,13 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (declaration_or_definition
           (function_definition
             (function_declaration
               (identifier)
               (parameters))
-            (multi_block
+            (block
               (variable_declaration
                 (let)
                 (identifier)
@@ -171,7 +167,7 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (variable_declaration
           (let)
           (identifier)
@@ -182,38 +178,32 @@ end
                 (type_identifier)))
             (type
               (type_identifier))
-            (single_block
+            (block
               (binary
-                (field_access
-                  (identifier))
+                (identifier)
                 (int)))))
-        (field_access
-          (identifier))
+        (identifier)
         (assignment
-          (field_access
-            (identifier))
+          (identifier)
           (closure
             (closure_parameter
               (identifier))
-            (single_block
+            (block
               (binary
-                (field_access
-                  (identifier))
+                (identifier)
                 (int)))))
-        (field_access
-          (function_call
-            (identifier)
-            (function_call_args
-              (closure
-                (closure_parameter
+        (function_call
+          (identifier)
+          (function_call_args
+            (closure
+              (closure_parameter
+                (identifier)
+                (type
+                  (type_identifier)))
+              (block
+                (binary
                   (identifier)
-                  (type
-                    (type_identifier)))
-                (single_block
-                  (binary
-                    (field_access
-                      (identifier))
-                    (int)))))))))))
+                  (int))))))))))
 
 ================================================================================
 Function type
@@ -227,23 +217,24 @@ end
 
 (source_file
   (extern_declaration
-    (function_declaration
-      (identifier)
-      (parameters
-        (parameter
-          (identifier)
-          (type
-            (function_type
-              (type
-                (type_identifier))
-              (type
-                (type_identifier))))))
-      (type
-        (function_type
-          (type
-            (type_identifier))
-          (type
-            (type_identifier)))))))
+    (extern_body
+      (function_declaration
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type
+              (function_type
+                (type
+                  (type_identifier))
+                (type
+                  (type_identifier))))))
+        (type
+          (function_type
+            (type
+              (type_identifier))
+            (type
+              (type_identifier))))))))
 
 ================================================================================
 Function type with optional parameter
@@ -257,23 +248,24 @@ end
 
 (source_file
   (extern_declaration
-    (function_declaration
-      (identifier)
-      (parameters
-        (parameter
-          (identifier)
-          (type
-            (function_type
-              (type
-                (type_identifier))
-              (type
-                (type_identifier))))))
-      (type
-        (function_type
-          (type
-            (type_identifier))
-          (type
-            (type_identifier)))))))
+    (extern_body
+      (function_declaration
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type
+              (function_type
+                (type
+                  (type_identifier))
+                (type
+                  (type_identifier))))))
+        (type
+          (function_type
+            (type
+              (type_identifier))
+            (type
+              (type_identifier))))))))
 
 ================================================================================
 Function calls
@@ -292,23 +284,19 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
-        (field_access
-          (function_call
+      (block
+        (function_call
+          (identifier)
+          (function_call_args))
+        (function_call
+          (identifier)
+          (function_call_args
+            (string)
+            (int)
             (identifier)
-            (function_call_args)))
-        (field_access
-          (function_call
-            (identifier)
-            (function_call_args
-              (string)
-              (int)
-              (field_access
-                (identifier))
-              (binary
-                (field_access
-                  (identifier))
-                (int)))))))))
+            (binary
+              (identifier)
+              (int))))))))
 
 ================================================================================
 Array type and array literal
@@ -342,7 +330,7 @@ end
         (type
           (array_type
             (type_identifier))))
-      (single_block
+      (block
         (array_literal
           (int)
           (int)
@@ -352,7 +340,7 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (variable_declaration
           (let)
           (identifier)
@@ -398,10 +386,10 @@ end -- A trailing comment.
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
-        (return))
-      (comment)
-      (comment)))
+      (block
+        (return)
+        (comment)
+        (comment))))
   (comment))
 
 ================================================================================
@@ -421,7 +409,7 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (variable_declaration
           (let)
           (identifier)
@@ -452,7 +440,7 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (variable_declaration
           (let)
           (identifier)
@@ -475,7 +463,7 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (variable_declaration
           (let)
           (identifier)
@@ -487,8 +475,7 @@ end
           (identifier)
           (type
             (type_identifier))
-          (field_access
-            (type_identifier)))))))
+          (type_identifier))))))
 
 ================================================================================
 `let` without initialization.
@@ -507,7 +494,7 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (variable_declaration
           (let)
           (identifier)
@@ -536,7 +523,7 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (variable_declaration
           (mut)
           (identifier)
@@ -548,8 +535,7 @@ end
           (identifier)
           (type
             (type_identifier))
-          (field_access
-            (type_identifier)))))))
+          (type_identifier))))))
 
 ================================================================================
 `mut` without initialization.
@@ -568,7 +554,7 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (variable_declaration
           (mut)
           (identifier)
@@ -596,13 +582,12 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (variable_declaration
           (let)
           (identifier)
           (interpolated_string
-            (field_access
-              (identifier))
+            (identifier)
             (binary
               (int)
               (int))
@@ -630,13 +615,12 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (variable_declaration
           (let)
           (identifier)
           (interpolated_string
-            (field_access
-              (identifier))
+            (identifier)
             (binary
               (int)
               (int))
@@ -662,7 +646,7 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (return)
         (binary
           (binary
@@ -690,13 +674,12 @@ end
         (parameters)
         (type
           (type_identifier)))
-      (multi_block
+      (block
         (if_then_else
           (binary
-            (field_access
-              (identifier))
+            (identifier)
             (int))
-          (multi_block
+          (if_block
             (return)
             (bool)))))))
 
@@ -720,17 +703,17 @@ end
         (parameters)
         (type
           (type_identifier)))
-      (multi_block
+      (block
         (if_then_else
           (binary
-            (field_access
-              (identifier))
+            (identifier)
             (int))
-          (multi_block
+          (if_block
             (return)
             (bool))
-          (single_block
-            (return)))
+          (else_block
+            (block
+              (return))))
         (bool)))))
 
 ================================================================================
@@ -752,32 +735,28 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (variable_declaration
           (let)
           (identifier)
           (for
             (identifier)
-            (field_access
-              (identifier))
-            (single_block
+            (identifier)
+            (block
               (field_access
                 (identifier)
                 (identifier)))))
         (loop
-          (multi_block))
+          (block))
         (while
           (binary
-            (field_access
-              (identifier))
+            (identifier)
             (int))
-          (single_block
+          (block
             (assignment
-              (field_access
-                (identifier))
+              (identifier)
               (binary
-                (field_access
-                  (identifier))
+                (identifier)
                 (int)))))))))
 
 ================================================================================
@@ -802,31 +781,33 @@ end
   (declaration_or_definition
     (struct_declaration
       (type_identifier)
-      (field
-        (identifier)
-        (type
-          (type_identifier)))
-      (field
-        (identifier)
-        (type
-          (type_identifier)))
-      (field
-        (identifier)
-        (type
-          (type_identifier)))))
+      (struct_body
+        (field
+          (identifier)
+          (type
+            (type_identifier)))
+        (field
+          (identifier)
+          (type
+            (type_identifier)))
+        (field
+          (identifier)
+          (type
+            (type_identifier))))))
   (declaration_or_definition
     (function_definition
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (declaration_or_definition
           (struct_declaration
             (type_identifier)
-            (field
-              (identifier)
-              (type
-                (type_identifier)))))))))
+            (struct_body
+              (field
+                (identifier)
+                (type
+                  (type_identifier))))))))))
 
 ================================================================================
 Struct instantiation
@@ -843,12 +824,11 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (variable_declaration
           (let)
           (identifier)
-          (field_access
-            (type_identifier)))
+          (type_identifier))
         (struct_instantiation
           (struct_field_assignment
             (identifier)
@@ -895,10 +875,11 @@ end
       (type_identifier)
       (type_parameters
         (type_identifier))
-      (field
-        (identifier)
-        (type
-          (type_identifier)))))
+      (struct_body
+        (field
+          (identifier)
+          (type
+            (type_identifier))))))
   (declaration_or_definition
     (impl_definition
       (type_identifier)
@@ -907,27 +888,29 @@ end
       (type_identifier)
       (type_parameters
         (type_identifier))
-      (function_definition
-        (function_declaration
-          (identifier)
-          (parameters)
-          (type
-            (type_identifier)
-            (type_parameters
-              (type_identifier))))
-        (multi_block))))
+      (impl_body
+        (function_definition
+          (function_declaration
+            (identifier)
+            (parameters)
+            (type
+              (type_identifier)
+              (type_parameters
+                (type_identifier))))
+          (block)))))
   (declaration_or_definition
     (enum_declaration
       (type_identifier)
       (type_parameters
         (type_identifier))
-      (enum_variant_declaration
-        (type_identifier)
-        (type_list
-          (type
-            (type_identifier))))
-      (enum_variant_declaration
-        (type_identifier))))
+      (enum_body
+        (enum_variant_declaration
+          (type_identifier)
+          (type_list
+            (type
+              (type_identifier))))
+        (enum_variant_declaration
+          (type_identifier)))))
   (declaration_or_definition
     (trait_definition
       (type_identifier)
@@ -952,10 +935,9 @@ end
               (type_identifier))))
         (type
           (type_identifier)))
-      (multi_block
+      (block
         (return)
-        (field_access
-          (identifier))))))
+        (identifier)))))
 
 ================================================================================
 Implementation block
@@ -977,31 +959,29 @@ end
   (declaration_or_definition
     (impl_definition
       (type_identifier)
-      (function_definition
-        (function_declaration
-          (identifier)
-          (parameters
-            (parameter
-              (identifier)
-              (type
-                (type_identifier))))
-          (type
-            (type_identifier)))
-        (multi_block
-          (return)
-          (field_access
+      (impl_body
+        (function_definition
+          (function_declaration
+            (identifier)
+            (parameters
+              (parameter
+                (identifier)
+                (type
+                  (type_identifier))))
+            (type
+              (type_identifier)))
+          (block
+            (return)
             (function_call
               (type_identifier)
               (function_call_args
-                (field_access
-                  (identifier)))))))
-      (function_definition
-        (function_declaration
-          (identifier)
-          (parameters
-            (self)))
-        (multi_block
-          (field_access
+                (identifier)))))
+        (function_definition
+          (function_declaration
+            (identifier)
+            (parameters
+              (self)))
+          (block
             (function_call
               (identifier)
               (function_call_args
@@ -1029,27 +1009,27 @@ end
   (declaration_or_definition
     (trait_definition
       (type_identifier)
-      (function_declaration
-        (identifier)
-        (parameters
-          (self))
-        (type
-          (function_type
-            (type
-              (type_identifier))
-            (type
-              (type_identifier)))))
-      (function_definition
+      (trait_body
         (function_declaration
-          (ERROR
+          (identifier)
+          (parameters
+            (self))
+          (type
+            (function_type
+              (type
+                (type_identifier))
+              (type
+                (type_identifier)))))
+        (function_definition
+          (function_declaration
+            (ERROR
+              (identifier)
+              (parameters
+                (self)))
             (identifier)
             (parameters
               (self)))
-          (identifier)
-          (parameters
-            (self)))
-        (multi_block
-          (field_access
+          (block
             (function_call
               (identifier)
               (function_call_args
@@ -1072,13 +1052,13 @@ end
     (impl_definition
       (type_identifier)
       (type_identifier)
-      (function_definition
-        (function_declaration
-          (identifier)
-          (parameters
-            (self)))
-        (multi_block
-          (field_access
+      (impl_body
+        (function_definition
+          (function_declaration
+            (identifier)
+            (parameters
+              (self)))
+          (block
             (function_call
               (identifier)
               (function_call_args
@@ -1103,19 +1083,20 @@ end
   (declaration_or_definition
     (enum_declaration
       (type_identifier)
-      (enum_variant_declaration
-        (type_identifier))
-      (enum_variant_declaration
-        (type_identifier))
-      (enum_variant_declaration
-        (type_identifier))
-      (enum_variant_declaration
-        (type_identifier)
-        (type_list
-          (type
-            (type_identifier))
-          (type
-            (type_identifier)))))))
+      (enum_body
+        (enum_variant_declaration
+          (type_identifier))
+        (enum_variant_declaration
+          (type_identifier))
+        (enum_variant_declaration
+          (type_identifier))
+        (enum_variant_declaration
+          (type_identifier)
+          (type_list
+            (type
+              (type_identifier))
+            (type
+              (type_identifier))))))))
 
 ================================================================================
 Field access
@@ -1137,7 +1118,7 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (variable_declaration
           (let)
           (identifier)
@@ -1155,7 +1136,7 @@ end
               (identifier)
               (identifier))
             (string))
-          (multi_block
+          (if_block
             (return)
             (field_access
               (identifier)
@@ -1191,32 +1172,29 @@ end
       (function_declaration
         (identifier)
         (parameters))
-      (multi_block
+      (block
         (match
           (string)
           (match_arm
             (string)
-            (single_block
-              (field_access
-                (function_call
-                  (identifier)
-                  (function_call_args
-                    (string))))))
+            (block
+              (function_call
+                (identifier)
+                (function_call_args
+                  (string)))))
           (match_arm
             (string)
-            (single_block
-              (field_access
-                (function_call
-                  (identifier)
-                  (function_call_args
-                    (string))))))
+            (block
+              (function_call
+                (identifier)
+                (function_call_args
+                  (string)))))
           (match_default_arm
-            (single_block
-              (field_access
-                (function_call
-                  (identifier)
-                  (function_call_args
-                    (string)))))))
+            (block
+              (function_call
+                (identifier)
+                (function_call_args
+                  (string))))))
         (variable_declaration
           (let)
           (identifier)
@@ -1224,10 +1202,10 @@ end
             (string)
             (match_arm
               (string)
-              (single_block
+              (block
                 (string)))
             (match_default_arm
-              (single_block
+              (block
                 (string)))))))))
 
 ================================================================================
@@ -1252,41 +1230,45 @@ end
 
 (source_file
   (extern_declaration
-    (function_declaration
-      (identifier)
-      (parameters
-        (parameter
-          (identifier)
-          (type
-            (type_identifier))))
-      (type
-        (type_identifier)))
-    (function_declaration
-      (identifier)
-      (parameters
-        (parameter
-          (identifier)
-          (type
-            (type_identifier)))))
-    (struct_declaration
-      (type_identifier)
-      (field
-        (identifier)
-        (type
-          (type_identifier))))
-    (extern_impl
-      (type_identifier)
-      (function_declaration
-        (identifier)
-        (parameters)
-        (type
-          (type_identifier))))
-    (extern_impl
-      (type_identifier)
-      (type_identifier)
+    (extern_body
       (function_declaration
         (identifier)
         (parameters
-          (self))
+          (parameter
+            (identifier)
+            (type
+              (type_identifier))))
         (type
-          (type_identifier))))))
+          (type_identifier)))
+      (function_declaration
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type
+              (type_identifier)))))
+      (struct_declaration
+        (type_identifier)
+        (struct_body
+          (field
+            (identifier)
+            (type
+              (type_identifier)))))
+      (extern_impl
+        (type_identifier)
+        (extern_impl_body
+          (function_declaration
+            (identifier)
+            (parameters)
+            (type
+              (type_identifier)))))
+      (extern_impl
+        (type_identifier)
+        (type_identifier)
+        (extern_impl_body
+          (function_declaration
+            (identifier)
+            (parameters
+              (self))
+            (type
+              (type_identifier))))))))

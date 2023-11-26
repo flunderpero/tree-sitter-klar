@@ -444,6 +444,121 @@
     }
   },
   {
+    "type": "block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "closure",
+          "named": true
+        },
+        {
+          "type": "continue",
+          "named": true
+        },
+        {
+          "type": "declaration_or_definition",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if_then_else",
+          "named": true
+        },
+        {
+          "type": "int",
+          "named": true
+        },
+        {
+          "type": "interpolated_string",
+          "named": true
+        },
+        {
+          "type": "loop",
+          "named": true
+        },
+        {
+          "type": "match",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_instantiation",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        },
+        {
+          "type": "yield",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "bool",
     "named": true,
     "fields": {}
@@ -473,15 +588,11 @@
       "required": true,
       "types": [
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "closure_parameter",
-          "named": true
-        },
-        {
-          "type": "multi_block",
-          "named": true
-        },
-        {
-          "type": "single_block",
           "named": true
         }
       ]
@@ -558,6 +669,36 @@
     }
   },
   {
+    "type": "else_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "enum_variant_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "enum_declaration",
     "named": true,
     "fields": {
@@ -582,10 +723,10 @@
     },
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "enum_variant_declaration",
+          "type": "enum_body",
           "named": true
         },
         {
@@ -630,12 +771,12 @@
     }
   },
   {
-    "type": "extern_declaration",
+    "type": "extern_body",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "extern_impl",
@@ -647,6 +788,21 @@
         },
         {
           "type": "struct_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "extern_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "extern_body",
           "named": true
         }
       ]
@@ -694,8 +850,23 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
+      "types": [
+        {
+          "type": "extern_impl_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "extern_impl_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
       "types": [
         {
           "type": "function_declaration",
@@ -744,8 +915,12 @@
     "fields": {
       "field": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
+          {
+            "type": "function_call",
+            "named": true
+          },
           {
             "type": "identifier",
             "named": true
@@ -761,11 +936,19 @@
         ]
       },
       "target": {
-        "multiple": true,
-        "required": false,
+        "multiple": false,
+        "required": true,
         "types": [
           {
-            "type": "function_call",
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
             "named": true
           }
         ]
@@ -777,30 +960,12 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "end",
-            "named": false
-          },
-          {
-            "type": "multi_block",
-            "named": true
-          },
-          {
-            "type": "single_block",
-            "named": true
-          }
-        ]
-      },
-      "in": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "in",
-            "named": false
+            "type": "block",
+            "named": true
           }
         ]
       },
@@ -1096,19 +1261,11 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "end",
-            "named": false
-          },
-          {
-            "type": "multi_block",
-            "named": true
-          },
-          {
-            "type": "single_block",
+            "type": "block",
             "named": true
           }
         ]
@@ -1146,6 +1303,121 @@
       "types": [
         {
           "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "if_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "closure",
+          "named": true
+        },
+        {
+          "type": "continue",
+          "named": true
+        },
+        {
+          "type": "declaration_or_definition",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if_then_else",
+          "named": true
+        },
+        {
+          "type": "int",
+          "named": true
+        },
+        {
+          "type": "interpolated_string",
+          "named": true
+        },
+        {
+          "type": "loop",
+          "named": true
+        },
+        {
+          "type": "match",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_instantiation",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        },
+        {
+          "type": "yield",
           "named": true
         }
       ]
@@ -1244,39 +1516,36 @@
             "named": true
           }
         ]
-      },
-      "else_body": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "end",
-            "named": false
-          },
-          {
-            "type": "multi_block",
-            "named": true
-          },
-          {
-            "type": "single_block",
-            "named": true
-          }
-        ]
-      },
-      "then_body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "multi_block",
-            "named": true
-          },
-          {
-            "type": "single_block",
-            "named": true
-          }
-        ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "else_block",
+          "named": true
+        },
+        {
+          "type": "if_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "impl_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "function_definition",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1325,7 +1594,7 @@
       "required": false,
       "types": [
         {
-          "type": "function_definition",
+          "type": "impl_body",
           "named": true
         },
         {
@@ -1439,19 +1708,11 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "end",
-            "named": false
-          },
-          {
-            "type": "multi_block",
-            "named": true
-          },
-          {
-            "type": "single_block",
+            "type": "block",
             "named": true
           }
         ]
@@ -1668,11 +1929,7 @@
       "required": true,
       "types": [
         {
-          "type": "multi_block",
-          "named": true
-        },
-        {
-          "type": "single_block",
+          "type": "block",
           "named": true
         }
       ]
@@ -1687,126 +1944,7 @@
       "required": true,
       "types": [
         {
-          "type": "multi_block",
-          "named": true
-        },
-        {
-          "type": "single_block",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "multi_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "array_literal",
-          "named": true
-        },
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "binary",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "break",
-          "named": true
-        },
-        {
-          "type": "closure",
-          "named": true
-        },
-        {
-          "type": "continue",
-          "named": true
-        },
-        {
-          "type": "declaration_or_definition",
-          "named": true
-        },
-        {
-          "type": "field_access",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if_then_else",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "interpolated_string",
-          "named": true
-        },
-        {
-          "type": "loop",
-          "named": true
-        },
-        {
-          "type": "match",
-          "named": true
-        },
-        {
-          "type": "return",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "struct_instantiation",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "unary",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while",
-          "named": true
-        },
-        {
-          "type": "yield",
+          "type": "block",
           "named": true
         }
       ]
@@ -1965,121 +2103,6 @@
     }
   },
   {
-    "type": "single_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "array_literal",
-          "named": true
-        },
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "binary",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "break",
-          "named": true
-        },
-        {
-          "type": "closure",
-          "named": true
-        },
-        {
-          "type": "continue",
-          "named": true
-        },
-        {
-          "type": "declaration_or_definition",
-          "named": true
-        },
-        {
-          "type": "field_access",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if_then_else",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "interpolated_string",
-          "named": true
-        },
-        {
-          "type": "loop",
-          "named": true
-        },
-        {
-          "type": "match",
-          "named": true
-        },
-        {
-          "type": "return",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "struct_instantiation",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "unary",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while",
-          "named": true
-        },
-        {
-          "type": "yield",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "source_file",
     "named": true,
     "fields": {},
@@ -2114,6 +2137,21 @@
     }
   },
   {
+    "type": "struct_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "struct_declaration",
     "named": true,
     "fields": {
@@ -2141,7 +2179,7 @@
       "required": false,
       "types": [
         {
-          "type": "field",
+          "type": "struct_body",
           "named": true
         },
         {
@@ -2281,6 +2319,25 @@
     }
   },
   {
+    "type": "trait_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "function_declaration",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "trait_definition",
     "named": true,
     "fields": {
@@ -2308,11 +2365,7 @@
       "required": false,
       "types": [
         {
-          "type": "function_declaration",
-          "named": true
-        },
-        {
-          "type": "function_definition",
+          "type": "trait_body",
           "named": true
         },
         {
@@ -2641,19 +2694,11 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "end",
-            "named": false
-          },
-          {
-            "type": "multi_block",
-            "named": true
-          },
-          {
-            "type": "single_block",
+            "type": "block",
             "named": true
           }
         ]

@@ -13,14 +13,12 @@
 [
     (let)
     (mut)
-    "in"
     "yield"
     "struct"
     "extern"
     "enum"
     "impl"
     "trait"
-    "end"
 ] @keyword
 
 [
@@ -67,6 +65,7 @@
 
 [
     ","
+    "."
 ] @punctuation.delimiter
 
 [
@@ -96,8 +95,9 @@
 
 (function_definition
   [
-    (single_block "=>" @keyword.function) 
-    ((multi_block ":" @keyword.function) "end" @keyword.function)
+    (block "=>" @keyword.function) 
+    (block ":" @keyword.function) 
+    (block "end" @keyword.function) 
   ]
 )
 
@@ -107,79 +107,110 @@
 
 (closure
   [
-    (single_block "=>" @keyword.function) 
-    ((multi_block ":" @keyword.function) "end" @keyword.function)
+    (block "=>" @keyword.function) 
+    (block ":" @keyword.function) 
+    (block "end" @keyword.function) 
   ]
 )
 
 (parameter (identifier) @variable.parameter @parameter)
-
-(field_access 
-  field: (identifier) @field
-)
 
 (struct_instantiation (struct_field_assignment
   name: (identifier) @field
 ))
 
 (struct_declaration
-  name: (identifier) @type.definition
-  ":" @keyword
+  [
+    name: (identifier) @type.definition
+    ":" @keyword
+    "end" @keyword
+  ]
 )
 
 (enum_declaration
-  name: (identifier) @type.definition
-  ":" @keyword
-)
-
-(trait_definition
-  name: (identifier) @type.definition
-  ":" @keyword
-)
-
-
-(impl_definition
-  name: (identifier) @type
-  ":" @keyword
-)
-
-(impl_definition
-  for: (identifier) @type
-)
-
-(impl_definition
-  "for" @keyword
+  [
+    name: (identifier) @type.definition
+    ":" @keyword
+    "end" @keyword
+  ]
 )
 
 (enum_variant_declaration
   name: (identifier) @type.definition
 )
 
+
+(trait_definition
+  [
+    name: (identifier) @type.definition
+    ":" @keyword
+    "end" @keyword
+  ]
+)
+
+(impl_definition 
+  [
+    name: (identifier) @type
+    for: (identifier) @type
+    "for" @keyword
+    ":" @keyword
+    "end" @keyword
+  ]
+)
+
+(extern_declaration
+  "end" @keyword
+)
+
+(extern_impl
+  [
+    name: (identifier) @type
+    for: (identifier) @type
+    "for" @keyword
+    ":" @keyword
+    "end" @keyword
+  ]
+)
+
+
 (for
   [
-    (single_block "=>" @repeat) 
-    ((multi_block ":" @repeat) "end" @repeat)
+    "for" @repeat
+    "in" @repeat
+    (block "=>" @repeat) 
+    (block ":" @repeat) 
+    (block "end" @repeat) 
   ]
 )
 
 (while
   [
-    (single_block "=>" @repeat) 
-    ((multi_block ":" @repeat) "end" @repeat)
+    (block "=>" @repeat) 
+    (block ":" @repeat) 
+    (block "end" @repeat) 
   ]
 )
 
 (loop
   [
-    (single_block "=>" @repeat) 
-    ((multi_block ":" @repeat) "end" @repeat)
+    (block "=>" @repeat) 
+    (block ":" @repeat) 
+    (block "end" @repeat) 
   ]
 )
 
 (if_then_else
   [
-    (single_block "=>" @conditional) 
-    ((multi_block ":" @conditional) "end" @conditional)
+    "end" @conditional
+    (if_block "=>" @conditional)
+    (if_block ":" @conditional)
+    (else_block 
+      [ 
+        (block "=>" @conditional)
+        (block ":" @conditional)
+        (block "end" @conditional)
+      ]
+    )
   ]
 )
 
@@ -189,15 +220,17 @@
 
 (match_arm
   [
-    (single_block "=>" @conditional) 
-    ((multi_block ":" @conditional) "end" @conditional)
+    (block "=>" @conditional) 
+    (block ":" @conditional) 
+    (block "end" @conditional) 
   ]
 )
 
 (match_default_arm
   [
-    (single_block "=>" @conditional) 
-    ((multi_block ":" @conditional) "end" @conditional)
+    (block "=>" @conditional) 
+    (block ":" @conditional) 
+    (block "end" @conditional) 
   ]
 )
 
@@ -206,4 +239,3 @@
 (function_call
   name: (identifier) @function
 )
-

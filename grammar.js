@@ -38,9 +38,11 @@ module.exports = grammar({
                 field("name", $._identifier),
                 optional($.type_parameters),
                 ":",
-                repeat($.field),
+                optional($.struct_body),
                 "end",
             ),
+
+        struct_body: ($) => repeat1($.field),
 
         enum_declaration: ($) =>
             seq(
@@ -48,9 +50,11 @@ module.exports = grammar({
                 field("name", $._identifier),
                 optional($.type_parameters),
                 ":",
-                repeat($.enum_variant_declaration),
+                $.enum_body,
                 "end",
             ),
+
+        enum_body: ($) => repeat1($.enum_variant_declaration),
 
         enum_variant_declaration: ($) =>
             seq(field("name", $._identifier), optional($.type_list)),
@@ -64,9 +68,11 @@ module.exports = grammar({
                     seq("for", field("for", $._identifier), optional($.type_parameters)),
                 ),
                 ":",
-                repeat($.function_definition),
+                optional($.impl_body),
                 "end",
             ),
+
+        impl_body: ($) => repeat1($.function_definition),
 
         trait_definition: ($) =>
             seq(
@@ -74,18 +80,19 @@ module.exports = grammar({
                 field("name", $._identifier),
                 optional($.type_parameters),
                 ":",
-                optional(repeat(choice($.function_declaration, $.function_definition))),
+                optional($.trait_body),
                 "end",
             ),
 
+        trait_body: ($) =>
+            repeat1(choice($.function_declaration, $.function_definition)),
+
         extern_declaration: ($) =>
-            seq(
-                "extern",
-                ":",
-                repeat(
-                    choice($.function_declaration, $.struct_declaration, $.extern_impl),
-                ),
-                "end",
+            seq("extern", ":", optional($.extern_body), "end"),
+
+        extern_body: ($) =>
+            repeat1(
+                choice($.function_declaration, $.struct_declaration, $.extern_impl),
             ),
 
         extern_impl: ($) =>
@@ -94,9 +101,11 @@ module.exports = grammar({
                 field("name", $._identifier),
                 optional(seq("for", field("for", $._identifier))),
                 ":",
-                repeat($.function_declaration),
+                optional($.extern_impl_body),
                 "end",
             ),
+
+        extern_impl_body: ($) => repeat1($.function_declaration),
 
         function_declaration: ($) =>
             prec.right(
@@ -110,7 +119,7 @@ module.exports = grammar({
             ),
 
         function_definition: ($) =>
-            seq($.function_declaration, field("body", $._block)),
+            seq($.function_declaration, field("body", $.block)),
 
         parameters: ($) => seq("(", optional($._parameters), ")"),
 
@@ -126,7 +135,7 @@ module.exports = grammar({
                 optional(comma_sep($.closure_parameter)),
                 ")",
                 optional(field("return_type", $.type)),
-                $._block,
+                $.block,
             ),
 
         closure_parameter: ($) =>
@@ -186,30 +195,23 @@ module.exports = grammar({
 
         _type_list: ($) => comma_sep(choice($.self, $.type)),
 
-        _block: ($) => choice($.single_block, seq($.multi_block, "end")),
+        block: ($) => choice($._single_block, seq($._multi_block, "end")),
 
-        multi_block: ($) => seq(":", repeat($._block_content)),
+        _multi_block: ($) => seq(":", repeat($._block_content)),
 
-        single_block: ($) => seq("=>", $._block_content),
-
-        if_then_else: ($) =>
-            seq(
-                "if",
-                field("condition", $._expression),
-                field("then_body", $._block),
-                optional(seq("else", field("else_body", $._block))),
-                "end",
-            ),
+        _single_block: ($) => seq("=>", $._block_content),
 
         if_then_else: ($) =>
             seq(
                 "if",
                 field("condition", $._expression),
-                field("then_body", $._if_block),
-                choice(seq("else", field("else_body", $._block)), "end"),
+                $.if_block,
+                choice($.else_block, "end"),
             ),
 
-        _if_block: ($) => choice($.single_block, $.multi_block),
+        if_block: ($) => choice($._single_block, $._multi_block),
+
+        else_block: ($) => seq("else", $.block),
 
         _statement: ($) =>
             choice(
@@ -242,10 +244,13 @@ module.exports = grammar({
         field_access: ($) =>
             prec.right(
                 1,
-                dot_sep(
-                    field(
-                        "target",
-                        choice(field("field", $._identifier), $.function_call),
+                seq(
+                    field("target", $._identifier),
+                    dot_sep(
+                        field(
+                            "field",
+                            choice($._identifier, $.function_call),
+                        ),
                     ),
                 ),
             ),
@@ -294,19 +299,19 @@ module.exports = grammar({
                 $._expression,
             ),
 
-        loop: ($) => seq("loop", field("body", $._block)),
+        loop: ($) => seq("loop", field("body", $.block)),
 
         for: ($) =>
             seq(
                 "for",
                 field("variable", $._identifier),
-                field("in", "in"),
+                "in",
                 field("iterator", $._expression),
-                field("body", $._block),
+                field("body", $.block),
             ),
 
         while: ($) =>
-            seq("while", field("condition", $._expression), field("body", $._block)),
+            seq("while", field("condition", $._expression), field("body", $.block)),
 
         match: ($) =>
             seq(
@@ -318,9 +323,9 @@ module.exports = grammar({
                 "end",
             ),
 
-        match_arm: ($) => seq(field("pattern", $._expression), $._block),
+        match_arm: ($) => seq(field("pattern", $._expression), $.block),
 
-        match_default_arm: ($) => seq("else", $._block),
+        match_default_arm: ($) => seq("else", $.block),
 
         binary: ($) =>
             field(
@@ -492,5 +497,9 @@ function comma_sep(rule) {
 }
 
 function dot_sep(rule) {
-    return seq(rule, repeat(seq(".", rule)));
+    return seq(repeat1(seq(".", rule)));
+}
+
+function repeat1(rule) {
+    return seq(rule, repeat(rule));
 }
