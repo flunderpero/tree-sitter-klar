@@ -198,6 +198,10 @@
           "named": true
         },
         {
+          "type": "trait_definition",
+          "named": true
+        },
+        {
           "type": "variable_declaration",
           "named": true
         }
@@ -595,7 +599,7 @@
       },
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "other_identifier",
@@ -605,7 +609,7 @@
       },
       "type": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "type",
@@ -613,6 +617,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "self",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -699,6 +713,10 @@
           },
           {
             "type": "struct_declaration",
+            "named": true
+          },
+          {
+            "type": "trait_definition",
             "named": true
           },
           {
@@ -833,6 +851,10 @@
         },
         {
           "type": "struct_declaration",
+          "named": true
+        },
+        {
+          "type": "trait_definition",
           "named": true
         }
       ]
@@ -974,6 +996,36 @@
         "types": [
           {
             "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "trait_definition",
+    "named": true,
+    "fields": {
+      "methods": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "function_declaration",
+            "named": true
+          },
+          {
+            "type": "function_definition",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
             "named": true
           }
         ]
@@ -1309,11 +1361,19 @@
     "named": false
   },
   {
+    "type": "self",
+    "named": true
+  },
+  {
     "type": "str",
     "named": false
   },
   {
     "type": "struct",
+    "named": false
+  },
+  {
+    "type": "trait",
     "named": false
   },
   {

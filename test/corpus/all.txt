@@ -1051,11 +1051,14 @@ end
         (type_identifier)))
     (enum_variant
       (type_identifier)))
-  (ERROR
-    (UNEXPECTED 't')
-    (type_identifier)
-    (type_identifier)
-    (type_identifier))
+  (trait_definition
+    (type
+      (type_identifier)
+      (type_parameters
+        (type
+          (type_identifier))
+        (type
+          (type_identifier)))))
   (function_definition
     (function_declaration
       (other_identifier)
@@ -1137,8 +1140,8 @@ end
   (function_definition
     (function_declaration
       (other_identifier)
-      (ERROR
-        (other_identifier)))
+      (function_parameter
+        (self)))
     (block
       (expression
         (call
@@ -1153,11 +1156,11 @@ end
   (ERROR))
 
 ================================================================================
-Trait (TODO: Function signatures without return type are note parsed correctly)
+Traits
 ================================================================================
 
 trait Greeter:
-    fn greet_every_one(self) fn(str) str
+    fn greet_every_one(self) (fn(str) str)
 
     fn greet(self) 
 
@@ -1169,26 +1172,62 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (ERROR
-    (UNEXPECTED 't')
-    (type_identifier)
-    (other_identifier)
-    (other_identifier)
-    (other_identifier)
-    (other_identifier))
-  (function_definition
+  (trait_definition
+    (type
+      (type_identifier))
     (function_declaration
       (other_identifier)
-      (ERROR
-        (other_identifier)))
+      (function_parameter
+        (self))
+      (type
+        (function_type
+          (type
+            (builtin_type))
+          (type
+            (builtin_type)))))
+    (function_declaration
+      (other_identifier)
+      (function_parameter
+        (self)))
+    (function_definition
+      (function_declaration
+        (other_identifier)
+        (function_parameter
+          (self)))
+      (block
+        (expression
+          (call
+            (expression
+              (other_identifier))
+            (expression
+              (string_literal))))))))
+
+================================================================================
+Traits inside functions.
+================================================================================
+
+fn test():
+    trait Greeter:
+        fn greet(self) str 
+    end
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier))
     (block
-      (expression
-        (call
-          (expression
-            (other_identifier))
-          (expression
-            (string_literal))))))
-  (ERROR))
+      (trait_definition
+        (type
+          (type_identifier))
+        (function_declaration
+          (other_identifier)
+          (function_parameter
+            (self))
+          (type
+            (builtin_type)))))))
 
 ================================================================================
 Trait implementation
@@ -1211,8 +1250,8 @@ end
   (function_definition
     (function_declaration
       (other_identifier)
-      (ERROR
-        (other_identifier)))
+      (function_parameter
+        (self)))
     (block
       (expression
         (call
@@ -1588,10 +1627,10 @@ end
     (type_identifier)
     (UNEXPECTED 'o')
     (type_identifier)
-    (other_identifier)
-    (function_parameter
+    (function_declaration
       (other_identifier)
-      (ERROR)
+      (function_parameter
+        (self))
       (type
         (builtin_type)))))
 

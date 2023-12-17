@@ -27,6 +27,7 @@ module.exports = grammar({
                     $.struct_declaration,
                     $.enum_declaration,
                     $.extern_declaration,
+                    $.trait_definition,
                 ),
             ),
 
@@ -72,8 +73,7 @@ module.exports = grammar({
         function_parameter: ($) =>
             seq(
                 optional(field("mutable", "mut")),
-                field("name", $.other_identifier),
-                field("type", $.type),
+                choice($.self, seq(field("name", $.other_identifier), field("type", $.type))),
             ),
 
         variable_declaration: ($) =>
@@ -111,6 +111,18 @@ module.exports = grammar({
                 field("type", optional($.type)),
             ),
 
+        trait_definition: ($) =>
+            seq(
+                "trait",
+                field("name", $.type),
+                ":",
+                field(
+                    "methods",
+                    optional(repeat(choice($.function_declaration, $.function_definition))),
+                ),
+                "end",
+            ),
+
         block: ($) => choice(seq(":", repeat($._block_part), "end"), seq("=>", $._block_part)),
 
         _block_part: ($) =>
@@ -118,6 +130,7 @@ module.exports = grammar({
                 $.statement,
                 $.expression,
                 $.struct_declaration,
+                $.trait_definition,
                 $.function_definition,
                 $.variable_declaration,
             ),
@@ -402,6 +415,8 @@ module.exports = grammar({
                     optional("?"),
                 ),
             ),
+
+        self: ($) => "self",
 
         array_type: ($) => seq("[", field("type", $.type), "]"),
 
