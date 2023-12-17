@@ -4,6 +4,7 @@
 (comment) @comment
 (int) @number
 (string) @string
+(char) @character
 (escape_sequence) @string.escape
 (bool) @boolean
 (self) @variable.builtin
@@ -219,14 +220,6 @@
 )
 
 (match_arm
-  [
-    (block "=>" @conditional) 
-    (block ":" @conditional) 
-    (block "end" @conditional) 
-  ]
-)
-
-(match_default_arm
   [
     (block "=>" @conditional) 
     (block ":" @conditional) 

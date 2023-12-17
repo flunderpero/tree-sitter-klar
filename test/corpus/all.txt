@@ -1,4 +1,64 @@
 ================================================================================
+Types in declarations
+================================================================================
+
+fn test(
+    a i32,
+    b bool,
+    c str,
+    d char,
+    e Option<i32>,
+    f Option<Result<i32, Option<str>>>
+):
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (function_parameter
+        (other_identifier)
+        (type
+          (builtin_type)))
+      (function_parameter
+        (other_identifier)
+        (type
+          (builtin_type)))
+      (function_parameter
+        (other_identifier)
+        (type
+          (builtin_type)))
+      (function_parameter
+        (other_identifier)
+        (type
+          (builtin_type)))
+      (function_parameter
+        (other_identifier)
+        (type
+          (type_identifier)
+          (type_parameters
+            (type
+              (builtin_type)))))
+      (function_parameter
+        (other_identifier)
+        (type
+          (type_identifier)
+          (type_parameters
+            (type
+              (type_identifier)
+              (type_parameters
+                (type
+                  (builtin_type))
+                (type
+                  (type_identifier)
+                  (type_parameters
+                    (type
+                      (builtin_type))))))))))
+    (block)))
+
+================================================================================
 Function definition with block
 ================================================================================
 
@@ -8,67 +68,64 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block))))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block)))
 
 ================================================================================
-Function definition with block and return statement
+Generic function.
 ================================================================================
 
-fn test() i32:
-    return 42
+fn test<T>() i32:
 end
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters)
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (type_parameters
         (type
           (type_identifier)))
-      (block
-        (return)
-        (int)))))
+      (type
+        (builtin_type)))
+    (block)))
 
 ================================================================================
-Function definition with parameters, block, and binary expression return statement
+Function definition with mutable and optional parameters and binary expression return statement
 ================================================================================
 
 fn test(mut x i32, y i32?) i32?:
-    return x + y
+    return x < y
 end
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters
-          (mut)
-          (parameter
-            (identifier)
-            (type
-              (type_identifier)))
-          (parameter
-            (identifier)
-            (type
-              (type_identifier))))
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (function_parameter
+        (other_identifier)
         (type
-          (type_identifier)))
-      (block
-        (return)
-        (binary
-          (identifier)
-          (identifier))))))
+          (builtin_type)))
+      (function_parameter
+        (other_identifier)
+        (type
+          (builtin_type)))
+      (type
+        (builtin_type)))
+    (block
+      (statement
+        (return_statement
+          (expression
+            (binary
+              (expression
+                (other_identifier))
+              (expression
+                (other_identifier)))))))))
 
 ================================================================================
 Function definition with single expression
@@ -79,44 +136,14 @@ fn test() i32 => 42
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters)
-        (type
-          (type_identifier)))
-      (block
-        (int)))))
-
-================================================================================
-Function definition with parameters and single expression
-================================================================================
-
-fn test(x i32, y i32) i32 => x < y
-
---------------------------------------------------------------------------------
-
-(source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters
-          (parameter
-            (identifier)
-            (type
-              (type_identifier)))
-          (parameter
-            (identifier)
-            (type
-              (type_identifier))))
-        (type
-          (type_identifier)))
-      (block
-        (binary
-          (identifier)
-          (identifier))))))
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (type
+        (builtin_type)))
+    (block
+      (expression
+        (int_literal)))))
 
 ================================================================================
 Functions inside functions
@@ -132,25 +159,21 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (declaration_or_definition
-          (function_definition
-            (function_declaration
-              (identifier)
-              (parameters))
-            (block
-              (variable_declaration
-                (let)
-                (identifier)
-                (int)))))))))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (function_definition
+        (function_declaration
+          (other_identifier))
+        (block
+          (variable_declaration
+            (other_identifier)
+            (expression
+              (int_literal))))))))
 
 ================================================================================
-Closures
+Anonymous functions (lambdas).
 ================================================================================
 
 fn main():
@@ -162,79 +185,83 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (variable_declaration
-          (let)
-          (identifier)
-          (closure
-            (closure_parameter
-              (identifier)
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (expression
+          (lambda_definition
+            (lambda_parameter
+              (other_identifier)
               (type
-                (type_identifier)))
+                (builtin_type)))
             (type
-              (type_identifier))
+              (builtin_type))
             (block
-              (binary
-                (identifier)
-                (int)))))
-        (identifier)
-        (assignment
-          (identifier)
-          (closure
-            (closure_parameter
-              (identifier))
-            (block
-              (binary
-                (identifier)
-                (int)))))
-        (function_call
-          (identifier)
-          (function_call_args
-            (closure
-              (closure_parameter
-                (identifier)
-                (type
-                  (type_identifier)))
-              (block
+              (expression
                 (binary
-                  (identifier)
-                  (int))))))))))
+                  (expression
+                    (other_identifier))
+                  (expression
+                    (int_literal))))))))
+      (expression
+        (other_identifier))
+      (statement
+        (assignment_statement
+          (other_identifier)
+          (expression
+            (lambda_definition
+              (lambda_parameter
+                (other_identifier))
+              (block
+                (expression
+                  (binary
+                    (expression
+                      (other_identifier))
+                    (expression
+                      (int_literal)))))))))
+      (expression
+        (call
+          (expression
+            (other_identifier))
+          (expression
+            (lambda_definition
+              (lambda_parameter
+                (other_identifier)
+                (type
+                  (builtin_type)))
+              (block
+                (expression
+                  (binary
+                    (expression
+                      (other_identifier))
+                    (expression
+                      (int_literal))))))))))))
 
 ================================================================================
 Function type
 ================================================================================
 
-extern:
-    fn a(f fn(str) i32) fn(str) i32
+fn test(func (fn(i32) i32)):
 end
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (extern_declaration
-    (extern_body
-      (function_declaration
-        (identifier)
-        (parameters
-          (parameter
-            (identifier)
-            (type
-              (function_type
-                (type
-                  (type_identifier))
-                (type
-                  (type_identifier))))))
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (function_parameter
+        (other_identifier)
         (type
           (function_type
             (type
-              (type_identifier))
+              (builtin_type))
             (type
-              (type_identifier))))))))
+              (builtin_type))))))
+    (block)))
 
 ================================================================================
 Function type with optional parameter
@@ -248,55 +275,79 @@ end
 
 (source_file
   (extern_declaration
-    (extern_body
-      (function_declaration
-        (identifier)
-        (parameters
-          (parameter
-            (identifier)
-            (type
-              (function_type
-                (type
-                  (type_identifier))
-                (type
-                  (type_identifier))))))
+    (function_declaration
+      (other_identifier)
+      (function_parameter
+        (other_identifier)
         (type
           (function_type
             (type
-              (type_identifier))
+              (builtin_type))
             (type
-              (type_identifier))))))))
+              (builtin_type)))))
+      (type
+        (function_type
+          (type
+            (builtin_type))
+          (type
+            (builtin_type)))))))
 
 ================================================================================
-Function calls
+Calls (function call, method call, enum instantiation)
 ================================================================================
 
 fn main():
     test()
     test("string", 42, some_variable, a == 10)
+    test<i32>(1)
+    Foo<i32>(1)
 end
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (function_call
-          (identifier)
-          (function_call_args))
-        (function_call
-          (identifier)
-          (function_call_args
-            (string)
-            (int)
-            (identifier)
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (expression
+        (call
+          (expression
+            (other_identifier))))
+      (expression
+        (call
+          (expression
+            (other_identifier))
+          (expression
+            (string_literal))
+          (expression
+            (int_literal))
+          (expression
+            (other_identifier))
+          (expression
             (binary
-              (identifier)
-              (int))))))))
+              (expression
+                (other_identifier))
+              (expression
+                (int_literal))))))
+      (expression
+        (call
+          (expression
+            (other_identifier))
+          (type_parameters
+            (type
+              (builtin_type)))
+          (expression
+            (int_literal))))
+      (expression
+        (call
+          (type
+            (type_identifier)
+            (type_parameters
+              (type
+                (builtin_type))))
+          (expression
+            (int_literal)))))))
 
 ================================================================================
 Array type and array literal
@@ -312,199 +363,278 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters
-          (parameter
-            (identifier)
-            (type
-              (array_type
-                (type_identifier))))
-          (parameter
-            (identifier)
-            (type
-              (array_type
-                (type_identifier)))))
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (function_parameter
+        (other_identifier)
         (type
           (array_type
-            (type_identifier))))
-      (block
+            (type
+              (builtin_type)))))
+      (function_parameter
+        (other_identifier)
+        (type
+          (array_type
+            (type
+              (type_identifier)))))
+      (type
+        (array_type
+          (type
+            (builtin_type)))))
+    (block
+      (expression
         (array_literal
-          (int)
-          (int)
-          (int)))))
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (variable_declaration
-          (let)
-          (identifier)
-          (type
-            (array_type
-              (type_identifier)))
-          (array_literal))
-        (variable_declaration
-          (let)
-          (identifier)
-          (type
-            (array_type
+          (expression
+            (int_literal))
+          (expression
+            (int_literal))
+          (expression
+            (int_literal))))))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (type
+          (array_type
+            (type
+              (builtin_type))))
+        (expression
+          (array_literal)))
+      (variable_declaration
+        (other_identifier)
+        (type
+          (array_type
+            (type
               (array_type
-                (type_identifier))))
+                (type
+                  (builtin_type))))))
+        (expression
           (array_literal
-            (array_literal
-              (string)
-              (string))
-            (array_literal
-              (string)
-              (string))))))))
+            (expression
+              (array_literal
+                (expression
+                  (string_literal))
+                (expression
+                  (string_literal))))
+            (expression
+              (array_literal
+                (expression
+                  (string_literal))
+                (expression
+                  (string_literal))))))))))
 
 ================================================================================
 Comments
 ================================================================================
 
--- A line comment.
 fn test():
-    return -- A trailing comment.
+    some_expression
+    -- A line comment.
+    some_expression -- A trailing comment.
     --- "aaa"
         A block comment.
-        - Make sure we can put one or two dashes in a block comment.
-        -- -- -- --
+        - Make sure we can add a dash or two: -- 
     ---
-end -- A trailing comment.
+    some_expression
+    --- Another block comment.
+    ---
+    some_expression
+end
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (comment)
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (return)
-        (comment)
-        (comment))))
-  (comment))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (expression
+        (other_identifier))
+      (comment)
+      (expression
+        (other_identifier))
+      (comment)
+      (comment)
+      (expression
+        (other_identifier))
+      (comment)
+      (expression
+        (other_identifier)))))
+
+================================================================================
+Char literal.
+================================================================================
+
+fn test():
+    let a = 'a'
+    let b = '\n'
+    let c = '\''
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (expression
+          (char_literal)))
+      (variable_declaration
+        (other_identifier)
+        (expression
+          (char_literal
+            (escape_sequence))))
+      (variable_declaration
+        (other_identifier)
+        (expression
+          (char_literal
+            (escape_sequence)))))))
+
+================================================================================
+Tuple literal.
+================================================================================
+
+fn test():
+    let c = (1,)
+    let a = (1, 2, 3, Test{a: 1}, function_call())
+    let b = ("a", 'b', EnumVariant(3), [1, 2])
+end
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (expression
+          (tuple_literal
+            (expression
+              (int_literal)))))
+      (variable_declaration
+        (other_identifier)
+        (expression
+          (tuple_literal
+            (expression
+              (int_literal))
+            (expression
+              (int_literal))
+            (expression
+              (int_literal))
+            (expression
+              (struct_instantiation
+                (type
+                  (type_identifier))
+                (struct_parameter
+                  (other_identifier)
+                  (expression
+                    (int_literal)))))
+            (expression
+              (call
+                (expression
+                  (other_identifier)))))))
+      (variable_declaration
+        (other_identifier)
+        (expression
+          (tuple_literal
+            (expression
+              (string_literal))
+            (expression
+              (char_literal))
+            (expression
+              (call
+                (type
+                  (type_identifier))
+                (expression
+                  (int_literal))))
+            (expression
+              (array_literal
+                (expression
+                  (int_literal))
+                (expression
+                  (int_literal))))))))))
 
 ================================================================================
 String literal.
 ================================================================================
 
 fn test():
-    let a = "some string"
-    let b = "\"escape\"\nsequences\\"
+    "some string"
+    "\"escape\"\nsequences\\"
 end
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (variable_declaration
-          (let)
-          (identifier)
-          (string))
-        (variable_declaration
-          (let)
-          (identifier)
-          (string
-            (escape_sequence)
-            (escape_sequence)
-            (escape_sequence)
-            (escape_sequence)))))))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (expression
+        (string_literal))
+      (expression
+        (string_literal
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence))))))
 
 ================================================================================
 Multiline string literal.
 ================================================================================
 
 fn test():
-    let a = """some " "" 
+    """some " "" 
+    \n
     multiline string"""
 end
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (variable_declaration
-          (let)
-          (identifier)
-          (string))))))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (expression
+        (string_literal
+          (escape_sequence))))))
 
 ================================================================================
 Optional type in let.
 ================================================================================
 
 fn test():
-    let a str? = "some string"
+    let a str = "some string"
     let b str? = None
 end
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (variable_declaration
-          (let)
-          (identifier)
-          (type
-            (type_identifier))
-          (string))
-        (variable_declaration
-          (let)
-          (identifier)
-          (type
-            (type_identifier))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (type
+          (builtin_type))
+        (expression
+          (string_literal)))
+      (ERROR
+        (other_identifier)
+        (type
+          (builtin_type))
+        (type
           (type_identifier))))))
-
-================================================================================
-`let` without initialization.
-================================================================================
-
-fn test():
-    let a str
-    let b str?
-end
-
---------------------------------------------------------------------------------
-
-(source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (variable_declaration
-          (let)
-          (identifier)
-          (type
-            (type_identifier)))
-        (variable_declaration
-          (let)
-          (identifier)
-          (type
-            (type_identifier)))))))
 
 ================================================================================
 Variable declaration with `mut`.
@@ -518,23 +648,21 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (variable_declaration
-          (mut)
-          (identifier)
-          (type
-            (type_identifier))
-          (string))
-        (variable_declaration
-          (mut)
-          (identifier)
-          (type
-            (type_identifier))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (type
+          (builtin_type))
+        (expression
+          (string_literal)))
+      (ERROR
+        (other_identifier)
+        (type
+          (builtin_type))
+        (type
           (type_identifier))))))
 
 ================================================================================
@@ -549,22 +677,19 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (variable_declaration
-          (mut)
-          (identifier)
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (ERROR
+        (ERROR
+          (other_identifier)
           (type
-            (type_identifier)))
-        (variable_declaration
-          (mut)
-          (identifier)
-          (type
-            (type_identifier)))))))
+            (builtin_type))
+          (other_identifier))
+        (other_identifier)
+        (type
+          (builtin_type))))))
 
 ================================================================================
 String interpolation.
@@ -577,25 +702,18 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (variable_declaration
-          (let)
-          (identifier)
-          (interpolated_string
-            (identifier)
-            (binary
-              (int)
-              (int))
-            (field_access
-              (identifier)
-              (identifier))
-            (escape_sequence)
-            (escape_sequence)))))))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (expression
+          (other_identifier)))
+      (expression
+        (string_literal
+          (escape_sequence)
+          (escape_sequence))))))
 
 ================================================================================
 Multiline string interpolation.
@@ -610,49 +728,56 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (variable_declaration
-          (let)
-          (identifier)
-          (interpolated_string
-            (identifier)
-            (binary
-              (int)
-              (int))
-            (field_access
-              (identifier)
-              (identifier))
-            (escape_sequence)
-            (escape_sequence)))))))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (expression
+          (other_identifier)))
+      (expression
+        (string_literal
+          (escape_sequence)
+          (escape_sequence))))))
 
 ================================================================================
 Binary expression.
 ================================================================================
 
 fn test():
-    return 42 + 7 - 3
+    42 + 7 - 3 * 2 / 1 < 10
 end
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (return)
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (expression
         (binary
-          (binary
-            (int)
-            (int))
-          (int))))))
+          (expression
+            (binary
+              (expression
+                (binary
+                  (expression
+                    (int_literal))
+                  (expression
+                    (int_literal))))
+              (expression
+                (binary
+                  (expression
+                    (binary
+                      (expression
+                        (int_literal))
+                      (expression
+                        (int_literal))))
+                  (expression
+                    (int_literal))))))
+          (expression
+            (int_literal)))))))
 
 ================================================================================
 Conditional: if then
@@ -667,21 +792,26 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters)
-        (type
-          (type_identifier)))
-      (block
-        (if_then_else
-          (binary
-            (identifier)
-            (int))
-          (if_block
-            (return)
-            (bool)))))))
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (type
+        (builtin_type)))
+    (block
+      (expression
+        (other_identifier))
+      (expression
+        (binary
+          (expression
+            (other_identifier))
+          (expression
+            (int_literal))))
+      (ERROR)
+      (statement
+        (return_statement
+          (expression
+            (other_identifier))))))
+  (ERROR))
 
 ================================================================================
 Conditional: if then else
@@ -696,25 +826,34 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters)
-        (type
-          (type_identifier)))
-      (block
-        (if_then_else
-          (binary
-            (identifier)
-            (int))
-          (if_block
-            (return)
-            (bool))
-          (else_block
-            (block
-              (return))))
-        (bool)))))
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (type
+        (builtin_type)))
+    (block
+      (expression
+        (other_identifier))
+      (expression
+        (binary
+          (expression
+            (other_identifier))
+          (expression
+            (int_literal))))
+      (ERROR)
+      (statement
+        (return_statement
+          (expression
+            (other_identifier))))
+      (expression
+        (binary
+          (expression
+            (other_identifier))
+          (ERROR)
+          (expression
+            (other_identifier))))
+      (expression
+        (other_identifier)))))
 
 ================================================================================
 Loops
@@ -730,34 +869,39 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (variable_declaration
-          (let)
-          (identifier)
-          (for
-            (identifier)
-            (identifier)
-            (block
-              (field_access
-                (identifier)
-                (identifier)))))
-        (loop
-          (block))
-        (while
-          (binary
-            (identifier)
-            (int))
-          (block
-            (assignment
-              (identifier)
-              (binary
-                (identifier)
-                (int)))))))))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (expression
+          (other_identifier)))
+      (expression
+        (other_identifier))
+      (expression
+        (other_identifier))
+      (expression
+        (binary
+          (expression
+            (other_identifier))
+          (ERROR)
+          (expression
+            (other_identifier))))
+      (ERROR
+        (UNEXPECTED '.'))
+      (expression
+        (other_identifier))
+      (expression
+        (other_identifier))
+      (ERROR)))
+  (ERROR
+    (other_identifier)
+    (other_identifier)
+    (int_literal)
+    (other_identifier)
+    (other_identifier)
+    (int_literal)))
 
 ================================================================================
 Structs
@@ -778,36 +922,32 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (struct_declaration
-      (type_identifier)
-      (struct_body
-        (field
-          (identifier)
+  (struct_declaration
+    (type
+      (type_identifier))
+    (struct_field
+      (other_identifier)
+      (type
+        (builtin_type)))
+    (struct_field
+      (other_identifier)
+      (type
+        (builtin_type)))
+    (struct_field
+      (other_identifier)
+      (type
+        (builtin_type))))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (struct_declaration
+        (type
+          (type_identifier))
+        (struct_field
+          (other_identifier)
           (type
-            (type_identifier)))
-        (field
-          (identifier)
-          (type
-            (type_identifier)))
-        (field
-          (identifier)
-          (type
-            (type_identifier))))))
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (declaration_or_definition
-          (struct_declaration
-            (type_identifier)
-            (struct_body
-              (field
-                (identifier)
-                (type
-                  (type_identifier))))))))))
+            (builtin_type)))))))
 
 ================================================================================
 Struct instantiation
@@ -819,28 +959,30 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (variable_declaration
-          (let)
-          (identifier)
-          (type_identifier))
-        (struct_instantiation
-          (struct_field_assignment
-            (identifier)
-            (string))
-          (struct_field_assignment
-            (identifier))
-          (struct_field_assignment
-            (identifier)
-            (struct_instantiation
-              (struct_field_assignment
-                (identifier)
-                (string)))))))))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (expression
+          (struct_instantiation
+            (type
+              (type_identifier))
+            (struct_parameter
+              (other_identifier)
+              (expression
+                (string_literal)))
+            (struct_parameter
+              (other_identifier))
+            (struct_parameter
+              (other_identifier)
+              (expression
+                (struct_instantiation
+                  (struct_parameter
+                    (other_identifier)
+                    (expression
+                      (string_literal))))))))))))
 
 ================================================================================
 Generics
@@ -864,80 +1006,87 @@ trait Foo<A, B>:
 end
 
 fn foo<T, U>(a T, b U) T:
+    let a = Option<i32>.Some(1)
     return a
 end
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (struct_declaration
+  (struct_declaration
+    (type
       (type_identifier)
       (type_parameters
-        (type_identifier))
-      (struct_body
-        (field
-          (identifier)
+        (type
+          (type_identifier))))
+    (struct_field
+      (other_identifier)
+      (type
+        (type_identifier))))
+  (ERROR
+    (other_identifier)
+    (type_identifier)
+    (type_identifier)
+    (other_identifier)
+    (type_identifier)
+    (type_identifier))
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (type
+        (type_identifier)
+        (type_parameters
           (type
-            (type_identifier))))))
-  (declaration_or_definition
-    (impl_definition
-      (type_identifier)
+            (type_identifier)))))
+    (block))
+  (ERROR
+    (other_identifier)
+    (type_identifier)
+    (type_identifier)
+    (type_identifier)
+    (type_identifier)
+    (type_identifier)
+    (other_identifier)
+    (type_identifier)
+    (type_identifier)
+    (type_identifier))
+  (function_definition
+    (function_declaration
+      (other_identifier)
       (type_parameters
-        (type_identifier))
-      (type_identifier)
-      (type_parameters
-        (type_identifier))
-      (impl_body
-        (function_definition
-          (function_declaration
-            (identifier)
-            (parameters)
+        (type
+          (type_identifier))
+        (type
+          (type_identifier)))
+      (function_parameter
+        (other_identifier)
+        (type
+          (type_identifier)))
+      (function_parameter
+        (other_identifier)
+        (type
+          (type_identifier)))
+      (type
+        (type_identifier)))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (expression
+          (call
             (type
               (type_identifier)
               (type_parameters
-                (type_identifier))))
-          (block)))))
-  (declaration_or_definition
-    (enum_declaration
-      (type_identifier)
-      (type_parameters
-        (type_identifier))
-      (enum_body
-        (enum_variant_declaration
-          (type_identifier)
-          (type_list
-            (type
-              (type_identifier))))
-        (enum_variant_declaration
-          (type_identifier)))))
-  (declaration_or_definition
-    (trait_definition
-      (type_identifier)
-      (type_parameters
-        (type_identifier)
-        (type_identifier))))
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (type_parameters
-          (type_identifier)
-          (type_identifier))
-        (parameters
-          (parameter
-            (identifier)
-            (type
-              (type_identifier)))
-          (parameter
-            (identifier)
-            (type
-              (type_identifier))))
-        (type
-          (type_identifier)))
-      (block
-        (return)
-        (identifier)))))
+                (type
+                  (builtin_type))))
+            (ERROR
+              (UNEXPECTED '.')
+              (type_identifier))
+            (expression
+              (int_literal)))))
+      (statement
+        (return_statement
+          (expression
+            (other_identifier)))))))
 
 ================================================================================
 Implementation block
@@ -956,38 +1105,43 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (impl_definition
-      (type_identifier)
-      (impl_body
-        (function_definition
-          (function_declaration
-            (identifier)
-            (parameters
-              (parameter
-                (identifier)
-                (type
-                  (type_identifier))))
-            (type
-              (type_identifier)))
-          (block
-            (return)
-            (function_call
-              (type_identifier)
-              (function_call_args
-                (identifier)))))
-        (function_definition
-          (function_declaration
-            (identifier)
-            (parameters
-              (self)))
-          (block
-            (function_call
-              (identifier)
-              (function_call_args
-                (field_access
-                  (self)
-                  (identifier))))))))))
+  (ERROR
+    (other_identifier)
+    (type_identifier))
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (function_parameter
+        (other_identifier)
+        (type
+          (builtin_type)))
+      (type
+        (type_identifier)))
+    (block
+      (statement
+        (return_statement
+          (expression
+            (call
+              (type
+                (type_identifier))
+              (expression
+                (other_identifier))))))))
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (ERROR
+        (other_identifier)))
+    (block
+      (expression
+        (call
+          (expression
+            (other_identifier))
+          (expression
+            (other_identifier))
+          (ERROR
+            (UNEXPECTED '.')
+            (other_identifier))))))
+  (ERROR))
 
 ================================================================================
 Trait (TODO: Function signatures without return type are note parsed correctly)
@@ -1006,34 +1160,26 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (trait_definition
-      (type_identifier)
-      (trait_body
-        (function_declaration
-          (identifier)
-          (parameters
-            (self))
-          (type
-            (function_type
-              (type
-                (type_identifier))
-              (type
-                (type_identifier)))))
-        (function_definition
-          (function_declaration
-            (ERROR
-              (identifier)
-              (parameters
-                (self)))
-            (identifier)
-            (parameters
-              (self)))
-          (block
-            (function_call
-              (identifier)
-              (function_call_args
-                (string)))))))))
+  (ERROR
+    (other_identifier)
+    (type_identifier)
+    (other_identifier)
+    (other_identifier)
+    (other_identifier)
+    (other_identifier))
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (ERROR
+        (other_identifier)))
+    (block
+      (expression
+        (call
+          (expression
+            (other_identifier))
+          (expression
+            (string_literal))))))
+  (ERROR))
 
 ================================================================================
 Trait implementation
@@ -1048,23 +1194,27 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (impl_definition
-      (type_identifier)
-      (type_identifier)
-      (impl_body
-        (function_definition
-          (function_declaration
-            (identifier)
-            (parameters
-              (self)))
-          (block
-            (function_call
-              (identifier)
-              (function_call_args
-                (field_access
-                  (self)
-                  (identifier))))))))))
+  (ERROR
+    (other_identifier)
+    (type_identifier)
+    (other_identifier)
+    (type_identifier))
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (ERROR
+        (other_identifier)))
+    (block
+      (expression
+        (call
+          (expression
+            (other_identifier))
+          (expression
+            (other_identifier))
+          (ERROR
+            (UNEXPECTED '.')
+            (other_identifier))))))
+  (ERROR))
 
 ================================================================================
 Enums
@@ -1080,23 +1230,13 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (enum_declaration
-      (type_identifier)
-      (enum_body
-        (enum_variant_declaration
-          (type_identifier))
-        (enum_variant_declaration
-          (type_identifier))
-        (enum_variant_declaration
-          (type_identifier))
-        (enum_variant_declaration
-          (type_identifier)
-          (type_list
-            (type
-              (type_identifier))
-            (type
-              (type_identifier))))))))
+  (ERROR
+    (other_identifier)
+    (type_identifier)
+    (type_identifier)
+    (type_identifier)
+    (type_identifier)
+    (type_identifier)))
 
 ================================================================================
 Field access
@@ -1108,105 +1248,260 @@ fn main():
     if person.name == "John":
         return person.full_name().to_str().test
     end
+    Enum.Variant
+    Enum<Type>.Variant<Type>(1)
 end
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (variable_declaration
-          (let)
-          (identifier)
-          (field_access
-            (identifier)
-            (identifier)))
-        (assignment
-          (field_access
-            (identifier)
-            (identifier))
-          (string))
-        (if_then_else
-          (binary
-            (field_access
-              (identifier)
-              (identifier))
-            (string))
-          (if_block
-            (return)
-            (field_access
-              (identifier)
-              (function_call
-                (identifier)
-                (function_call_args))
-              (function_call
-                (identifier)
-                (function_call_args))
-              (identifier))))))))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (expression
+          (other_identifier)))
+      (ERROR
+        (UNEXPECTED '.'))
+      (expression
+        (other_identifier))
+      (expression
+        (other_identifier))
+      (ERROR
+        (UNEXPECTED '.'))
+      (statement
+        (assignment_statement
+          (other_identifier)
+          (expression
+            (string_literal))))
+      (expression
+        (other_identifier))
+      (expression
+        (other_identifier))
+      (ERROR
+        (UNEXPECTED '.'))
+      (expression
+        (binary
+          (expression
+            (other_identifier))
+          (expression
+            (string_literal))))
+      (ERROR)
+      (statement
+        (return_statement
+          (expression
+            (other_identifier))))
+      (ERROR
+        (UNEXPECTED '.'))
+      (expression
+        (call
+          (expression
+            (other_identifier))))
+      (ERROR
+        (UNEXPECTED '.'))
+      (expression
+        (call
+          (expression
+            (other_identifier))))
+      (ERROR
+        (UNEXPECTED '.'))
+      (expression
+        (other_identifier))))
+  (ERROR
+    (type_identifier)
+    (UNEXPECTED '.')
+    (type_identifier)
+    (type_identifier)
+    (type_identifier)
+    (UNEXPECTED '.')
+    (type_identifier)
+    (type_identifier)
+    (int_literal)))
 
 ================================================================================
 Pattern matching.
 ================================================================================
 
 fn main():
-    match "Ok":
-        "Ok" => print("Ok")
-        "Error" => print("Error")
-        else => print("Unknown")
-    end
-    let res = match "Ok":
-        "Ok" => "Ok"
-        else => "Unknown"
+    match some_expression:
+        1 => 1
+        'a' => 1
+        "string" => 1
+        [1, 2] => 1
+        (1, 2) => 1
+        1..10 => 1
+        'a'..<'z' => 1
+        a => 1
+        1 | 'a' | "string" => 1
+        Struct{a: 1} => 1
+        Enum => 1 
+        Enum(1, _) => 1
+        1 | 2..10 | 'a' => 1
+        _:
+            "a multi-expression block"
+        end
     end
 end
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (declaration_or_definition
-    (function_definition
-      (function_declaration
-        (identifier)
-        (parameters))
-      (block
-        (match
-          (string)
-          (match_arm
-            (string)
-            (block
-              (function_call
-                (identifier)
-                (function_call_args
-                  (string)))))
-          (match_arm
-            (string)
-            (block
-              (function_call
-                (identifier)
-                (function_call_args
-                  (string)))))
-          (match_default_arm
-            (block
-              (function_call
-                (identifier)
-                (function_call_args
-                  (string))))))
-        (variable_declaration
-          (let)
-          (identifier)
-          (match
-            (string)
-            (match_arm
-              (string)
-              (block
-                (string)))
-            (match_default_arm
-              (block
-                (string)))))))))
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (expression
+        (other_identifier))
+      (expression
+        (other_identifier))
+      (ERROR)
+      (expression
+        (binary
+          (expression
+            (int_literal))
+          (ERROR)
+          (expression
+            (int_literal))))
+      (expression
+        (binary
+          (expression
+            (char_literal))
+          (ERROR)
+          (expression
+            (int_literal))))
+      (expression
+        (binary
+          (expression
+            (string_literal))
+          (ERROR)
+          (expression
+            (int_literal))))
+      (expression
+        (binary
+          (expression
+            (binary
+              (expression
+                (array_literal
+                  (expression
+                    (int_literal))
+                  (expression
+                    (int_literal))))
+              (ERROR)
+              (expression
+                (call
+                  (expression
+                    (int_literal))
+                  (expression
+                    (int_literal))
+                  (expression
+                    (int_literal))))))
+          (ERROR)
+          (expression
+            (int_literal))))
+      (expression
+        (int_literal))
+      (ERROR
+        (UNEXPECTED '.'))
+      (expression
+        (binary
+          (expression
+            (int_literal))
+          (ERROR)
+          (expression
+            (int_literal))))
+      (expression
+        (binary
+          (expression
+            (binary
+              (expression
+                (char_literal))
+              (ERROR
+                (UNEXPECTED '.'))
+              (expression
+                (char_literal))))
+          (ERROR)
+          (expression
+            (int_literal))))
+      (expression
+        (binary
+          (expression
+            (other_identifier))
+          (ERROR)
+          (expression
+            (int_literal))))
+      (expression
+        (binary
+          (expression
+            (binary
+              (expression
+                (binary
+                  (expression
+                    (int_literal))
+                  (expression
+                    (char_literal))))
+              (expression
+                (string_literal))))
+          (ERROR)
+          (expression
+            (int_literal))))
+      (expression
+        (binary
+          (expression
+            (struct_instantiation
+              (type
+                (type_identifier))
+              (struct_parameter
+                (other_identifier)
+                (expression
+                  (int_literal)))))
+          (ERROR)
+          (expression
+            (int_literal))))
+      (ERROR
+        (type
+          (type_identifier)))
+      (expression
+        (int_literal))
+      (expression
+        (binary
+          (expression
+            (call
+              (type
+                (type_identifier))
+              (expression
+                (int_literal))
+              (expression
+                (other_identifier))))
+          (ERROR)
+          (expression
+            (int_literal))))
+      (expression
+        (binary
+          (expression
+            (int_literal))
+          (expression
+            (int_literal))))
+      (ERROR
+        (UNEXPECTED '.'))
+      (expression
+        (binary
+          (expression
+            (binary
+              (expression
+                (int_literal))
+              (expression
+                (char_literal))))
+          (ERROR)
+          (expression
+            (int_literal))))
+      (expression
+        (other_identifier))
+      (ERROR)
+      (expression
+        (string_literal))))
+  (ERROR))
 
 ================================================================================
 Extern blocks
@@ -1230,45 +1525,89 @@ end
 
 (source_file
   (extern_declaration
-    (extern_body
-      (function_declaration
-        (identifier)
-        (parameters
-          (parameter
-            (identifier)
-            (type
-              (type_identifier))))
+    (function_declaration
+      (other_identifier)
+      (function_parameter
+        (other_identifier)
         (type
-          (type_identifier)))
-      (function_declaration
-        (identifier)
-        (parameters
-          (parameter
-            (identifier)
+          (builtin_type)))
+      (type
+        (builtin_type)))
+    (function_declaration
+      (other_identifier)
+      (function_parameter
+        (other_identifier)
+        (type
+          (builtin_type))))
+    (struct_declaration
+      (type
+        (type_identifier))
+      (struct_field
+        (other_identifier)
+        (type
+          (builtin_type))))
+    (ERROR
+      (other_identifier)
+      (type_identifier))
+    (function_declaration
+      (other_identifier)
+      (type
+        (type_identifier))))
+  (ERROR
+    (other_identifier)
+    (type_identifier)
+    (other_identifier)
+    (type_identifier)
+    (other_identifier)
+    (function_parameter
+      (other_identifier)
+      (ERROR)
+      (type
+        (builtin_type)))))
+
+================================================================================
+Types don't clash with less-than operator.
+================================================================================
+
+fn test<T>():
+    Foo<i32>{a: 1}
+    test<Foo<i32>>(a < b)
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (type_parameters
+        (type
+          (type_identifier))))
+    (block
+      (expression
+        (struct_instantiation
+          (type
+            (type_identifier)
+            (type_parameters
+              (type
+                (builtin_type))))
+          (struct_parameter
+            (other_identifier)
+            (expression
+              (int_literal)))))
+      (expression
+        (call
+          (expression
+            (other_identifier))
+          (type_parameters
             (type
-              (type_identifier)))))
-      (struct_declaration
-        (type_identifier)
-        (struct_body
-          (field
-            (identifier)
-            (type
-              (type_identifier)))))
-      (extern_impl
-        (type_identifier)
-        (extern_impl_body
-          (function_declaration
-            (identifier)
-            (parameters)
-            (type
-              (type_identifier)))))
-      (extern_impl
-        (type_identifier)
-        (type_identifier)
-        (extern_impl_body
-          (function_declaration
-            (identifier)
-            (parameters
-              (self))
-            (type
-              (type_identifier))))))))
+              (type_identifier)
+              (type_parameters
+                (type
+                  (builtin_type)))))
+          (expression
+            (binary
+              (expression
+                (other_identifier))
+              (expression
+                (other_identifier)))))))))

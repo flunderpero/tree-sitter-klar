@@ -26,4 +26,15 @@ fn main() {
     for i in 0..10 {
         println!("{}", i);
     }
+    match 1 {
+        1 | 2 => {
+            console.log("1");
+        }
+        Test{a: var_a, b: _} => {
+            console.log("2");
+        }
+        2 => {
+            console.log("2");
+        }
+    }
 }

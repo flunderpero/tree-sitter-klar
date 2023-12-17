@@ -68,6 +68,7 @@ fn main():
     struct InnerStruct:
         x i32?
         y Str
+        c char
     end
 
     enum InnerEnum:
@@ -96,7 +97,11 @@ fn main():
     match x:
         1 => print("one")
         2 => print("two")
-        else:
+        3..10 => print("three to ten")
+        11 | 12 | 13 => print("eleven, twelve or thirteen")
+        Some(x) => print(x)
+        Person{ name: a, age: _} => print(a)
+        _ :
             print("other")
             return
         end
@@ -107,6 +112,8 @@ fn main():
     fn inner_function():
         print("inner")
     end
+
+    let c = 'c'
 
     print(f"Hello {x} {y} {z}")
 
