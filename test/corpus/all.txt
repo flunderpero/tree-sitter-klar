@@ -629,11 +629,11 @@ end
           (builtin_type))
         (expression
           (string_literal)))
-      (ERROR
+      (variable_declaration
         (other_identifier)
         (type
           (builtin_type))
-        (type
+        (expression
           (type_identifier))))))
 
 ================================================================================
@@ -658,38 +658,13 @@ end
           (builtin_type))
         (expression
           (string_literal)))
-      (ERROR
+      (variable_declaration
         (other_identifier)
         (type
           (builtin_type))
-        (type
+        (expression
           (type_identifier))))))
 
-================================================================================
-`mut` without initialization.
-================================================================================
-
-fn test():
-    mut a str
-    mut b str?
-end
-
---------------------------------------------------------------------------------
-
-(source_file
-  (function_definition
-    (function_declaration
-      (other_identifier))
-    (block
-      (ERROR
-        (ERROR
-          (other_identifier)
-          (type
-            (builtin_type))
-          (other_identifier))
-        (other_identifier)
-        (type
-          (builtin_type))))))
 
 ================================================================================
 String interpolation.
@@ -1459,11 +1434,13 @@ end
           (ERROR)
           (expression
             (int_literal))))
-      (ERROR
-        (type
-          (type_identifier)))
       (expression
-        (int_literal))
+        (binary
+          (expression
+            (type_identifier))
+          (ERROR)
+          (expression
+            (int_literal))))
       (expression
         (binary
           (expression

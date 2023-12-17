@@ -315,6 +315,10 @@
         {
           "type": "tuple_literal",
           "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
         }
       ]
     }

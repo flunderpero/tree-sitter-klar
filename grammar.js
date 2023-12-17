@@ -119,6 +119,7 @@ module.exports = grammar({
                 $.array_literal,
                 $.tuple_literal,
                 $.other_identifier,
+                $.type_identifier,
                 $.binary,
                 $.struct_instantiation,
                 $.lambda_definition,
@@ -266,14 +267,19 @@ module.exports = grammar({
         type_identifier: ($) => /[A-Z][a-zA-Z0-9_]*/,
 
         type: ($) =>
-            seq(
-                choice(
-                    seq($.type_identifier, optional($.type_parameters)),
-                    $.builtin_type,
-                    $.function_type,
-                    $.array_type,
+            // We need to set a precedence to be able to use `$.type_identifier` 
+            // in `$.expression`.
+            prec.left(
+                1,
+                seq(
+                    choice(
+                        seq($.type_identifier, optional($.type_parameters)),
+                        $.builtin_type,
+                        $.function_type,
+                        $.array_type,
+                    ),
+                    optional("?"),
                 ),
-                optional("?"),
             ),
 
         array_type: ($) => seq("[", field("type", $.type), "]"),
