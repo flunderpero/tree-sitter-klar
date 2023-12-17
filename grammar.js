@@ -153,6 +153,30 @@ module.exports = grammar({
                 $.struct_instantiation,
                 $.lambda_definition,
                 $.call,
+                $.if_expression,
+            ),
+
+        if_expression: ($) =>
+            prec.left(
+                // Precedence must be higher than block to avoid ambiguity.
+                1,
+                seq(
+                    "if",
+                    field("condition", $.expression),
+                    choice(
+                        field("then_block", $.block),
+                        seq(
+                            field("then_block", seq(":", repeat($._block_part))),
+                            "else",
+                            field("else_block", $.block),
+                        ),
+                        seq(
+                            field("then_block", seq("=>", $._block_part)),
+                            "else",
+                            field("else_block", $.block),
+                        ),
+                    ),
+                ),
             ),
 
         struct_instantiation: ($) =>

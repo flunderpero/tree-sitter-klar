@@ -783,8 +783,47 @@ Conditional: if then
 ================================================================================
 
 fn test() bool:
-    if a == 42:
-        return true
+    if true:
+        true
+    end
+    if false => false
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (type
+        (builtin_type)))
+    (block
+      (expression
+        (if_expression
+          (expression
+            (other_identifier))
+          (block
+            (expression
+              (other_identifier)))))
+      (expression
+        (if_expression
+          (expression
+            (other_identifier))
+          (block
+            (expression
+              (other_identifier))))))))
+
+================================================================================
+Conditional: if then else
+================================================================================
+
+fn test() bool:
+    if true:
+        true
+    else => false
+    if true => true
+    else:
+        false
     end
 end
 
@@ -798,61 +837,23 @@ end
         (builtin_type)))
     (block
       (expression
-        (other_identifier))
-      (expression
-        (binary
+        (if_expression
           (expression
             (other_identifier))
           (expression
-            (int_literal))))
-      (ERROR)
-      (statement
-        (return_statement
-          (expression
-            (other_identifier))))))
-  (ERROR))
-
-================================================================================
-Conditional: if then else
-================================================================================
-
-fn test() bool:
-    if a == 42:
-        return true
-    else => return false
-end
-
---------------------------------------------------------------------------------
-
-(source_file
-  (function_definition
-    (function_declaration
-      (other_identifier)
-      (type
-        (builtin_type)))
-    (block
+            (other_identifier))
+          (block
+            (expression
+              (other_identifier)))))
       (expression
-        (other_identifier))
-      (expression
-        (binary
+        (if_expression
           (expression
             (other_identifier))
           (expression
-            (int_literal))))
-      (ERROR)
-      (statement
-        (return_statement
-          (expression
-            (other_identifier))))
-      (expression
-        (binary
-          (expression
             (other_identifier))
-          (ERROR)
-          (expression
-            (other_identifier))))
-      (expression
-        (other_identifier)))))
+          (block
+            (expression
+              (other_identifier))))))))
 
 ================================================================================
 Loops
