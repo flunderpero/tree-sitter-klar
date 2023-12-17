@@ -168,7 +168,14 @@ module.exports = grammar({
 
         // Statements (excluding declarations):
 
-        statement: ($) => choice($.assignment_statement, $.return_statement),
+        statement: ($) =>
+            choice(
+                $.assignment_statement,
+                $.return_statement,
+                $.loop_statement,
+                $.for_statement,
+                $.while_statement,
+            ),
 
         assignment_statement: ($) =>
             prec.left(
@@ -179,6 +186,29 @@ module.exports = grammar({
             ),
 
         return_statement: ($) => seq("return", field("value", $.expression)),
+
+        loop_statement: ($) => seq("loop", field("body", $.loop_block)),
+
+        for_statement: ($) =>
+            seq(
+                "for",
+                field("name", $.other_identifier),
+                "in",
+                field("iterable", $.expression),
+                field("body", $.loop_block),
+            ),
+
+        while_statement: ($) =>
+            seq("while", field("condition", $.expression), field("body", $.loop_block)),
+
+        loop_block: ($) =>
+            choice(seq(":", repeat($._loop_block_part), "end"), seq("=>", $._loop_block_part)),
+
+        _loop_block_part: ($) => choice($._block_part, $.break_statement, $.continue_statement),
+
+        break_statement: ($) => "break",
+
+        continue_statement: ($) => "continue",
 
         // Expressions:
 

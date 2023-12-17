@@ -860,8 +860,10 @@ Loops
 ================================================================================
 
 fn test():
-    let names = for x in people => x.name
+    for x in people => x.name
     loop:
+        break
+        continue
     end
     while a > 42 => a = a - 1
 end
@@ -873,34 +875,42 @@ end
     (function_declaration
       (other_identifier))
     (block
-      (variable_declaration
-        (other_identifier)
-        (expression
-          (other_identifier)))
-      (expression
-        (other_identifier))
-      (expression
-        (other_identifier))
-      (expression
-        (binary
+      (statement
+        (for_statement
+          (other_identifier)
           (expression
             (other_identifier))
-          (ERROR)
+          (loop_block
+            (expression
+              (field_access
+                (expression
+                  (other_identifier))
+                (field_access_expression
+                  (other_identifier)))))))
+      (statement
+        (loop_statement
+          (loop_block
+            (break_statement)
+            (continue_statement))))
+      (statement
+        (while_statement
           (expression
-            (field_access
+            (binary
               (expression
                 (other_identifier))
-              (field_access_expression
-                (other_identifier))))))
-      (expression
-        (other_identifier))
-      (ERROR)))
-  (ERROR
-    (UNEXPECTED 'w')
-    (int_literal)
-    (UNEXPECTED ')
-    (UNEXPECTED ')
-    (int_literal)))
+              (expression
+                (int_literal))))
+          (loop_block
+            (statement
+              (assignment_statement
+                (expression
+                  (other_identifier))
+                (expression
+                  (binary
+                    (expression
+                      (other_identifier))
+                    (expression
+                      (int_literal))))))))))))
 
 ================================================================================
 Structs
