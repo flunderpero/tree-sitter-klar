@@ -190,6 +190,10 @@
           "named": true
         },
         {
+          "type": "impl_definition",
+          "named": true
+        },
+        {
           "type": "statement",
           "named": true
         },
@@ -708,6 +712,10 @@
             "named": true
           },
           {
+            "type": "impl_definition",
+            "named": true
+          },
+          {
             "type": "statement",
             "named": true
           },
@@ -725,6 +733,42 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "impl_definition",
+    "named": true,
+    "fields": {
+      "methods": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "function_definition",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -847,6 +891,10 @@
         },
         {
           "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "impl_definition",
           "named": true
         },
         {
@@ -1317,6 +1365,10 @@
     "named": false
   },
   {
+    "type": "for",
+    "named": false
+  },
+  {
     "type": "i16",
     "named": false
   },
@@ -1334,6 +1386,10 @@
   },
   {
     "type": "if",
+    "named": false
+  },
+  {
+    "type": "impl",
     "named": false
   },
   {

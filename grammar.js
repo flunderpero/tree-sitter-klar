@@ -28,6 +28,7 @@ module.exports = grammar({
                     $.enum_declaration,
                     $.extern_declaration,
                     $.trait_definition,
+                    $.impl_definition,
                 ),
             ),
 
@@ -123,6 +124,16 @@ module.exports = grammar({
                 "end",
             ),
 
+        impl_definition: ($) =>
+            seq(
+                "impl",
+                field("type", $.type),
+                optional(seq("for", $.type)),
+                ":",
+                field("methods", optional(repeat($.function_definition))),
+                "end",
+            ),
+
         block: ($) => choice(seq(":", repeat($._block_part), "end"), seq("=>", $._block_part)),
 
         _block_part: ($) =>
@@ -131,6 +142,7 @@ module.exports = grammar({
                 $.expression,
                 $.struct_declaration,
                 $.trait_definition,
+                $.impl_definition,
                 $.function_definition,
                 $.variable_declaration,
             ),

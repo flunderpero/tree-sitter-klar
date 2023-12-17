@@ -1022,23 +1022,26 @@ end
       (other_identifier)
       (type
         (type_identifier))))
-  (ERROR
-    (UNEXPECTED 'm')
-    (type_identifier)
-    (type_identifier)
-    (UNEXPECTED 'o')
-    (type_identifier)
-    (type_identifier))
-  (function_definition
-    (function_declaration
-      (other_identifier)
-      (type
-        (type_identifier)
-        (type_parameters
-          (type
-            (type_identifier)))))
-    (block))
-  (ERROR)
+  (impl_definition
+    (type
+      (type_identifier)
+      (type_parameters
+        (type
+          (type_identifier))))
+    (type
+      (type_identifier)
+      (type_parameters
+        (type
+          (type_identifier))))
+    (function_definition
+      (function_declaration
+        (other_identifier)
+        (type
+          (type_identifier)
+          (type_parameters
+            (type
+              (type_identifier)))))
+      (block)))
   (enum_declaration
     (type
       (type_identifier)
@@ -1100,12 +1103,12 @@ end
             (other_identifier)))))))
 
 ================================================================================
-Implementation block
+Implementation definition
 ================================================================================
 
 impl Person:
     fn new(name str) Person:
-        return Person(name)
+        Person(name)
     end
 
     fn greet(self):
@@ -1116,44 +1119,41 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (ERROR
-    (UNEXPECTED 'm')
-    (type_identifier))
-  (function_definition
-    (function_declaration
-      (other_identifier)
-      (function_parameter
+  (impl_definition
+    (type
+      (type_identifier))
+    (function_definition
+      (function_declaration
         (other_identifier)
+        (function_parameter
+          (other_identifier)
+          (type
+            (builtin_type)))
         (type
-          (builtin_type)))
-      (type
-        (type_identifier)))
-    (block
-      (statement
-        (return_statement
-          (expression
-            (call
-              (type
-                (type_identifier))
-              (expression
-                (other_identifier))))))))
-  (function_definition
-    (function_declaration
-      (other_identifier)
-      (function_parameter
-        (self)))
-    (block
-      (expression
-        (call
-          (expression
-            (other_identifier))
-          (expression
-            (field_access
-              (expression
-                (other_identifier))
-              (field_access_expression
-                (other_identifier))))))))
-  (ERROR))
+          (type_identifier)))
+      (block
+        (expression
+          (call
+            (type
+              (type_identifier))
+            (expression
+              (other_identifier))))))
+    (function_definition
+      (function_declaration
+        (other_identifier)
+        (function_parameter
+          (self)))
+      (block
+        (expression
+          (call
+            (expression
+              (other_identifier))
+            (expression
+              (field_access
+                (expression
+                  (other_identifier))
+                (field_access_expression
+                  (other_identifier))))))))))
 
 ================================================================================
 Traits
@@ -1233,7 +1233,7 @@ end
 Trait implementation
 ================================================================================
 
-impl Greeter for Person:
+impl Greeter<K> for Person<K>:
     fn greet(self):
         print(self.name)
     end
@@ -1242,28 +1242,33 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (ERROR
-    (UNEXPECTED 'm')
-    (type_identifier)
-    (UNEXPECTED 'o')
-    (type_identifier))
-  (function_definition
-    (function_declaration
-      (other_identifier)
-      (function_parameter
-        (self)))
-    (block
-      (expression
-        (call
-          (expression
-            (other_identifier))
-          (expression
-            (field_access
-              (expression
-                (other_identifier))
-              (field_access_expression
-                (other_identifier))))))))
-  (ERROR))
+  (impl_definition
+    (type
+      (type_identifier)
+      (type_parameters
+        (type
+          (type_identifier))))
+    (type
+      (type_identifier)
+      (type_parameters
+        (type
+          (type_identifier))))
+    (function_definition
+      (function_declaration
+        (other_identifier)
+        (function_parameter
+          (self)))
+      (block
+        (expression
+          (call
+            (expression
+              (other_identifier))
+            (expression
+              (field_access
+                (expression
+                  (other_identifier))
+                (field_access_expression
+                  (other_identifier))))))))))
 
 ================================================================================
 Enums
@@ -1615,24 +1620,27 @@ end
         (other_identifier)
         (type
           (builtin_type))))
-    (ERROR
-      (UNEXPECTED 'm')
+    (MISSING "end"))
+  (impl_definition
+    (type
       (type_identifier))
-    (function_declaration
-      (other_identifier)
-      (type
-        (type_identifier))))
-  (ERROR
-    (UNEXPECTED 'm')
-    (type_identifier)
-    (UNEXPECTED 'o')
-    (type_identifier)
-    (function_declaration
-      (other_identifier)
-      (function_parameter
-        (self))
-      (type
-        (builtin_type)))))
+    (ERROR
+      (function_declaration
+        (other_identifier)
+        (type
+          (type_identifier)))))
+  (impl_definition
+    (type
+      (type_identifier))
+    (type
+      (type_identifier))
+    (ERROR
+      (function_declaration
+        (other_identifier)
+        (function_parameter
+          (self))
+        (type
+          (builtin_type))))))
 
 ================================================================================
 Types don't clash with less-than operator.
