@@ -68,7 +68,7 @@ module.exports = grammar({
                 "(",
                 field("parameters", optional(comma_sep($.function_parameter))),
                 ")",
-                field("return_type", optional($.type)),
+                field("return_type", optional(choice($.type, $.unit))),
             ),
 
         function_parameter: ($) =>
@@ -228,6 +228,7 @@ module.exports = grammar({
                 $.lambda_definition,
                 $.call,
                 $.if_expression,
+                $.unit,
             ),
 
         if_expression: ($) =>
@@ -269,9 +270,9 @@ module.exports = grammar({
 
         call: ($) =>
             prec.left(
-                // Precedence must be higher than PREC.COMPARE to avoid ambiguity
+                // Precedence must be higher to avoid ambiguity
                 // with the `<` binary expression when using type parameters.
-                6,
+                4,
                 seq(
                     field(
                         "target",
@@ -284,17 +285,21 @@ module.exports = grammar({
                             $.type,
                         ),
                     ),
-                    "(",
-                    field("arguments", optional(comma_sep($.expression))),
-                    ")",
+                    choice(token.immediate("()"), $.call_arguments),
                 ),
             ),
 
+        call_arguments: ($) => seq(token.immediate("("), comma_sep($.expression), ")"),
+
         field_access: ($) =>
             prec.left(
-                // Precedence must be higher than PREC.COMPARE to avoid ambiguity
+                // We use right precedence because we want to take the longest match.
+                // Otherwise, instead of a single `field_access` with multiple
+                // `field_access_expression` we would get nested `field_access`.
+
+                // Precedence must be higher to avoid ambiguity
                 // with the `<` binary expression when using type parameters.
-                6,
+                5,
                 seq(
                     field(
                         "target",
@@ -314,10 +319,12 @@ module.exports = grammar({
 
         field_access_expression: ($) =>
             prec.left(
-                6,
+                // Precedence must be higher to avoid ambiguity with `$.expression`.
+                1,
                 choice(
                     $.int_literal,
                     seq($.other_identifier, optional(field("type_parameters", $.type_parameters))),
+                    $.call,
                     $.type,
                 ),
             ),
@@ -477,6 +484,8 @@ module.exports = grammar({
                 ),
             ),
 
+        unit: ($) => "()",
+
         self: ($) => "self",
 
         array_type: ($) => seq("[", field("type", $.type), "]"),
@@ -509,7 +518,12 @@ module.exports = grammar({
                 "str",
             ),
 
-        type_parameters: ($) => seq("<", comma_sep($.type), ">"),
+        type_parameters: ($) =>
+            prec.left(
+                // We need a higher precedence because otherwise `expression -> unit` clashes.
+                1,
+                seq("<", comma_sep(choice($.type, $.unit)), ">"),
+            ),
 
         // Comments:
 

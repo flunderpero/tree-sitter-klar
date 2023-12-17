@@ -227,19 +227,20 @@ end
         (call
           (expression
             (other_identifier))
-          (expression
-            (lambda_definition
-              (lambda_parameter
-                (other_identifier)
-                (type
-                  (builtin_type)))
-              (block
-                (expression
-                  (binary
-                    (expression
-                      (other_identifier))
-                    (expression
-                      (int_literal))))))))))))
+          (call_arguments
+            (expression
+              (lambda_definition
+                (lambda_parameter
+                  (other_identifier)
+                  (type
+                    (builtin_type)))
+                (block
+                  (expression
+                    (binary
+                      (expression
+                        (other_identifier))
+                      (expression
+                        (int_literal)))))))))))))
 
 ================================================================================
 Function type
@@ -319,18 +320,19 @@ end
         (call
           (expression
             (other_identifier))
-          (expression
-            (string_literal))
-          (expression
-            (int_literal))
-          (expression
-            (other_identifier))
-          (expression
-            (binary
-              (expression
-                (other_identifier))
-              (expression
-                (int_literal))))))
+          (call_arguments
+            (expression
+              (string_literal))
+            (expression
+              (int_literal))
+            (expression
+              (other_identifier))
+            (expression
+              (binary
+                (expression
+                  (other_identifier))
+                (expression
+                  (int_literal)))))))
       (expression
         (call
           (expression
@@ -338,8 +340,9 @@ end
           (type_parameters
             (type
               (builtin_type)))
-          (expression
-            (int_literal))))
+          (call_arguments
+            (expression
+              (int_literal)))))
       (expression
         (call
           (type
@@ -347,8 +350,9 @@ end
             (type_parameters
               (type
                 (builtin_type))))
-          (expression
-            (int_literal)))))))
+          (call_arguments
+            (expression
+              (int_literal))))))))
 
 ================================================================================
 Array type and array literal
@@ -498,7 +502,39 @@ end
             (escape_sequence)))))))
 
 ================================================================================
-Tuple literal.
+Unit type and unit literal.
+================================================================================
+
+fn test() ():
+    Option<()>.Some(())
+    ()
+end
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (unit))
+    (block
+      (expression
+        (field_access
+          (type
+            (type_identifier)
+            (type_parameters
+              (unit)))
+          (field_access_expression
+            (call
+              (type
+                (type_identifier))
+              (call_arguments
+                (expression
+                  (unit)))))))
+      (expression
+        (unit)))))
+
+================================================================================
+Tuple literal
 ================================================================================
 
 fn test():
@@ -553,8 +589,9 @@ end
               (call
                 (type
                   (type_identifier))
-                (expression
-                  (int_literal))))
+                (call_arguments
+                  (expression
+                    (int_literal)))))
             (expression
               (array_literal
                 (expression
@@ -563,7 +600,55 @@ end
                   (int_literal))))))))))
 
 ================================================================================
-String literal.
+Tuple, function call, and unit type ambiguity
+================================================================================
+
+fn test():
+    some_expression
+    (1, 2)
+    function_call.
+        over
+        .
+        multiple_lines
+        .still_works() 
+    ()
+end
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (expression
+        (other_identifier))
+      (expression
+        (tuple_literal
+          (expression
+            (int_literal))
+          (expression
+            (int_literal))))
+      (expression
+        (call
+          (expression
+            (field_access
+              (expression
+                (field_access
+                  (expression
+                    (field_access
+                      (expression
+                        (other_identifier))
+                      (field_access_expression
+                        (other_identifier))))
+                  (field_access_expression
+                    (other_identifier))))
+              (field_access_expression
+                (other_identifier))))))
+      (expression
+        (unit)))))
+
+================================================================================
+String literal
 ================================================================================
 
 fn test():
@@ -1094,19 +1179,19 @@ end
       (variable_declaration
         (other_identifier)
         (expression
-          (call
-            (expression
-              (field_access
+          (field_access
+            (type
+              (type_identifier)
+              (type_parameters
                 (type
-                  (type_identifier)
-                  (type_parameters
-                    (type
-                      (builtin_type))))
-                (field_access_expression
-                  (type
-                    (type_identifier)))))
-            (expression
-              (int_literal)))))
+                  (builtin_type))))
+            (field_access_expression
+              (call
+                (type
+                  (type_identifier))
+                (call_arguments
+                  (expression
+                    (int_literal))))))))
       (statement
         (return_statement
           (expression
@@ -1146,8 +1231,9 @@ end
           (call
             (type
               (type_identifier))
-            (expression
-              (other_identifier))))))
+            (call_arguments
+              (expression
+                (other_identifier)))))))
     (function_definition
       (function_declaration
         (other_identifier)
@@ -1158,12 +1244,13 @@ end
           (call
             (expression
               (other_identifier))
-            (expression
-              (field_access
-                (expression
-                  (other_identifier))
-                (field_access_expression
-                  (other_identifier))))))))))
+            (call_arguments
+              (expression
+                (field_access
+                  (expression
+                    (other_identifier))
+                  (field_access_expression
+                    (other_identifier)))))))))))
 
 ================================================================================
 Traits
@@ -1209,8 +1296,9 @@ end
           (call
             (expression
               (other_identifier))
-            (expression
-              (string_literal))))))))
+            (call_arguments
+              (expression
+                (string_literal)))))))))
 
 ================================================================================
 Traits inside functions.
@@ -1273,12 +1361,13 @@ end
           (call
             (expression
               (other_identifier))
-            (expression
-              (field_access
-                (expression
-                  (other_identifier))
-                (field_access_expression
-                  (other_identifier))))))))))
+            (call_arguments
+              (expression
+                (field_access
+                  (expression
+                    (other_identifier))
+                  (field_access_expression
+                    (other_identifier)))))))))))
 
 ================================================================================
 Enums
@@ -1398,8 +1487,9 @@ end
           (type_parameters
             (type
               (type_identifier)))
-          (expression
-            (int_literal)))))))
+          (call_arguments
+            (expression
+              (int_literal))))))))
 
 ================================================================================
 Pattern matching.
@@ -1459,8 +1549,8 @@ end
           (ERROR)
           (expression
             (int_literal))))
-      (statement
-        (assignment_statement
+      (expression
+        (binary
           (expression
             (array_literal
               (expression
@@ -1553,10 +1643,11 @@ end
             (call
               (type
                 (type_identifier))
-              (expression
-                (int_literal))
-              (expression
-                (other_identifier))))
+              (call_arguments
+                (expression
+                  (int_literal))
+                (expression
+                  (other_identifier)))))
           (ERROR)
           (expression
             (int_literal))))
@@ -1681,9 +1772,10 @@ end
               (type_parameters
                 (type
                   (builtin_type)))))
-          (expression
-            (binary
-              (expression
-                (other_identifier))
-              (expression
-                (other_identifier)))))))))
+          (call_arguments
+            (expression
+              (binary
+                (expression
+                  (other_identifier))
+                (expression
+                  (other_identifier))))))))))
