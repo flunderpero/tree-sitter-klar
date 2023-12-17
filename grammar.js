@@ -87,7 +87,26 @@ module.exports = grammar({
             ),
 
         extern_declaration: ($) =>
-            seq("extern", ":", repeat(choice($.function_declaration, $.struct_declaration)), "end"),
+            seq(
+                "extern",
+                ":",
+                repeat(
+                    choice($.function_declaration, $.struct_declaration, $.extern_impl_declaration),
+                ),
+                "end",
+            ),
+
+        extern_impl_declaration: ($) =>
+            choice(
+                seq(
+                    "impl",
+                    field("type", $.type),
+                    ":",
+                    field("methods", optional(repeat($.function_declaration))),
+                    "end",
+                ),
+                seq("impl", field("type", $.type), "for", field("trait", $.type)),
+            ),
 
         // Definitions:
 
@@ -128,7 +147,7 @@ module.exports = grammar({
             seq(
                 "impl",
                 field("type", $.type),
-                optional(seq("for", $.type)),
+                optional(seq("for", field("trait", $.type))),
                 ":",
                 field("methods", optional(repeat($.function_definition))),
                 "end",

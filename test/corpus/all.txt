@@ -1578,7 +1578,7 @@ end
   (ERROR))
 
 ================================================================================
-Extern blocks
+Extern declaration
 ================================================================================
 
 extern:
@@ -1590,9 +1590,7 @@ extern:
     impl Foo:
         fn new() Foo
     end
-    impl ToStr for Foo:
-        fn to_str(self) str
-    end
+    impl ToStr for Foo
 end
 
 --------------------------------------------------------------------------------
@@ -1620,27 +1618,18 @@ end
         (other_identifier)
         (type
           (builtin_type))))
-    (MISSING "end"))
-  (impl_definition
-    (type
-      (type_identifier))
-    (ERROR
+    (extern_impl_declaration
+      (type
+        (type_identifier))
       (function_declaration
         (other_identifier)
         (type
-          (type_identifier)))))
-  (impl_definition
-    (type
-      (type_identifier))
-    (type
-      (type_identifier))
-    (ERROR
-      (function_declaration
-        (other_identifier)
-        (function_parameter
-          (self))
-        (type
-          (builtin_type))))))
+          (type_identifier))))
+    (extern_impl_declaration
+      (type
+        (type_identifier))
+      (type
+        (type_identifier)))))
 
 ================================================================================
 Types don't clash with less-than operator.
