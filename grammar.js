@@ -105,7 +105,12 @@ module.exports = grammar({
         statement: ($) => choice($.assignment_statement, $.return_statement),
 
         assignment_statement: ($) =>
-            seq(field("left", $.other_identifier), "=", field("right", choice($.expression))),
+            prec.left(
+                // Precedence must be higher than PREC.COMPARE to avoid ambiguity
+                // with the `<` binary expression when using type parameters.
+                6,
+                seq(field("left", $.expression), "=", field("right", choice($.expression))),
+            ),
 
         return_statement: ($) => seq("return", field("value", $.expression)),
 
@@ -118,7 +123,9 @@ module.exports = grammar({
                 $.string_literal,
                 $.array_literal,
                 $.tuple_literal,
+                $.f_string,
                 $.other_identifier,
+                $.field_access,
                 $.type_identifier,
                 $.binary,
                 $.struct_instantiation,
@@ -143,7 +150,7 @@ module.exports = grammar({
         call: ($) =>
             prec.left(
                 // Precedence must be higher than PREC.COMPARE to avoid ambiguity
-                // with the `<` binary expression.
+                // with the `<` binary expression when using type parameters.
                 6,
                 seq(
                     field(
@@ -162,6 +169,74 @@ module.exports = grammar({
                     ")",
                 ),
             ),
+
+        field_access: ($) =>
+            prec.left(
+                // Precedence must be higher than PREC.COMPARE to avoid ambiguity
+                // with the `<` binary expression when using type parameters.
+                6,
+                seq(
+                    field(
+                        "target",
+                        choice(
+                            seq(
+                                $.expression,
+                                optional(field("type_parameters", $.type_parameters)),
+                            ),
+                            // Types like enums and structs can also be used in a field access.
+                            $.type,
+                        ),
+                    ),
+                    ".",
+                    dot_sep1(field("field", $.field_access_expression)),
+                ),
+            ),
+
+        field_access_expression: ($) =>
+            prec.left(
+                6,
+                choice(
+                    $.int_literal,
+                    seq($.other_identifier, optional(field("type_parameters", $.type_parameters))),
+                    $.type,
+                ),
+            ),
+
+        f_string: ($) =>
+            choice(
+                // Single-line interpolated string
+                seq(
+                    'f"',
+                    repeat(
+                        choice(
+                            $._non_escaped_f_string_part,
+                            $._f_string_expression,
+                            $.escape_sequence,
+                        ),
+                    ),
+                    token.immediate('"'),
+                ),
+                // Multiline interpolated string
+                seq(
+                    'f"""',
+                    repeat(
+                        choice(
+                            $._non_escaped_multiline_f_string_part,
+                            $._f_string_expression,
+                            $.escape_sequence,
+                            token.immediate('"'),
+                            token.immediate('""'),
+                        ),
+                    ),
+                    token.immediate('"""'),
+                ),
+            ),
+
+        _non_escaped_f_string_part: (_) => token.immediate(prec(1, /[^"{\n\\]+/)),
+
+        _non_escaped_multiline_f_string_part: (_) => token.immediate(prec(1, /[^"\\{]+/)),
+
+        _f_string_expression: ($) => seq("{", $.expression, "}"),
 
         binary: ($) =>
             field(
@@ -267,7 +342,7 @@ module.exports = grammar({
         type_identifier: ($) => /[A-Z][a-zA-Z0-9_]*/,
 
         type: ($) =>
-            // We need to set a precedence to be able to use `$.type_identifier` 
+            // We need to set a precedence to be able to use `$.type_identifier`
             // in `$.expression`.
             prec.left(
                 1,
@@ -330,4 +405,8 @@ module.exports = grammar({
 
 function comma_sep(rule) {
     return seq(rule, repeat(seq(",", rule)))
+}
+
+function dot_sep1(rule) {
+    return seq(rule, repeat(seq(".", rule)))
 }

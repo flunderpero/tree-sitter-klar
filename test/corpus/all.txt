@@ -210,7 +210,8 @@ end
         (other_identifier))
       (statement
         (assignment_statement
-          (other_identifier)
+          (expression
+            (other_identifier))
           (expression
             (lambda_definition
               (lambda_parameter
@@ -665,7 +666,6 @@ end
         (expression
           (type_identifier))))))
 
-
 ================================================================================
 String interpolation.
 ================================================================================
@@ -684,11 +684,23 @@ end
       (variable_declaration
         (other_identifier)
         (expression
-          (other_identifier)))
-      (expression
-        (string_literal
-          (escape_sequence)
-          (escape_sequence))))))
+          (f_string
+            (expression
+              (other_identifier))
+            (expression
+              (binary
+                (expression
+                  (int_literal))
+                (expression
+                  (int_literal))))
+            (expression
+              (field_access
+                (expression
+                  (other_identifier))
+                (field_access_expression
+                  (other_identifier))))
+            (escape_sequence)
+            (escape_sequence)))))))
 
 ================================================================================
 Multiline string interpolation.
@@ -710,11 +722,23 @@ end
       (variable_declaration
         (other_identifier)
         (expression
-          (other_identifier)))
-      (expression
-        (string_literal
-          (escape_sequence)
-          (escape_sequence))))))
+          (f_string
+            (expression
+              (other_identifier))
+            (expression
+              (binary
+                (expression
+                  (int_literal))
+                (expression
+                  (int_literal))))
+            (expression
+              (field_access
+                (expression
+                  (other_identifier))
+                (field_access_expression
+                  (other_identifier))))
+            (escape_sequence)
+            (escape_sequence)))))))
 
 ================================================================================
 Binary expression.
@@ -862,11 +886,11 @@ end
             (other_identifier))
           (ERROR)
           (expression
-            (other_identifier))))
-      (ERROR
-        (UNEXPECTED '.'))
-      (expression
-        (other_identifier))
+            (field_access
+              (expression
+                (other_identifier))
+              (field_access_expression
+                (other_identifier))))))
       (expression
         (other_identifier))
       (ERROR)))
@@ -1048,14 +1072,16 @@ end
         (other_identifier)
         (expression
           (call
-            (type
-              (type_identifier)
-              (type_parameters
+            (expression
+              (field_access
                 (type
-                  (builtin_type))))
-            (ERROR
-              (UNEXPECTED '.')
-              (type_identifier))
+                  (type_identifier)
+                  (type_parameters
+                    (type
+                      (builtin_type))))
+                (field_access_expression
+                  (type
+                    (type_identifier)))))
             (expression
               (int_literal)))))
       (statement
@@ -1112,10 +1138,11 @@ end
           (expression
             (other_identifier))
           (expression
-            (other_identifier))
-          (ERROR
-            (UNEXPECTED '.')
-            (other_identifier))))))
+            (field_access
+              (expression
+                (other_identifier))
+              (field_access_expression
+                (other_identifier))))))))
   (ERROR))
 
 ================================================================================
@@ -1185,10 +1212,11 @@ end
           (expression
             (other_identifier))
           (expression
-            (other_identifier))
-          (ERROR
-            (UNEXPECTED '.')
-            (other_identifier))))))
+            (field_access
+              (expression
+                (other_identifier))
+              (field_access_expression
+                (other_identifier))))))))
   (ERROR))
 
 ================================================================================
@@ -1220,9 +1248,8 @@ Field access
 fn main():
     let a = person.name
     person.name = "John"
-    if person.name == "John":
-        return person.full_name().to_str().test
-    end
+    person.name == "John"
+    person.full_name().to_str().test
     Enum.Variant
     Enum<Type>.Variant<Type>(1)
 end
@@ -1237,63 +1264,73 @@ end
       (variable_declaration
         (other_identifier)
         (expression
-          (other_identifier)))
-      (ERROR
-        (UNEXPECTED '.'))
-      (expression
-        (other_identifier))
-      (expression
-        (other_identifier))
-      (ERROR
-        (UNEXPECTED '.'))
+          (field_access
+            (expression
+              (other_identifier))
+            (field_access_expression
+              (other_identifier)))))
       (statement
         (assignment_statement
-          (other_identifier)
+          (expression
+            (field_access
+              (expression
+                (other_identifier))
+              (field_access_expression
+                (other_identifier))))
           (expression
             (string_literal))))
-      (expression
-        (other_identifier))
-      (expression
-        (other_identifier))
-      (ERROR
-        (UNEXPECTED '.'))
       (expression
         (binary
           (expression
-            (other_identifier))
+            (field_access
+              (expression
+                (other_identifier))
+              (field_access_expression
+                (other_identifier))))
           (expression
             (string_literal))))
-      (ERROR)
-      (statement
-        (return_statement
+      (expression
+        (field_access
           (expression
+            (call
+              (expression
+                (field_access
+                  (expression
+                    (call
+                      (expression
+                        (field_access
+                          (expression
+                            (other_identifier))
+                          (field_access_expression
+                            (other_identifier))))))
+                  (field_access_expression
+                    (other_identifier))))))
+          (field_access_expression
             (other_identifier))))
-      (ERROR
-        (UNEXPECTED '.'))
+      (expression
+        (field_access
+          (type
+            (type_identifier))
+          (field_access_expression
+            (type
+              (type_identifier)))))
       (expression
         (call
           (expression
-            (other_identifier))))
-      (ERROR
-        (UNEXPECTED '.'))
-      (expression
-        (call
+            (field_access
+              (type
+                (type_identifier)
+                (type_parameters
+                  (type
+                    (type_identifier))))
+              (field_access_expression
+                (type
+                  (type_identifier)))))
+          (type_parameters
+            (type
+              (type_identifier)))
           (expression
-            (other_identifier))))
-      (ERROR
-        (UNEXPECTED '.'))
-      (expression
-        (other_identifier))))
-  (ERROR
-    (type_identifier)
-    (UNEXPECTED '.')
-    (type_identifier)
-    (type_identifier)
-    (type_identifier)
-    (UNEXPECTED '.')
-    (type_identifier)
-    (type_identifier)
-    (int_literal)))
+            (int_literal)))))))
 
 ================================================================================
 Pattern matching.
@@ -1353,36 +1390,37 @@ end
           (ERROR)
           (expression
             (int_literal))))
-      (expression
-        (binary
+      (statement
+        (assignment_statement
           (expression
-            (binary
+            (array_literal
               (expression
-                (array_literal
-                  (expression
-                    (int_literal))
-                  (expression
-                    (int_literal))))
-              (ERROR)
+                (int_literal))
               (expression
-                (call
-                  (expression
-                    (int_literal))
-                  (expression
-                    (int_literal))
-                  (expression
-                    (int_literal))))))
+                (int_literal))))
           (ERROR)
           (expression
             (int_literal))))
       (expression
-        (int_literal))
-      (ERROR
-        (UNEXPECTED '.'))
+        (binary
+          (expression
+            (tuple_literal
+              (expression
+                (int_literal))
+              (expression
+                (int_literal))))
+          (ERROR)
+          (expression
+            (int_literal))))
       (expression
         (binary
           (expression
-            (int_literal))
+            (field_access
+              (expression
+                (int_literal))
+              (ERROR)
+              (field_access_expression
+                (int_literal))))
           (ERROR)
           (expression
             (int_literal))))
@@ -1392,8 +1430,7 @@ end
             (binary
               (expression
                 (char_literal))
-              (ERROR
-                (UNEXPECTED '.'))
+              (ERROR)
               (expression
                 (char_literal))))
           (ERROR)
@@ -1457,17 +1494,18 @@ end
       (expression
         (binary
           (expression
-            (int_literal))
-          (expression
-            (int_literal))))
-      (ERROR
-        (UNEXPECTED '.'))
-      (expression
-        (binary
-          (expression
             (binary
               (expression
-                (int_literal))
+                (field_access
+                  (expression
+                    (binary
+                      (expression
+                        (int_literal))
+                      (expression
+                        (int_literal))))
+                  (ERROR)
+                  (field_access_expression
+                    (int_literal))))
               (expression
                 (char_literal))))
           (ERROR)
