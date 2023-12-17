@@ -21,7 +21,14 @@ module.exports = grammar({
         // Entry point:
 
         source_file: ($) =>
-            repeat(choice($.function_definition, $.struct_declaration, $.extern_declaration)),
+            repeat(
+                choice(
+                    $.function_definition,
+                    $.struct_declaration,
+                    $.enum_declaration,
+                    $.extern_declaration,
+                ),
+            ),
 
         // Declarations:
 
@@ -35,6 +42,21 @@ module.exports = grammar({
             ),
 
         struct_field: ($) => seq(field("name", $.other_identifier), field("type", $.type)),
+
+        enum_declaration: ($) =>
+            seq(
+                "enum",
+                field("name", $.type),
+                ":",
+                field("variants", optional(repeat($.enum_variant))),
+                "end",
+            ),
+
+        enum_variant: ($) =>
+            seq(
+                field("name", $.type_identifier),
+                optional(seq("(", field("fields", comma_sep($.type)), ")")),
+            ),
 
         function_declaration: ($) =>
             seq(

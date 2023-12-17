@@ -895,11 +895,10 @@ end
         (other_identifier))
       (ERROR)))
   (ERROR
-    (other_identifier)
-    (other_identifier)
+    (UNEXPECTED 'w')
     (int_literal)
-    (other_identifier)
-    (other_identifier)
+    (UNEXPECTED ')
+    (UNEXPECTED ')
     (int_literal)))
 
 ================================================================================
@@ -1023,10 +1022,10 @@ end
       (type
         (type_identifier))))
   (ERROR
-    (other_identifier)
+    (UNEXPECTED 'm')
     (type_identifier)
     (type_identifier)
-    (other_identifier)
+    (UNEXPECTED 'o')
     (type_identifier)
     (type_identifier))
   (function_definition
@@ -1038,14 +1037,21 @@ end
           (type
             (type_identifier)))))
     (block))
+  (ERROR)
+  (enum_declaration
+    (type
+      (type_identifier)
+      (type_parameters
+        (type
+          (type_identifier))))
+    (enum_variant
+      (type_identifier)
+      (type
+        (type_identifier)))
+    (enum_variant
+      (type_identifier)))
   (ERROR
-    (other_identifier)
-    (type_identifier)
-    (type_identifier)
-    (type_identifier)
-    (type_identifier)
-    (type_identifier)
-    (other_identifier)
+    (UNEXPECTED 't')
     (type_identifier)
     (type_identifier)
     (type_identifier))
@@ -1107,7 +1113,7 @@ end
 
 (source_file
   (ERROR
-    (other_identifier)
+    (UNEXPECTED 'm')
     (type_identifier))
   (function_definition
     (function_declaration
@@ -1163,7 +1169,7 @@ end
 
 (source_file
   (ERROR
-    (other_identifier)
+    (UNEXPECTED 't')
     (type_identifier)
     (other_identifier)
     (other_identifier)
@@ -1197,9 +1203,9 @@ end
 
 (source_file
   (ERROR
-    (other_identifier)
+    (UNEXPECTED 'm')
     (type_identifier)
-    (other_identifier)
+    (UNEXPECTED 'o')
     (type_identifier))
   (function_definition
     (function_declaration
@@ -1233,13 +1239,21 @@ end
 --------------------------------------------------------------------------------
 
 (source_file
-  (ERROR
-    (other_identifier)
-    (type_identifier)
-    (type_identifier)
-    (type_identifier)
-    (type_identifier)
-    (type_identifier)))
+  (enum_declaration
+    (type
+      (type_identifier))
+    (enum_variant
+      (type_identifier))
+    (enum_variant
+      (type_identifier))
+    (enum_variant
+      (type_identifier))
+    (enum_variant
+      (type_identifier)
+      (type
+        (builtin_type))
+      (type
+        (builtin_type)))))
 
 ================================================================================
 Field access
@@ -1562,16 +1576,16 @@ end
         (type
           (builtin_type))))
     (ERROR
-      (other_identifier)
+      (UNEXPECTED 'm')
       (type_identifier))
     (function_declaration
       (other_identifier)
       (type
         (type_identifier))))
   (ERROR
-    (other_identifier)
+    (UNEXPECTED 'm')
     (type_identifier)
-    (other_identifier)
+    (UNEXPECTED 'o')
     (type_identifier)
     (other_identifier)
     (function_parameter
