@@ -471,6 +471,10 @@
           "named": true
         },
         {
+          "type": "unary",
+          "named": true
+        },
+        {
           "type": "unit",
           "named": true
         }
@@ -1634,6 +1638,22 @@
     }
   },
   {
+    "type": "unary",
+    "named": true,
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "variable_declaration",
     "named": true,
     "fields": {
@@ -1951,6 +1971,10 @@
   },
   {
     "type": "mut",
+    "named": false
+  },
+  {
+    "type": "not",
     "named": false
   },
   {

@@ -1152,6 +1152,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "unary"
+        },
+        {
+          "type": "SYMBOL",
           "name": "struct_instantiation"
         },
         {
@@ -2210,6 +2214,27 @@
           "value": "}"
         }
       ]
+    },
+    "unary": {
+      "type": "PREC_LEFT",
+      "value": 13,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "not"
+          },
+          {
+            "type": "FIELD",
+            "name": "expression",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          }
+        ]
+      }
     },
     "binary": {
       "type": "FIELD",

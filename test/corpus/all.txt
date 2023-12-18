@@ -847,7 +847,7 @@ end
             (escape_sequence)))))))
 
 ================================================================================
-Binary expression.
+Binary expression
 ================================================================================
 
 fn test():
@@ -883,6 +883,30 @@ end
                     (int_literal))))))
           (expression
             (int_literal)))))))
+
+================================================================================
+Unary expression
+================================================================================
+
+fn test():
+    not true or false
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (expression
+        (binary
+          (expression
+            (unary
+              (expression
+                (bool_literal))))
+          (expression
+            (bool_literal)))))))
 
 ================================================================================
 Conditional: if then

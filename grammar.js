@@ -225,6 +225,7 @@ module.exports = grammar({
                 $.field_access,
                 $.type_identifier,
                 $.binary,
+                $.unary,
                 $.struct_instantiation,
                 $.lambda_definition,
                 $.call,
@@ -427,6 +428,8 @@ module.exports = grammar({
         _non_escaped_multiline_f_string_part: (_) => token.immediate(prec(1, /[^"\\{]+/)),
 
         _f_string_expression: ($) => seq("{", $.expression, "}"),
+
+        unary: ($) => prec.left(PREC.UNARY, seq("not", field("expression", $.expression))),
 
         binary: ($) =>
             field(
