@@ -215,6 +215,7 @@ module.exports = grammar({
         expression: ($) =>
             choice(
                 $.int_literal,
+                $.bool_literal,
                 $.char_literal,
                 $.string_literal,
                 $.array_literal,
@@ -246,6 +247,7 @@ module.exports = grammar({
         pattern: ($) =>
             choice(
                 $.int_literal,
+                $.bool_literal,
                 $.char_literal,
                 $.string_literal,
                 $.array_pattern,
@@ -481,6 +483,8 @@ module.exports = grammar({
             seq("'", choice($._non_escaped_char, $.escape_sequence), token.immediate("'")),
 
         _non_escaped_char: (_) => token.immediate(prec(1, /[^\\']/)),
+
+        bool_literal: ($) => choice("true", "false"),
 
         string_literal: ($) =>
             choice(

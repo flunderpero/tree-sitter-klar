@@ -1112,6 +1112,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "bool_literal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "char_literal"
         },
         {
@@ -1252,6 +1256,10 @@
         {
           "type": "SYMBOL",
           "name": "int_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "bool_literal"
         },
         {
           "type": "SYMBOL",
@@ -2968,6 +2976,19 @@
           "value": "[^\\\\']"
         }
       }
+    },
+    "bool_literal": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "true"
+        },
+        {
+          "type": "STRING",
+          "value": "false"
+        }
+      ]
     },
     "string_literal": {
       "type": "CHOICE",

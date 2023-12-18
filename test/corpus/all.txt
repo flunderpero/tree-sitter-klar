@@ -470,7 +470,7 @@ end
         (other_identifier)))))
 
 ================================================================================
-Char literal.
+Char literal
 ================================================================================
 
 fn test():
@@ -502,7 +502,28 @@ end
             (escape_sequence)))))))
 
 ================================================================================
-Unit type and unit literal.
+Boolean literal
+================================================================================
+
+fn test() ():
+    true
+    false
+end
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (unit))
+    (block
+      (expression
+        (bool_literal))
+      (expression
+        (bool_literal)))))
+
+================================================================================
+Unit type and unit literal
 ================================================================================
 
 fn test() ():
@@ -886,17 +907,17 @@ end
       (expression
         (if_expression
           (expression
-            (other_identifier))
+            (bool_literal))
           (block
             (expression
-              (other_identifier)))))
+              (bool_literal)))))
       (expression
         (if_expression
           (expression
-            (other_identifier))
+            (bool_literal))
           (block
             (expression
-              (other_identifier))))))))
+              (bool_literal))))))))
 
 ================================================================================
 Conditional: if then else
@@ -924,21 +945,21 @@ end
       (expression
         (if_expression
           (expression
-            (other_identifier))
+            (bool_literal))
           (expression
-            (other_identifier))
+            (bool_literal))
           (block
             (expression
-              (other_identifier)))))
+              (bool_literal)))))
       (expression
         (if_expression
           (expression
-            (other_identifier))
+            (bool_literal))
           (expression
-            (other_identifier))
+            (bool_literal))
           (block
             (expression
-              (other_identifier))))))))
+              (bool_literal))))))))
 
 ================================================================================
 Loops
@@ -1492,7 +1513,7 @@ end
               (int_literal))))))))
 
 ================================================================================
-Pattern matching.
+Pattern matching
 ================================================================================
 
 fn main():
@@ -1501,6 +1522,7 @@ fn main():
         1 => 1
         'a' => 1
         "string" => 1
+        true => 1
         [1, 2] => 1
         (1, 2) => 1
         1..10 => 1
@@ -1552,6 +1574,12 @@ end
           (match_arm
             (pattern
               (string_literal))
+            (block
+              (expression
+                (int_literal))))
+          (match_arm
+            (pattern
+              (bool_literal))
             (block
               (expression
                 (int_literal))))
