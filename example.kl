@@ -8,9 +8,7 @@ extern:
     impl A:
         fn function_c(self, a i32) i32
     end
-    impl ToStr for A:
-        fn to_str(self) str
-    end
+    impl ToStr for A
 end
 
 struct Person:
@@ -60,7 +58,7 @@ fn sub(x i32, y i32) i32?:
     return x - y
 end
 
-fn do_math(f (fn(i32, i32) i32)?, x i32, y i32) fn(i32) i32:
+fn do_math(f (fn(i32, i32) i32)?, x i32, y i32) (fn(i32) i32):
     return fn(z i32) => f(x, y)
 end
 
@@ -78,10 +76,6 @@ fn main():
     let optional str? = None
 
     mut mutable i32 = 1
-
-    let no_initializer i32
-
-    mut no_initializer i32
 
     let list [i32] = [1, 2, 3]
 

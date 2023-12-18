@@ -202,6 +202,10 @@
       "required": false,
       "types": [
         {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
           "type": "expression",
           "named": true
         },
@@ -484,46 +488,47 @@
   {
     "type": "extern_declaration",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "extern_impl_declaration",
-          "named": true
-        },
-        {
-          "type": "function_declaration",
-          "named": true
-        },
-        {
-          "type": "struct_declaration",
-          "named": true
-        }
-      ]
+    "fields": {
+      "declarations": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "extern_impl_declaration",
+            "named": true
+          },
+          {
+            "type": "function_declaration",
+            "named": true
+          },
+          {
+            "type": "struct_declaration",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "extern_impl_declaration",
     "named": true,
     "fields": {
+      "body": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "function_declaration",
+            "named": true
+          }
+        ]
+      },
       "for": {
         "multiple": false,
         "required": false,
         "types": [
           {
             "type": "type",
-            "named": true
-          }
-        ]
-      },
-      "methods": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "function_declaration",
             "named": true
           }
         ]
@@ -870,6 +875,10 @@
             "named": true
           },
           {
+            "type": "enum_declaration",
+            "named": true
+          },
+          {
             "type": "expression",
             "named": true
           },
@@ -905,22 +914,22 @@
     "type": "impl_definition",
     "named": true,
     "fields": {
+      "body": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "function_definition",
+            "named": true
+          }
+        ]
+      },
       "for": {
         "multiple": false,
         "required": false,
         "types": [
           {
             "type": "type",
-            "named": true
-          }
-        ]
-      },
-      "methods": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "function_definition",
             "named": true
           }
         ]
@@ -1037,6 +1046,10 @@
         },
         {
           "type": "continue_statement",
+          "named": true
+        },
+        {
+          "type": "enum_declaration",
           "named": true
         },
         {
@@ -1521,7 +1534,7 @@
     "type": "trait_definition",
     "named": true,
     "fields": {
-      "methods": {
+      "body": {
         "multiple": true,
         "required": false,
         "types": [

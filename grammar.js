@@ -90,8 +90,15 @@ module.exports = grammar({
             seq(
                 "extern",
                 ":",
-                repeat(
-                    choice($.function_declaration, $.struct_declaration, $.extern_impl_declaration),
+                field(
+                    "declarations",
+                    repeat(
+                        choice(
+                            $.function_declaration,
+                            $.struct_declaration,
+                            $.extern_impl_declaration,
+                        ),
+                    ),
                 ),
                 "end",
             ),
@@ -102,7 +109,7 @@ module.exports = grammar({
                     "impl",
                     field("type", $.type),
                     ":",
-                    field("methods", optional(repeat($.function_declaration))),
+                    field("body", optional(repeat($.function_declaration))),
                     "end",
                 ),
                 seq("impl", field("type", $.type), "for", field("for", $.type)),
@@ -137,7 +144,7 @@ module.exports = grammar({
                 field("name", $.type),
                 ":",
                 field(
-                    "methods",
+                    "body",
                     optional(repeat(choice($.function_declaration, $.function_definition))),
                 ),
                 "end",
@@ -149,7 +156,7 @@ module.exports = grammar({
                 field("type", $.type),
                 optional(seq("for", field("for", $.type))),
                 ":",
-                field("methods", optional(repeat($.function_definition))),
+                field("body", optional(repeat($.function_definition))),
                 "end",
             ),
 
@@ -160,6 +167,7 @@ module.exports = grammar({
                 $.statement,
                 $.expression,
                 $.struct_declaration,
+                $.enum_declaration,
                 $.trait_definition,
                 $.impl_definition,
                 $.function_definition,

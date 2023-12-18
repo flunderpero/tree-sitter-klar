@@ -1,20 +1,19 @@
-(identifier) @variable
+(other_identifier) @variable
 (type_identifier) @type
 (type) @type
 (comment) @comment
-(int) @number
-(string) @string
-(char) @character
+(int_literal) @number
+(string_literal) @string
+(char_literal) @character
 (escape_sequence) @string.escape
-(bool) @boolean
+(bool_literal) @boolean
 (self) @variable.builtin
 "?" @keyword.operator
 "fn" @keyword.function
 "return" @keyword.return
 [
-    (let)
-    (mut)
-    "yield"
+    "let"
+    "mut"
     "struct"
     "extern"
     "enum"
@@ -32,8 +31,8 @@
     "for"
     "while"
     "loop"
-    "break"
-    "continue"
+    ; "break"
+    ; "continue"
 ] @repeat
 
 [
@@ -86,12 +85,12 @@
     "}"
 ] @punctuation.braces
 
-(parameter
-  name: (identifier) @parameter
+(function_parameter
+  name: (other_identifier) @parameter
 )
 
 (function_declaration
-  name: (identifier) @function
+  name: (other_identifier) @function
 )
 
 (function_definition
@@ -102,11 +101,11 @@
   ]
 )
 
-(closure_parameter
-  name: (identifier) @parameter
+(lambda_parameter
+  name: (other_identifier) @parameter
 )
 
-(closure
+(lambda_expression
   [
     (block "=>" @keyword.function) 
     (block ":" @keyword.function) 
@@ -114,15 +113,13 @@
   ]
 )
 
-(parameter (identifier) @variable.parameter @parameter)
-
-(struct_instantiation (struct_field_assignment
-  name: (identifier) @field
+(struct_instantiation_expression (struct_field_assignment
+  name: (other_identifier) @field
 ))
 
 (struct_declaration
   [
-    name: (identifier) @type.definition
+    name: (type) @type.definition
     ":" @keyword
     "end" @keyword
   ]
@@ -130,20 +127,20 @@
 
 (enum_declaration
   [
-    name: (identifier) @type.definition
+    name: (type) @type.definition
     ":" @keyword
     "end" @keyword
   ]
 )
 
 (enum_variant_declaration
-  name: (identifier) @type.definition
+  name: (type_identifier) @type.definition
 )
 
 
 (trait_definition
   [
-    name: (identifier) @type.definition
+    name: (type) @type.definition
     ":" @keyword
     "end" @keyword
   ]
@@ -151,8 +148,8 @@
 
 (impl_definition 
   [
-    name: (identifier) @type
-    for: (identifier) @type
+    type: (type) @type
+    for: (type) @type
     "for" @keyword
     ":" @keyword
     "end" @keyword
@@ -163,10 +160,10 @@
   "end" @keyword
 )
 
-(extern_impl
+(extern_impl_declaration
   [
-    name: (identifier) @type
-    for: (identifier) @type
+    type: (type) @type
+    for: (type) @type
     "for" @keyword
     ":" @keyword
     "end" @keyword
@@ -174,48 +171,52 @@
 )
 
 
-(for
+(for_statement
   [
     "for" @repeat
     "in" @repeat
-    (block "=>" @repeat) 
-    (block ":" @repeat) 
-    (block "end" @repeat) 
+    (loop_block "=>" @repeat) 
+    (loop_block ":" @repeat) 
+    (loop_block "end" @repeat) 
   ]
 )
 
-(while
+(while_statement
   [
-    (block "=>" @repeat) 
-    (block ":" @repeat) 
-    (block "end" @repeat) 
+    (loop_block "=>" @repeat) 
+    (loop_block ":" @repeat) 
+    (loop_block "end" @repeat) 
   ]
 )
 
-(loop
+(loop_statement
   [
-    (block "=>" @repeat) 
-    (block ":" @repeat) 
-    (block "end" @repeat) 
+    (loop_block "=>" @repeat) 
+    (loop_block ":" @repeat) 
+    (loop_block "end" @repeat) 
   ]
 )
 
-(if_then_else
+(if_expression
   [
-    "end" @conditional
-    (if_block "=>" @conditional)
-    (if_block ":" @conditional)
-    (else_block 
-      [ 
-        (block "=>" @conditional)
-        (block ":" @conditional)
-        (block "end" @conditional)
-      ]
-    )
+    "=>" @conditional
+    ":" @conditional
+    then_block:
+    [
+      (block "=>" @conditional)
+      (block ":" @conditional)
+      (block "end" @conditional)
+    ]
+    else_block:
+    [ 
+      (block "=>" @conditional)
+      (block ":" @conditional)
+      (block "end" @conditional)
+    ]
   ]
 )
 
-(match
+(match_expression
   "end" @conditional
 )
 
@@ -227,8 +228,8 @@
   ]
 )
 
-(interpolated_string) @string
+(f_string_expression) @string
  
-(function_call
-  name: (identifier) @function
+(call_expression
+  target: (expression) @function
 )

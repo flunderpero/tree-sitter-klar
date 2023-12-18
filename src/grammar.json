@@ -429,23 +429,27 @@
           "value": ":"
         },
         {
-          "type": "REPEAT",
+          "type": "FIELD",
+          "name": "declarations",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "function_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "struct_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "extern_impl_declaration"
-              }
-            ]
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "function_declaration"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "struct_declaration"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "extern_impl_declaration"
+                }
+              ]
+            }
           }
         },
         {
@@ -478,7 +482,7 @@
             },
             {
               "type": "FIELD",
-              "name": "methods",
+              "name": "body",
               "content": {
                 "type": "CHOICE",
                 "members": [
@@ -713,7 +717,7 @@
         },
         {
           "type": "FIELD",
-          "name": "methods",
+          "name": "body",
           "content": {
             "type": "CHOICE",
             "members": [
@@ -791,7 +795,7 @@
         },
         {
           "type": "FIELD",
-          "name": "methods",
+          "name": "body",
           "content": {
             "type": "CHOICE",
             "members": [
@@ -866,6 +870,10 @@
         {
           "type": "SYMBOL",
           "name": "struct_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "enum_declaration"
         },
         {
           "type": "SYMBOL",
