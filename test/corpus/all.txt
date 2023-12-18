@@ -243,6 +243,31 @@ end
                         (int_literal)))))))))))))
 
 ================================================================================
+Return statement without expression (make sure the keyword `end` is not consumed)
+================================================================================
+
+fn test():
+    if true:
+        return
+    end
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (expression
+        (if_expression
+          (expression
+            (bool_literal))
+          (block
+            (statement
+              (return_statement))))))))
+
+================================================================================
 Function type
 ================================================================================
 

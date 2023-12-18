@@ -193,7 +193,9 @@ module.exports = grammar({
                 seq(field("left", $.expression), "=", field("right", choice($.expression))),
             ),
 
-        return_statement: ($) => seq("return", field("value", $.expression)),
+        return_statement: ($) => 
+            // We need right precedence (i.e. taking the longest match) to avoid ambiguity.
+            prec.right(seq("return", optional(field("value", $.expression)))),
 
         loop_statement: ($) => seq("loop", field("body", $.loop_block)),
 
