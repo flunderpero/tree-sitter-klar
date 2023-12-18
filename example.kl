@@ -45,8 +45,8 @@ impl Greeter for Person:
 end
 
 -- This is a line comment.
-fn test(x i32, y i32?) Str:
-    return 32
+fn test(x i32, y i32?) (str, i32):
+    return ("test", 32)
 end
 
 ---
@@ -65,7 +65,7 @@ end
 fn main():
     struct InnerStruct:
         x i32?
-        y Str
+        y str
         c char
     end
 
@@ -148,9 +148,9 @@ fn main():
        continue
     end
 
-    let x = for x in people:
+    for x in people:
         if x.city == "London":
-            yield true 
+            print(x.name)
         end 
     end
 

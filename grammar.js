@@ -554,6 +554,7 @@ module.exports = grammar({
                         $.builtin_type,
                         $.function_type,
                         $.array_type,
+                        $.tuple_type,
                     ),
                     optional("?"),
                 ),
@@ -564,6 +565,13 @@ module.exports = grammar({
         self: ($) => "self",
 
         array_type: ($) => seq("[", field("type", $.type), "]"),
+
+        tuple_type: ($) =>
+            seq(
+                "(",
+                field("types", seq($.type, ",", optional(comma_sep($.type)))),
+                ")",
+            ),
 
         function_type: ($) =>
             seq(

@@ -580,6 +580,47 @@ end
         (unit)))))
 
 ================================================================================
+Tuple type
+================================================================================
+
+fn test(a (i32, str)) (i32,):
+    let a (i32, str) = (1, "a")
+end
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (function_parameter
+        (other_identifier)
+        (type
+          (tuple_type
+            (type
+              (builtin_type))
+            (type
+              (builtin_type)))))
+      (type
+        (tuple_type
+          (type
+            (builtin_type)))))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (type
+          (tuple_type
+            (type
+              (builtin_type))
+            (type
+              (builtin_type))))
+        (expression
+          (tuple_literal
+            (expression
+              (int_literal))
+            (expression
+              (string_literal))))))))
+
+================================================================================
 Tuple literal
 ================================================================================
 
