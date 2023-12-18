@@ -229,7 +229,68 @@ module.exports = grammar({
                 $.call,
                 $.if_expression,
                 $.unit,
+                $.match_expression,
             ),
+
+        match_expression: ($) =>
+            seq(
+                "match",
+                field("expression", $.expression),
+                ":",
+                field("arms", repeat($.match_arm)),
+                "end",
+            ),
+
+        match_arm: ($) => seq(field("pattern", pipe_sep1($.pattern)), $.block),
+
+        pattern: ($) =>
+            choice(
+                $.int_literal,
+                $.char_literal,
+                $.string_literal,
+                $.array_pattern,
+                $.tuple_pattern,
+                $.other_identifier,
+                $.enum_pattern,
+                $.struct_pattern,
+                $.range_pattern,
+                $.wildcard_pattern,
+            ),
+
+        array_pattern: ($) => seq("[", field("elements", optional(comma_sep($.pattern))), "]"),
+
+        tuple_pattern: ($) =>
+            seq("(", field("elements", seq($.pattern, ",", optional(comma_sep($.pattern)))), ")"),
+
+        range_pattern: ($) =>
+            seq(
+                field("start", $.range_pattern_literal),
+                field("range_type", choice("..", "..<")),
+                field("end", $.range_pattern_literal),
+            ),
+
+        range_pattern_literal: ($) => choice($.int_literal, $.char_literal),
+
+        struct_pattern: ($) =>
+            seq(
+                field("type", $.type),
+                "{",
+                field("fields", optional(comma_sep($.struct_pattern_field))),
+                "}",
+            ),
+
+        struct_pattern_field: ($) =>
+            seq(field("name", $.other_identifier), optional(seq(":", field("value", $.pattern)))),
+
+        enum_pattern: ($) =>
+            prec.right(
+                seq(
+                    field("type", $.type),
+                    optional(seq("(", field("fields", optional(comma_sep($.pattern))), ")")),
+                ),
+            ),
+
+        wildcard_pattern: ($) => "_",
 
         if_expression: ($) =>
             prec.left(
@@ -545,4 +606,8 @@ function comma_sep(rule) {
 
 function dot_sep1(rule) {
     return seq(rule, repeat(seq(".", rule)))
+}
+
+function pipe_sep1(rule) {
+    return seq(rule, repeat(seq("|", rule)))
 }
