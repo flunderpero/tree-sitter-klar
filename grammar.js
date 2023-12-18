@@ -50,11 +50,11 @@ module.exports = grammar({
                 "enum",
                 field("name", $.type),
                 ":",
-                field("variants", optional(repeat($.enum_variant))),
+                field("variants", optional(repeat($.enum_variant_declaration))),
                 "end",
             ),
 
-        enum_variant: ($) =>
+        enum_variant_declaration: ($) =>
             seq(
                 field("name", $.type_identifier),
                 optional(seq("(", field("fields", comma_sep($.type)), ")")),
@@ -105,7 +105,7 @@ module.exports = grammar({
                     field("methods", optional(repeat($.function_declaration))),
                     "end",
                 ),
-                seq("impl", field("type", $.type), "for", field("trait", $.type)),
+                seq("impl", field("type", $.type), "for", field("for", $.type)),
             ),
 
         // Definitions:
@@ -113,7 +113,7 @@ module.exports = grammar({
         function_definition: ($) =>
             seq(field("declaration", $.function_declaration), field("body", $.block)),
 
-        lambda_definition: ($) =>
+        lambda_expression: ($) =>
             seq(
                 "fn",
                 optional(field("type_parameters", $.type_parameters)),
@@ -147,7 +147,7 @@ module.exports = grammar({
             seq(
                 "impl",
                 field("type", $.type),
-                optional(seq("for", field("trait", $.type))),
+                optional(seq("for", field("for", $.type))),
                 ":",
                 field("methods", optional(repeat($.function_definition))),
                 "end",
@@ -220,15 +220,15 @@ module.exports = grammar({
                 $.string_literal,
                 $.array_literal,
                 $.tuple_literal,
-                $.f_string,
                 $.other_identifier,
-                $.field_access,
                 $.type_identifier,
-                $.binary,
-                $.unary,
-                $.struct_instantiation,
-                $.lambda_definition,
-                $.call,
+                $.f_string_expression,
+                $.field_access_expression,
+                $.binary_expression,
+                $.unary_expression,
+                $.struct_instantiation_expression,
+                $.lambda_expression,
+                $.call_expression,
                 $.if_expression,
                 $.unit,
                 $.match_expression,
@@ -318,21 +318,21 @@ module.exports = grammar({
                 ),
             ),
 
-        struct_instantiation: ($) =>
+        struct_instantiation_expression: ($) =>
             seq(
                 optional(field("type", $.type)),
                 "{",
-                field("parameters", optional(comma_sep($.struct_parameter))),
+                field("parameters", optional(comma_sep($.struct_field_assignment))),
                 "}",
             ),
 
-        struct_parameter: ($) =>
+        struct_field_assignment: ($) =>
             seq(
                 field("name", $.other_identifier),
                 optional(seq(":", field("value", $.expression))),
             ),
 
-        call: ($) =>
+        call_expression: ($) =>
             prec.left(
                 // Precedence must be higher to avoid ambiguity
                 // with the `<` binary expression when using type parameters.
@@ -355,12 +355,8 @@ module.exports = grammar({
 
         call_arguments: ($) => seq(token.immediate("("), comma_sep($.expression), ")"),
 
-        field_access: ($) =>
+        field_access_expression: ($) =>
             prec.left(
-                // We use right precedence because we want to take the longest match.
-                // Otherwise, instead of a single `field_access` with multiple
-                // `field_access_expression` we would get nested `field_access`.
-
                 // Precedence must be higher to avoid ambiguity
                 // with the `<` binary expression when using type parameters.
                 5,
@@ -377,23 +373,23 @@ module.exports = grammar({
                         ),
                     ),
                     ".",
-                    dot_sep1(field("field", $.field_access_expression)),
+                    dot_sep1(field("field", $.field_access_field_expression)),
                 ),
             ),
 
-        field_access_expression: ($) =>
+        field_access_field_expression: ($) =>
             prec.left(
                 // Precedence must be higher to avoid ambiguity with `$.expression`.
                 1,
                 choice(
                     $.int_literal,
                     seq($.other_identifier, optional(field("type_parameters", $.type_parameters))),
-                    $.call,
+                    $.call_expression,
                     $.type,
                 ),
             ),
 
-        f_string: ($) =>
+        f_string_expression: ($) =>
             choice(
                 // Single-line interpolated string
                 seq(
@@ -429,9 +425,10 @@ module.exports = grammar({
 
         _f_string_expression: ($) => seq("{", $.expression, "}"),
 
-        unary: ($) => prec.left(PREC.UNARY, seq("not", field("expression", $.expression))),
+        unary_expression: ($) =>
+            prec.left(PREC.UNARY, seq("not", field("expression", $.expression))),
 
-        binary: ($) =>
+        binary_expression: ($) =>
             field(
                 "operation",
                 choice(

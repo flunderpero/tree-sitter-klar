@@ -82,7 +82,7 @@
     }
   },
   {
-    "type": "binary",
+    "type": "binary_expression",
     "named": true,
     "fields": {
       "left": {
@@ -243,7 +243,22 @@
     "fields": {}
   },
   {
-    "type": "call",
+    "type": "call_arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "call_expression",
     "named": true,
     "fields": {
       "target": {
@@ -283,21 +298,6 @@
     }
   },
   {
-    "type": "call_arguments",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "char_literal",
     "named": true,
     "fields": {},
@@ -331,7 +331,7 @@
         "required": false,
         "types": [
           {
-            "type": "enum_variant",
+            "type": "enum_variant_declaration",
             "named": true
           }
         ]
@@ -369,7 +369,7 @@
     }
   },
   {
-    "type": "enum_variant",
+    "type": "enum_variant_declaration",
     "named": true,
     "fields": {
       "fields": {
@@ -411,7 +411,7 @@
           "named": true
         },
         {
-          "type": "binary",
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -419,7 +419,7 @@
           "named": true
         },
         {
-          "type": "call",
+          "type": "call_expression",
           "named": true
         },
         {
@@ -427,11 +427,11 @@
           "named": true
         },
         {
-          "type": "f_string",
+          "type": "f_string_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "field_access_expression",
           "named": true
         },
         {
@@ -443,7 +443,7 @@
           "named": true
         },
         {
-          "type": "lambda_definition",
+          "type": "lambda_expression",
           "named": true
         },
         {
@@ -459,7 +459,7 @@
           "named": true
         },
         {
-          "type": "struct_instantiation",
+          "type": "struct_instantiation_expression",
           "named": true
         },
         {
@@ -471,7 +471,7 @@
           "named": true
         },
         {
-          "type": "unary",
+          "type": "unary_expression",
           "named": true
         },
         {
@@ -508,22 +508,22 @@
     "type": "extern_impl_declaration",
     "named": true,
     "fields": {
+      "for": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      },
       "methods": {
         "multiple": true,
         "required": false,
         "types": [
           {
             "type": "function_declaration",
-            "named": true
-          }
-        ]
-      },
-      "trait": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "type",
             "named": true
           }
         ]
@@ -541,7 +541,7 @@
     }
   },
   {
-    "type": "f_string",
+    "type": "f_string_expression",
     "named": true,
     "fields": {},
     "children": {
@@ -560,7 +560,7 @@
     }
   },
   {
-    "type": "field_access",
+    "type": "field_access_expression",
     "named": true,
     "fields": {
       "field": {
@@ -568,7 +568,7 @@
         "required": true,
         "types": [
           {
-            "type": "field_access_expression",
+            "type": "field_access_field_expression",
             "named": true
           }
         ]
@@ -600,7 +600,7 @@
     }
   },
   {
-    "type": "field_access_expression",
+    "type": "field_access_field_expression",
     "named": true,
     "fields": {
       "type_parameters": {
@@ -619,7 +619,7 @@
       "required": true,
       "types": [
         {
-          "type": "call",
+          "type": "call_expression",
           "named": true
         },
         {
@@ -905,22 +905,22 @@
     "type": "impl_definition",
     "named": true,
     "fields": {
+      "for": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      },
       "methods": {
         "multiple": true,
         "required": false,
         "types": [
           {
             "type": "function_definition",
-            "named": true
-          }
-        ]
-      },
-      "trait": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "type",
             "named": true
           }
         ]
@@ -938,7 +938,7 @@
     }
   },
   {
-    "type": "lambda_definition",
+    "type": "lambda_expression",
     "named": true,
     "fields": {
       "body": {
@@ -1406,37 +1406,7 @@
     }
   },
   {
-    "type": "struct_instantiation",
-    "named": true,
-    "fields": {
-      "parameters": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "struct_parameter",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "type",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "struct_parameter",
+    "type": "struct_field_assignment",
     "named": true,
     "fields": {
       "name": {
@@ -1455,6 +1425,36 @@
         "types": [
           {
             "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "struct_instantiation_expression",
+    "named": true,
+    "fields": {
+      "parameters": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "struct_field_assignment",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
             "named": true
           }
         ]
@@ -1638,7 +1638,7 @@
     }
   },
   {
-    "type": "unary",
+    "type": "unary_expression",
     "named": true,
     "fields": {
       "expression": {

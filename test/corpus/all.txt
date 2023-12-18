@@ -121,7 +121,7 @@ end
       (statement
         (return_statement
           (expression
-            (binary
+            (binary_expression
               (expression
                 (other_identifier))
               (expression
@@ -192,7 +192,7 @@ end
       (variable_declaration
         (other_identifier)
         (expression
-          (lambda_definition
+          (lambda_expression
             (lambda_parameter
               (other_identifier)
               (type
@@ -201,7 +201,7 @@ end
               (builtin_type))
             (block
               (expression
-                (binary
+                (binary_expression
                   (expression
                     (other_identifier))
                   (expression
@@ -213,30 +213,30 @@ end
           (expression
             (other_identifier))
           (expression
-            (lambda_definition
+            (lambda_expression
               (lambda_parameter
                 (other_identifier))
               (block
                 (expression
-                  (binary
+                  (binary_expression
                     (expression
                       (other_identifier))
                     (expression
                       (int_literal)))))))))
       (expression
-        (call
+        (call_expression
           (expression
             (other_identifier))
           (call_arguments
             (expression
-              (lambda_definition
+              (lambda_expression
                 (lambda_parameter
                   (other_identifier)
                   (type
                     (builtin_type)))
                 (block
                   (expression
-                    (binary
+                    (binary_expression
                       (expression
                         (other_identifier))
                       (expression
@@ -313,11 +313,11 @@ end
       (other_identifier))
     (block
       (expression
-        (call
+        (call_expression
           (expression
             (other_identifier))))
       (expression
-        (call
+        (call_expression
           (expression
             (other_identifier))
           (call_arguments
@@ -328,13 +328,13 @@ end
             (expression
               (other_identifier))
             (expression
-              (binary
+              (binary_expression
                 (expression
                   (other_identifier))
                 (expression
                   (int_literal)))))))
       (expression
-        (call
+        (call_expression
           (expression
             (other_identifier))
           (type_parameters
@@ -344,7 +344,7 @@ end
             (expression
               (int_literal)))))
       (expression
-        (call
+        (call_expression
           (type
             (type_identifier)
             (type_parameters
@@ -539,13 +539,13 @@ end
       (unit))
     (block
       (expression
-        (field_access
+        (field_access_expression
           (type
             (type_identifier)
             (type_parameters
               (unit)))
-          (field_access_expression
-            (call
+          (field_access_field_expression
+            (call_expression
               (type
                 (type_identifier))
               (call_arguments
@@ -587,15 +587,15 @@ end
             (expression
               (int_literal))
             (expression
-              (struct_instantiation
+              (struct_instantiation_expression
                 (type
                   (type_identifier))
-                (struct_parameter
+                (struct_field_assignment
                   (other_identifier)
                   (expression
                     (int_literal)))))
             (expression
-              (call
+              (call_expression
                 (expression
                   (other_identifier)))))))
       (variable_declaration
@@ -607,7 +607,7 @@ end
             (expression
               (char_literal))
             (expression
-              (call
+              (call_expression
                 (type
                   (type_identifier))
                 (call_arguments
@@ -650,20 +650,20 @@ end
           (expression
             (int_literal))))
       (expression
-        (call
+        (call_expression
           (expression
-            (field_access
+            (field_access_expression
               (expression
-                (field_access
+                (field_access_expression
                   (expression
-                    (field_access
+                    (field_access_expression
                       (expression
                         (other_identifier))
-                      (field_access_expression
+                      (field_access_field_expression
                         (other_identifier))))
-                  (field_access_expression
+                  (field_access_field_expression
                     (other_identifier))))
-              (field_access_expression
+              (field_access_field_expression
                 (other_identifier))))))
       (expression
         (unit)))))
@@ -790,20 +790,20 @@ end
       (variable_declaration
         (other_identifier)
         (expression
-          (f_string
+          (f_string_expression
             (expression
               (other_identifier))
             (expression
-              (binary
+              (binary_expression
                 (expression
                   (int_literal))
                 (expression
                   (int_literal))))
             (expression
-              (field_access
+              (field_access_expression
                 (expression
                   (other_identifier))
-                (field_access_expression
+                (field_access_field_expression
                   (other_identifier))))
             (escape_sequence)
             (escape_sequence)))))))
@@ -828,20 +828,20 @@ end
       (variable_declaration
         (other_identifier)
         (expression
-          (f_string
+          (f_string_expression
             (expression
               (other_identifier))
             (expression
-              (binary
+              (binary_expression
                 (expression
                   (int_literal))
                 (expression
                   (int_literal))))
             (expression
-              (field_access
+              (field_access_expression
                 (expression
                   (other_identifier))
-                (field_access_expression
+                (field_access_field_expression
                   (other_identifier))))
             (escape_sequence)
             (escape_sequence)))))))
@@ -862,19 +862,19 @@ end
       (other_identifier))
     (block
       (expression
-        (binary
+        (binary_expression
           (expression
-            (binary
+            (binary_expression
               (expression
-                (binary
+                (binary_expression
                   (expression
                     (int_literal))
                   (expression
                     (int_literal))))
               (expression
-                (binary
+                (binary_expression
                   (expression
-                    (binary
+                    (binary_expression
                       (expression
                         (int_literal))
                       (expression
@@ -900,9 +900,9 @@ end
       (other_identifier))
     (block
       (expression
-        (binary
+        (binary_expression
           (expression
-            (unary
+            (unary_expression
               (expression
                 (bool_literal))))
           (expression
@@ -1012,10 +1012,10 @@ end
             (other_identifier))
           (loop_block
             (expression
-              (field_access
+              (field_access_expression
                 (expression
                   (other_identifier))
-                (field_access_expression
+                (field_access_field_expression
                   (other_identifier)))))))
       (statement
         (loop_statement
@@ -1025,7 +1025,7 @@ end
       (statement
         (while_statement
           (expression
-            (binary
+            (binary_expression
               (expression
                 (other_identifier))
               (expression
@@ -1036,7 +1036,7 @@ end
                 (expression
                   (other_identifier))
                 (expression
-                  (binary
+                  (binary_expression
                     (expression
                       (other_identifier))
                     (expression
@@ -1105,20 +1105,20 @@ end
       (variable_declaration
         (other_identifier)
         (expression
-          (struct_instantiation
+          (struct_instantiation_expression
             (type
               (type_identifier))
-            (struct_parameter
+            (struct_field_assignment
               (other_identifier)
               (expression
                 (string_literal)))
-            (struct_parameter
+            (struct_field_assignment
               (other_identifier))
-            (struct_parameter
+            (struct_field_assignment
               (other_identifier)
               (expression
-                (struct_instantiation
-                  (struct_parameter
+                (struct_instantiation_expression
+                  (struct_field_assignment
                     (other_identifier)
                     (expression
                       (string_literal))))))))))))
@@ -1188,11 +1188,11 @@ end
       (type_parameters
         (type
           (type_identifier))))
-    (enum_variant
+    (enum_variant_declaration
       (type_identifier)
       (type
         (type_identifier)))
-    (enum_variant
+    (enum_variant_declaration
       (type_identifier)))
   (trait_definition
     (type
@@ -1224,14 +1224,14 @@ end
       (variable_declaration
         (other_identifier)
         (expression
-          (field_access
+          (field_access_expression
             (type
               (type_identifier)
               (type_parameters
                 (type
                   (builtin_type))))
-            (field_access_expression
-              (call
+            (field_access_field_expression
+              (call_expression
                 (type
                   (type_identifier))
                 (call_arguments
@@ -1273,7 +1273,7 @@ end
           (type_identifier)))
       (block
         (expression
-          (call
+          (call_expression
             (type
               (type_identifier))
             (call_arguments
@@ -1286,15 +1286,15 @@ end
           (self)))
       (block
         (expression
-          (call
+          (call_expression
             (expression
               (other_identifier))
             (call_arguments
               (expression
-                (field_access
+                (field_access_expression
                   (expression
                     (other_identifier))
-                  (field_access_expression
+                  (field_access_field_expression
                     (other_identifier)))))))))))
 
 ================================================================================
@@ -1338,7 +1338,7 @@ end
           (self)))
       (block
         (expression
-          (call
+          (call_expression
             (expression
               (other_identifier))
             (call_arguments
@@ -1403,15 +1403,15 @@ end
           (self)))
       (block
         (expression
-          (call
+          (call_expression
             (expression
               (other_identifier))
             (call_arguments
               (expression
-                (field_access
+                (field_access_expression
                   (expression
                     (other_identifier))
-                  (field_access_expression
+                  (field_access_field_expression
                     (other_identifier)))))))))))
 
 ================================================================================
@@ -1431,13 +1431,13 @@ end
   (enum_declaration
     (type
       (type_identifier))
-    (enum_variant
+    (enum_variant_declaration
       (type_identifier))
-    (enum_variant
+    (enum_variant_declaration
       (type_identifier))
-    (enum_variant
+    (enum_variant_declaration
       (type_identifier))
-    (enum_variant
+    (enum_variant_declaration
       (type_identifier)
       (type
         (builtin_type))
@@ -1467,66 +1467,66 @@ end
       (variable_declaration
         (other_identifier)
         (expression
-          (field_access
+          (field_access_expression
             (expression
               (other_identifier))
-            (field_access_expression
+            (field_access_field_expression
               (other_identifier)))))
       (statement
         (assignment_statement
           (expression
-            (field_access
+            (field_access_expression
               (expression
                 (other_identifier))
-              (field_access_expression
+              (field_access_field_expression
                 (other_identifier))))
           (expression
             (string_literal))))
       (expression
-        (binary
+        (binary_expression
           (expression
-            (field_access
+            (field_access_expression
               (expression
                 (other_identifier))
-              (field_access_expression
+              (field_access_field_expression
                 (other_identifier))))
           (expression
             (string_literal))))
       (expression
-        (field_access
+        (field_access_expression
           (expression
-            (call
+            (call_expression
               (expression
-                (field_access
+                (field_access_expression
                   (expression
-                    (call
+                    (call_expression
                       (expression
-                        (field_access
+                        (field_access_expression
                           (expression
                             (other_identifier))
-                          (field_access_expression
+                          (field_access_field_expression
                             (other_identifier))))))
-                  (field_access_expression
+                  (field_access_field_expression
                     (other_identifier))))))
-          (field_access_expression
+          (field_access_field_expression
             (other_identifier))))
       (expression
-        (field_access
+        (field_access_expression
           (type
             (type_identifier))
-          (field_access_expression
+          (field_access_field_expression
             (type
               (type_identifier)))))
       (expression
-        (call
+        (call_expression
           (expression
-            (field_access
+            (field_access_expression
               (type
                 (type_identifier)
                 (type_parameters
                   (type
                     (type_identifier))))
-              (field_access_expression
+              (field_access_field_expression
                 (type
                   (type_identifier)))))
           (type_parameters
@@ -1780,18 +1780,18 @@ end
           (type_identifier))))
     (block
       (expression
-        (struct_instantiation
+        (struct_instantiation_expression
           (type
             (type_identifier)
             (type_parameters
               (type
                 (builtin_type))))
-          (struct_parameter
+          (struct_field_assignment
             (other_identifier)
             (expression
               (int_literal)))))
       (expression
-        (call
+        (call_expression
           (expression
             (other_identifier))
           (type_parameters
@@ -1802,7 +1802,7 @@ end
                   (builtin_type)))))
           (call_arguments
             (expression
-              (binary
+              (binary_expression
                 (expression
                   (other_identifier))
                 (expression

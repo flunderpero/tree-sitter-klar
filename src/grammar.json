@@ -127,7 +127,7 @@
                 "type": "REPEAT",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "enum_variant"
+                  "name": "enum_variant_declaration"
                 }
               },
               {
@@ -142,7 +142,7 @@
         }
       ]
     },
-    "enum_variant": {
+    "enum_variant_declaration": {
       "type": "SEQ",
       "members": [
         {
@@ -522,7 +522,7 @@
             },
             {
               "type": "FIELD",
-              "name": "trait",
+              "name": "for",
               "content": {
                 "type": "SYMBOL",
                 "name": "type"
@@ -553,7 +553,7 @@
         }
       ]
     },
-    "lambda_definition": {
+    "lambda_expression": {
       "type": "SEQ",
       "members": [
         {
@@ -772,7 +772,7 @@
                 },
                 {
                   "type": "FIELD",
-                  "name": "trait",
+                  "name": "for",
                   "content": {
                     "type": "SYMBOL",
                     "name": "type"
@@ -1132,15 +1132,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "f_string"
-        },
-        {
-          "type": "SYMBOL",
           "name": "other_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "field_access"
         },
         {
           "type": "SYMBOL",
@@ -1148,23 +1140,31 @@
         },
         {
           "type": "SYMBOL",
-          "name": "binary"
+          "name": "f_string_expression"
         },
         {
           "type": "SYMBOL",
-          "name": "unary"
+          "name": "field_access_expression"
         },
         {
           "type": "SYMBOL",
-          "name": "struct_instantiation"
+          "name": "binary_expression"
         },
         {
           "type": "SYMBOL",
-          "name": "lambda_definition"
+          "name": "unary_expression"
         },
         {
           "type": "SYMBOL",
-          "name": "call"
+          "name": "struct_instantiation_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "lambda_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "call_expression"
         },
         {
           "type": "SYMBOL",
@@ -1747,7 +1747,7 @@
         ]
       }
     },
-    "struct_instantiation": {
+    "struct_instantiation_expression": {
       "type": "SEQ",
       "members": [
         {
@@ -1781,7 +1781,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "struct_parameter"
+                    "name": "struct_field_assignment"
                   },
                   {
                     "type": "REPEAT",
@@ -1794,7 +1794,7 @@
                         },
                         {
                           "type": "SYMBOL",
-                          "name": "struct_parameter"
+                          "name": "struct_field_assignment"
                         }
                       ]
                     }
@@ -1813,7 +1813,7 @@
         }
       ]
     },
-    "struct_parameter": {
+    "struct_field_assignment": {
       "type": "SEQ",
       "members": [
         {
@@ -1851,7 +1851,7 @@
         }
       ]
     },
-    "call": {
+    "call_expression": {
       "type": "PREC_LEFT",
       "value": 4,
       "content": {
@@ -1955,7 +1955,7 @@
         }
       ]
     },
-    "field_access": {
+    "field_access_expression": {
       "type": "PREC_LEFT",
       "value": 5,
       "content": {
@@ -2011,7 +2011,7 @@
                 "name": "field",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "field_access_expression"
+                  "name": "field_access_field_expression"
                 }
               },
               {
@@ -2028,7 +2028,7 @@
                       "name": "field",
                       "content": {
                         "type": "SYMBOL",
-                        "name": "field_access_expression"
+                        "name": "field_access_field_expression"
                       }
                     }
                   ]
@@ -2039,7 +2039,7 @@
         ]
       }
     },
-    "field_access_expression": {
+    "field_access_field_expression": {
       "type": "PREC_LEFT",
       "value": 1,
       "content": {
@@ -2076,7 +2076,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "call"
+            "name": "call_expression"
           },
           {
             "type": "SYMBOL",
@@ -2085,7 +2085,7 @@
         ]
       }
     },
-    "f_string": {
+    "f_string_expression": {
       "type": "CHOICE",
       "members": [
         {
@@ -2215,7 +2215,7 @@
         }
       ]
     },
-    "unary": {
+    "unary_expression": {
       "type": "PREC_LEFT",
       "value": 13,
       "content": {
@@ -2236,7 +2236,7 @@
         ]
       }
     },
-    "binary": {
+    "binary_expression": {
       "type": "FIELD",
       "name": "operation",
       "content": {
