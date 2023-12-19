@@ -253,9 +253,10 @@ module.exports = grammar({
                 "end",
             ),
 
-        match_arm: ($) => seq(field("pattern", pipe_sep1($.pattern)), $.block),
+        match_arm: ($) => seq(field("patterns", $.pattern), $.block),
 
         pattern: ($) =>
+            pipe_sep1(
             choice(
                 $.int_literal,
                 $.bool_literal,
@@ -268,7 +269,7 @@ module.exports = grammar({
                 $.struct_pattern,
                 $.range_pattern,
                 $.wildcard_pattern,
-            ),
+            )),
 
         array_pattern: ($) => seq("[", field("elements", optional(comma_sep($.pattern))), "]"),
 

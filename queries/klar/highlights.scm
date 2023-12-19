@@ -1,6 +1,6 @@
-(other_identifier) @variable
 (type_identifier) @type
 (type) @type
+(unit) @type
 (comment) @comment
 (int_literal) @number
 (string_literal) @string
@@ -85,8 +85,12 @@
     "}"
 ] @punctuation.braces
 
+(expression 
+  (unit) @variable.builtin
+)
+
 (function_parameter
-  name: (other_identifier) @parameter
+  name: (other_identifier) @variable.parameter
 )
 
 (function_declaration
@@ -111,6 +115,10 @@
     (block ":" @keyword.function) 
     (block "end" @keyword.function) 
   ]
+)
+
+(variable_declaration
+    name: (other_identifier) @variable
 )
 
 (struct_instantiation_expression (struct_field_assignment
@@ -170,7 +178,6 @@
   ]
 )
 
-
 (for_statement
   [
     "for" @repeat
@@ -197,22 +204,17 @@
   ]
 )
 
+(break_statement) @repeat
+
+(continue_statement) @repeat
+
 (if_expression
   [
     "=>" @conditional
     ":" @conditional
-    then_block:
-    [
-      (block "=>" @conditional)
-      (block ":" @conditional)
-      (block "end" @conditional)
-    ]
-    else_block:
-    [ 
-      (block "=>" @conditional)
-      (block ":" @conditional)
-      (block "end" @conditional)
-    ]
+    (block "=>" @conditional)
+    (block ":" @conditional)
+    (block "end" @conditional)
   ]
 )
 
@@ -231,5 +233,5 @@
 (f_string_expression) @string
  
 (call_expression
-  target: (expression) @function
+  target: (_) @function
 )

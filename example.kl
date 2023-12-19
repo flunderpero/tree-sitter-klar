@@ -32,6 +32,7 @@ end
 
 trait Greeter:
     fn default_impl(self):
+        self.whatever.do_something()
         print("default")
     end
 
@@ -60,6 +61,10 @@ end
 
 fn do_math(f (fn(i32, i32) i32)?, x i32, y i32) (fn(i32) i32):
     return fn(z i32) => f(x, y)
+end
+
+fn something_with_the_unit_type() ():
+    return ()
 end
 
 fn main():
@@ -93,7 +98,7 @@ fn main():
         2 => print("two")
         3..10 => print("three to ten")
         11 | 12 | 13 => print("eleven, twelve or thirteen")
-        Some(x) => print(x)
+        Some(x | 3) => print(x)
         Person{ name: a, age: _} => print(a)
         _ :
             print("other")

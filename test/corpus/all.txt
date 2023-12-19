@@ -98,7 +98,7 @@ Function definition with mutable and optional parameters and binary expression r
 ================================================================================
 
 fn test(mut x i32, y i32?) i32?:
-    return x < y
+    return x< y
 end
 
 --------------------------------------------------------------------------------
@@ -325,6 +325,8 @@ Calls (function call, method call, enum instantiation)
 
 fn main():
     test()
+    test.foo()
+    test()(1)
     test("string", 42, some_variable, a == 10)
     test<i32>(1)
     Foo<i32>(1)
@@ -341,6 +343,23 @@ end
         (call_expression
           (expression
             (other_identifier))))
+      (expression
+        (call_expression
+          (expression
+            (field_access_expression
+              (expression
+                (other_identifier))
+              (field_access_field_expression
+                (other_identifier))))))
+      (expression
+        (call_expression
+          (expression
+            (call_expression
+              (expression
+                (other_identifier))))
+          (call_arguments
+            (expression
+              (int_literal)))))
       (expression
         (call_expression
           (expression
@@ -1621,7 +1640,7 @@ fn main():
         Struct{a: 1} => 1
         Enum => 1 
         Enum(1, _) => 1
-        1 | 2..10 | 'a' => 1
+        Enum(1 | 2..10 | 'a') => 1
         _:
             "a multi-expression block"
         end
@@ -1711,10 +1730,8 @@ end
                 (int_literal))))
           (match_arm
             (pattern
-              (int_literal))
-            (pattern
-              (char_literal))
-            (pattern
+              (int_literal)
+              (char_literal)
               (string_literal))
             (block
               (expression
@@ -1753,15 +1770,17 @@ end
                 (int_literal))))
           (match_arm
             (pattern
-              (int_literal))
-            (pattern
-              (range_pattern
-                (range_pattern_literal
-                  (int_literal))
-                (range_pattern_literal
-                  (int_literal))))
-            (pattern
-              (char_literal))
+              (enum_pattern
+                (type
+                  (type_identifier))
+                (pattern
+                  (int_literal)
+                  (range_pattern
+                    (range_pattern_literal
+                      (int_literal))
+                    (range_pattern_literal
+                      (int_literal)))
+                  (char_literal))))
             (block
               (expression
                 (int_literal))))

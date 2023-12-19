@@ -11,6 +11,7 @@ impl Test {
     }
 
     fn print(&self) {
+        self.a.print();
         println!("{} {}", self.a, self.b);
     }
 }

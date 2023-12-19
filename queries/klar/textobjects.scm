@@ -1,33 +1,51 @@
-(function_definition body: (_) @function.inner @block.inner) @function.outer @block.outer
-(impl_definition body: (_) @class.inner @block.inner) @class.outer @block.outer
-(trait_definition body: (_) @class.inner @block.inner) @class.outer @block.outer
-(enum_declaration variants: (_) @class.inner @block.inner) @class.outer @block.outer
-(struct_declaration fields: (_) @class.inner @block.inner) @class.outer @block.outer
-(extern_declaration declarations: (_) @class.inner @block.inner) @class.outer @block.outer
-(extern_impl_declaration body: (_) @class.inner @block.inner) @class.outer @block.outer
+(_
+  (":" . (_) @_start @_end _? @_end . "end"
+    (#make-range! "block.inner" @_start @_end)
+  )
+) @block.outer
+(_ "=>" (_) @block.inner) @block.outer
+
+(function_definition
+  (block
+  (":" . (_) @_start @_end _? @_end . "end"
+    (#make-range! "function.inner" @_start @_end)
+  ))
+) @function.outer
+
 (function_parameter) @parameter
-(match_expression) @block.outer
-(block
+
+(struct_declaration
   (":" . (_) @_start @_end _? @_end . "end"
-    (#make-range! "block.inner" @_start @_end)
+    (#make-range! "class.inner" @_start @_end)
   )
-) @block.outer
-(block
-  "=>" (_) @block.inner
-)
-(loop_block
+) @class.outer
+
+(enum_declaration
   (":" . (_) @_start @_end _? @_end . "end"
-    (#make-range! "block.inner" @_start @_end)
+    (#make-range! "class.inner" @_start @_end)
   )
-) @block.outer
-(loop_block
-  "=>" (_) @block.inner
-)
-(if_expression
-  then_block: (":" . (_) @_start @_end _? @_end . "else"?
-    (#make-range! "block.inner" @_start @_end)
+) @class.outer
+
+(trait_definition
+  (":" . (_) @_start @_end _? @_end . "end"
+    (#make-range! "class.inner" @_start @_end)
   )
-) @block.outer
-(if_expression
-  then_block: "=>" (_) @block.inner
-)
+) @class.outer
+
+(impl_definition
+  (":" . (_) @_start @_end _? @_end . "end"
+    (#make-range! "class.inner" @_start @_end)
+  )
+) @class.outer
+
+(extern_declaration
+  (":" . (_) @_start @_end _? @_end . "end"
+    (#make-range! "class.inner" @_start @_end)
+  )
+) @class.outer
+
+(extern_impl_declaration
+  (":" . (_) @_start @_end _? @_end . "end"
+    (#make-range! "class.inner" @_start @_end)
+  )
+) @class.outer

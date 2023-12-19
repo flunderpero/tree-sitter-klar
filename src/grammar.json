@@ -1241,31 +1241,10 @@
       "members": [
         {
           "type": "FIELD",
-          "name": "pattern",
+          "name": "patterns",
           "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "pattern"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": "|"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "pattern"
-                    }
-                  ]
-                }
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "pattern"
           }
         },
         {
@@ -1275,51 +1254,117 @@
       ]
     },
     "pattern": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "int_literal"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "int_literal"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "bool_literal"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "char_literal"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "string_literal"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "array_pattern"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "tuple_pattern"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "other_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "enum_pattern"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "struct_pattern"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "range_pattern"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "wildcard_pattern"
+            }
+          ]
         },
         {
-          "type": "SYMBOL",
-          "name": "bool_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "char_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "array_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "tuple_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "other_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "enum_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "struct_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "range_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "wildcard_pattern"
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "|"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "int_literal"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "bool_literal"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "char_literal"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "string_literal"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "array_pattern"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "tuple_pattern"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "other_identifier"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "enum_pattern"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "struct_pattern"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "range_pattern"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "wildcard_pattern"
+                  }
+                ]
+              }
+            ]
+          }
         }
       ]
     },
