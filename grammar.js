@@ -224,6 +224,8 @@ module.exports = grammar({
 
         continue_statement: ($) => "continue",
 
+        expression_statement: ($) => prec(-1, seq($._expression, ";")),
+
         // Expressions:
 
         _expression: ($) =>
@@ -247,6 +249,7 @@ module.exports = grammar({
                 $.unit,
                 $.match_expression,
                 $.self,
+                $.expression_statement,
             ),
 
         match_expression: ($) =>

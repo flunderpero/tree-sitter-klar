@@ -65,6 +65,7 @@
 [
     ","
     "."
+    ";"
 ] @punctuation.delimiter
 
 [

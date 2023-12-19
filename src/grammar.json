@@ -1160,6 +1160,23 @@
       "type": "STRING",
       "value": "continue"
     },
+    "expression_statement": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": ";"
+          }
+        ]
+      }
+    },
     "_expression": {
       "type": "CHOICE",
       "members": [
@@ -1238,6 +1255,10 @@
         {
           "type": "SYMBOL",
           "name": "self"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression_statement"
         }
       ]
     },
