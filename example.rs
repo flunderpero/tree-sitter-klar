@@ -20,7 +20,7 @@ fn test(name: &str) {
     println!("Hello, {}!", name);
 }
 
-fn main() {
+fn main() -> () {
     let a: i16; 
     let t = Test { a: 1, b: 2 };
     println!("{} {}", t.a, t.b);
@@ -38,4 +38,5 @@ fn main() {
             console.log("2");
         }
     }
+    return ()
 }

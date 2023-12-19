@@ -1,4 +1,5 @@
 (type_identifier) @type
+(other_identifier) @variable
 (type) @type
 (unit) @type
 (comment) @comment
@@ -31,8 +32,6 @@
     "for"
     "while"
     "loop"
-    ; "break"
-    ; "continue"
 ] @repeat
 
 [
@@ -85,12 +84,8 @@
     "}"
 ] @punctuation.braces
 
-(expression 
-  (unit) @variable.builtin
-)
-
 (function_parameter
-  name: (other_identifier) @variable.parameter
+  name: (other_identifier) @parameter
 )
 
 (function_declaration
@@ -117,9 +112,6 @@
   ]
 )
 
-(variable_declaration
-    name: (other_identifier) @variable
-)
 
 (struct_instantiation_expression (struct_field_assignment
   name: (other_identifier) @field
@@ -131,6 +123,10 @@
     ":" @keyword
     "end" @keyword
   ]
+)
+
+(struct_field
+  name: (_) @field
 )
 
 (enum_declaration
@@ -230,8 +226,24 @@
   ]
 )
 
-(f_string_expression) @string
+(f_string_expression
+  (f_string_interpolation
+    "{" @punctuation.special
+    "}" @punctuation.special
+  ) @embedded
+) @string
+
+(field_expression
+  field: (_) @field
+)
  
 (call_expression
-  target: (_) @function
+  target: (other_identifier) @function
 )
+
+(call_expression
+  target: (field_expression
+    field: (_) @function
+  )
+)
+            

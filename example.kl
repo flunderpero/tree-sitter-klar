@@ -32,7 +32,7 @@ end
 
 trait Greeter:
     fn default_impl(self):
-        self.whatever.do_something()
+        self.whatever.anything.do_something()
         print("default")
     end
 
@@ -47,6 +47,7 @@ end
 
 -- This is a line comment.
 fn test(x i32, y i32?) (str, i32):
+    x.test.what = 10
     return ("test", 32)
 end
 
