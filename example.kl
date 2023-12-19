@@ -66,6 +66,7 @@ end
 
 fn something_with_the_unit_type() ():
     x = y; -- `;` is the expression statement operator.
+    (a + b) * c
 end
 
 fn main():

@@ -199,7 +199,8 @@ module.exports = grammar({
                 seq(field("left", $._expression), "=", field("right", choice($._expression))),
             ),
 
-        return_statement: ($) => choice(prec.left(seq("return", $._expression)), prec(-1, "return")),
+        return_statement: ($) =>
+            choice(prec.left(seq("return", $._expression)), prec(-1, "return")),
 
         loop_statement: ($) => seq("loop", field("body", $.loop_block)),
 
@@ -250,7 +251,10 @@ module.exports = grammar({
                 $.match_expression,
                 $.self,
                 $.expression_statement,
+                $.parenthesized_expression,
             ),
+
+        parenthesized_expression: ($) => seq("(", $._expression, ")"),
 
         match_expression: ($) =>
             seq(

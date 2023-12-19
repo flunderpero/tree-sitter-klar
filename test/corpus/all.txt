@@ -1672,7 +1672,7 @@ end
 Expression statement optional (`;`)
 ================================================================================
 
-fn test<T>():
+fn test():
     call() - x;
     y
 end
@@ -1682,10 +1682,7 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
-      (type_parameters
-        (type
-          (type_identifier))))
+      (other_identifier))
     (block
       (expression_statement
         (binary_expression
@@ -1694,3 +1691,25 @@ end
             (call_arguments))
           (other_identifier)))
       (other_identifier))))
+
+================================================================================
+Parenthesized expression
+================================================================================
+
+fn test():
+    (a + b) * c
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (binary_expression
+        (parenthesized_expression
+          (binary_expression
+            (other_identifier)
+            (other_identifier)))
+        (other_identifier)))))

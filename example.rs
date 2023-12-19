@@ -22,6 +22,7 @@ fn test(name: &str) {
 
 fn main() -> () {
     let a: i16; 
+    (a + b).print();
     let t = Test { a: 1, b: 2 };
     println!("{} {}", t.a, t.b);
     for i in 0..10 {
