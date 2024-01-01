@@ -489,6 +489,56 @@ end
             (string_literal)))))))
 
 ================================================================================
+Indexed access
+================================================================================
+
+fn test():
+    a[1]
+    a[1][foo()]
+    a[1] = 1
+    print(arr[0])
+    print(arr[0][1])
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (index_expression
+        (other_identifier)
+        (int_literal))
+      (index_expression
+        (index_expression
+          (other_identifier)
+          (int_literal))
+        (call_expression
+          (other_identifier)
+          (call_arguments)))
+      (statement
+        (assignment_statement
+          (index_expression
+            (other_identifier)
+            (int_literal))
+          (int_literal)))
+      (call_expression
+        (other_identifier)
+        (call_arguments
+          (index_expression
+            (other_identifier)
+            (int_literal))))
+      (call_expression
+        (other_identifier)
+        (call_arguments
+          (index_expression
+            (index_expression
+              (other_identifier)
+              (int_literal))
+            (int_literal)))))))
+
+================================================================================
 Comments
 ================================================================================
 

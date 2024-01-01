@@ -109,6 +109,8 @@ fn main():
 
     let nested_list [[Str]] = [["a", "b"], ["c", "d"]]
 
+    print(nested_list[0][1])
+
     let person = Person{ name: "John", age, city: "London" }
 
     match optional:

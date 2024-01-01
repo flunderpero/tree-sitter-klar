@@ -44,7 +44,11 @@ module.exports = grammar({
         // Declarations:
 
         use_declaration: ($) =>
-            seq("use", field("path", $.use_path), optional(seq("as", field("as", $._any_identifier)))),
+            seq(
+                "use",
+                field("path", $.use_path),
+                optional(seq("as", field("as", $._any_identifier))),
+            ),
 
         use_path: ($) => seq(optional("."), dot_sep1($._any_identifier), optional(seq(".", "*"))),
 
@@ -248,6 +252,7 @@ module.exports = grammar({
                 $.type_identifier,
                 $.f_string_expression,
                 $.field_expression,
+                $.index_expression,
                 $.binary_expression,
                 $.unary_expression,
                 $.struct_instantiation_expression,
@@ -413,6 +418,20 @@ module.exports = grammar({
                     seq($.other_identifier, optional(field("type_parameters", $.type_parameters))),
                     $.call_expression,
                     $.type,
+                ),
+            ),
+
+        index_expression: ($) =>
+            prec.left(
+                PREC.FIELD,
+                seq(
+                    field(
+                        "target",
+                        seq($._expression, optional(field("type_parameters", $.type_parameters))),
+                    ),
+                    token.immediate("["),
+                    field("index", $._expression),
+                    "]",
                 ),
             ),
 

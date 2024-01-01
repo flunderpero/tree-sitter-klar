@@ -43,5 +43,7 @@ fn main() -> () {
             console.log("2");
         }
     }
+    let f = [1, 2, 3, 4, 5];
+    println!("{}", f[0]);
     return ()
 }
