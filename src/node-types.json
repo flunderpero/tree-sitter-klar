@@ -1014,6 +1014,16 @@
             "named": true
           }
         ]
+      },
+      "variant": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
       }
     }
   },

@@ -319,6 +319,7 @@ module.exports = grammar({
         enum_pattern: ($) =>
             seq(
                 field("type", $.type),
+                optional(seq(".", field("variant", $.type_identifier))),
                 optional(seq("(", field("fields", comma_sep($.pattern)), ")")),
             ),
 

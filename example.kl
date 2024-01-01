@@ -127,6 +127,8 @@ fn main():
             print("other")
             return
         end
+        Enum.Variant(f) => print(f)
+        Enum.Variant(items, {a: _, b: 1..10}) => print(items)
     end
 
     my_ver.iter().filter(fn(x) => x > 10)

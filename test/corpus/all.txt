@@ -1506,7 +1506,7 @@ fn main():
         1 | 'a' | "string" => 1
         Struct{a: 1} => 1
         Enum => 1 
-        Enum(1, _) => 1
+        Enum.Variant(1, _) => 1
         Enum(1 | 2..10 | 'a') => 1
         _:
             "a multi-expression block"
@@ -1614,6 +1614,7 @@ end
             (enum_pattern
               (type
                 (type_identifier))
+              (type_identifier)
               (pattern
                 (int_literal))
               (pattern
