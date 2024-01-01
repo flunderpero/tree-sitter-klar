@@ -77,6 +77,7 @@ module.exports = grammar({
                 field("parameters", comma_sep($.function_parameter)),
                 ")",
                 field("return_type", optional(choice($.type, $.unit))),
+                optional(field("throws", seq("throws", optional($.type)))),
             ),
 
         function_parameter: ($) =>

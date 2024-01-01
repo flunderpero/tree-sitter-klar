@@ -168,6 +168,40 @@ end
             (int_literal)))))))
 
 ================================================================================
+Functions that throw (throws keyword)
+================================================================================
+
+fn divide(dividend Int, divisor Int) Int throws:
+end
+
+fn custom_error() throws MyError:
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (function_parameter
+        (other_identifier)
+        (type
+          (type_identifier)))
+      (function_parameter
+        (other_identifier)
+        (type
+          (type_identifier)))
+      (type
+        (type_identifier)))
+    (block))
+  (function_definition
+    (function_declaration
+      (other_identifier)
+      (type
+        (type_identifier)))
+    (block)))
+
+================================================================================
 Anonymous functions (lambdas).
 ================================================================================
 

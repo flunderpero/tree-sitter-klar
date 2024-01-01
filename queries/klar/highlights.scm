@@ -1,4 +1,5 @@
 (type_identifier) @type
+((type_identifier) @exception (#eq? @exception "Error")) @exception
 (other_identifier) @variable
 (type) @type
 (unit) @type
@@ -91,6 +92,7 @@
 
 (function_declaration
   name: (other_identifier) @function
+  "throws" @exception
 )
 
 (function_definition

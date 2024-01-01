@@ -69,6 +69,17 @@ fn something_with_the_unit_type() ():
     (a + b) * c
 end
 
+fn divide(dividend Int, divisor Int) Int throws:
+    if divisor == 0:
+        return Error("division by zero")
+    end
+    return dividend / divisor
+end
+
+fn may_error() throws MyError:
+    return Error(MyError("something went wrong"))
+end
+
 fn main():
     struct InnerStruct:
         x Int?
