@@ -1,3 +1,8 @@
+use .local.module.SomeType
+use std.math.pi as my_pi
+use SomeEnum.Variant as SomeOtherName
+use SomeEnum.*
+
 extern:
     fn function_a<T>(a T, b Int) Int
     fn function_b(c Int, d Str) Str

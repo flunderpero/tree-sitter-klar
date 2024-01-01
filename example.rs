@@ -1,5 +1,7 @@
 // We use this to compare other grammars to ours.
 
+use std::io::Write{};
+
 struct Test {
     a: i32,
     b: i32,

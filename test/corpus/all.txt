@@ -59,6 +59,40 @@ end
     (block)))
 
 ================================================================================
+Use statement
+================================================================================
+
+use .my.local.module
+
+use std.collection.List
+
+use Enum.Variant as SomeOtherName
+
+use Enum.*
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (use_declaration
+    (use_path
+      (other_identifier)
+      (other_identifier)
+      (other_identifier)))
+  (use_declaration
+    (use_path
+      (other_identifier)
+      (other_identifier)
+      (type_identifier)))
+  (use_declaration
+    (use_path
+      (type_identifier)
+      (type_identifier))
+    (type_identifier))
+  (use_declaration
+    (use_path
+      (type_identifier))))
+
+================================================================================
 Function definition with block
 ================================================================================
 

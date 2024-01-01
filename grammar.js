@@ -37,10 +37,16 @@ module.exports = grammar({
                     $.extern_declaration,
                     $.trait_definition,
                     $.impl_definition,
+                    $.use_declaration,
                 ),
             ),
 
         // Declarations:
+
+        use_declaration: ($) =>
+            seq("use", field("path", $.use_path), optional(seq("as", field("as", $._any_identifier)))),
+
+        use_path: ($) => seq(optional("."), dot_sep1($._any_identifier), optional(seq(".", "*"))),
 
         struct_declaration: ($) =>
             seq(
@@ -547,6 +553,8 @@ module.exports = grammar({
         other_identifier: ($) => /[a-z_][a-zA-Z0-9_]*/,
 
         type_identifier: ($) => /[A-Z][a-zA-Z0-9_]*/,
+
+        _any_identifier: ($) => choice($.other_identifier, $.type_identifier),
 
         type: ($) =>
             prec.left(

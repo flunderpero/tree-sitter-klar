@@ -249,4 +249,10 @@
     field: (_) @function
   )
 )
-            
+
+(use_declaration
+  [
+    "as" @include
+    "use" @include
+  ]
+)

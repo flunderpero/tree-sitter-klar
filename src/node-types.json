@@ -2700,6 +2700,10 @@
         {
           "type": "trait_definition",
           "named": true
+        },
+        {
+          "type": "use_declaration",
+          "named": true
         }
       ]
     }
@@ -3311,6 +3315,55 @@
     }
   },
   {
+    "type": "use_declaration",
+    "named": true,
+    "fields": {
+      "as": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "other_identifier",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "use_path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "use_path",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "other_identifier",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "variable_declaration",
     "named": true,
     "fields": {
@@ -3679,6 +3732,10 @@
     "named": false
   },
   {
+    "type": "as",
+    "named": false
+  },
+  {
     "type": "break_statement",
     "named": true
   },
@@ -3805,6 +3862,10 @@
   {
     "type": "unit",
     "named": true
+  },
+  {
+    "type": "use",
+    "named": false
   },
   {
     "type": "while",
