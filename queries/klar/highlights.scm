@@ -10,7 +10,6 @@
 (escape_sequence) @string.escape
 (bool_literal) @boolean
 (self) @variable.builtin
-"?" @keyword.operator
 "fn" @keyword.function
 "return" @keyword.return
 [
@@ -36,6 +35,8 @@
 ] @repeat
 
 [
+    "?"
+    "!"
     "="
     "~="
     "=="

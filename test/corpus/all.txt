@@ -1781,3 +1781,24 @@ end
             (other_identifier)
             (other_identifier)))
         (other_identifier)))))
+
+================================================================================
+Propagate errors
+================================================================================
+
+fn test():
+    divide(1, 0)!
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (call_expression
+        (other_identifier)
+        (call_arguments
+          (int_literal)
+          (int_literal))))))

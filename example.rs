@@ -1,6 +1,6 @@
 // We use this to compare other grammars to ours.
 
-use std::io::Write{};
+use std::io::Write;
 
 struct Test {
     a: i32,
@@ -18,11 +18,13 @@ impl Test {
     }
 }
 
-fn test(name: &str) {
+fn test(name: &str) -> Result<(), String> {
     println!("Hello, {}!", name);
+    Ok(())
 }
 
 fn main() -> () {
+    test()?;
     let a: i16; 
     (a + b).print();
     let t = Test { a: 1, b: 2 };

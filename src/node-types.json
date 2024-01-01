@@ -820,6 +820,16 @@
     "type": "call_expression",
     "named": true,
     "fields": {
+      "propagate_error": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          }
+        ]
+      },
       "target": {
         "multiple": false,
         "required": true,
@@ -3594,6 +3604,10 @@
         ]
       }
     }
+  },
+  {
+    "type": "!",
+    "named": false
   },
   {
     "type": "\"",

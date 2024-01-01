@@ -376,6 +376,7 @@ module.exports = grammar({
                         ),
                     ),
                     $.call_arguments,
+                    optional(field("propagate_error", "!")),
                 ),
             ),
 
