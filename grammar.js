@@ -553,7 +553,6 @@ module.exports = grammar({
                 seq(
                     choice(
                         seq($.type_identifier, optional($.type_parameters)),
-                        $.builtin_type,
                         $.function_type,
                         $.array_type,
                         $.tuple_type,
@@ -579,23 +578,6 @@ module.exports = grammar({
                 ")",
                 field("return_type", optional($.type)),
                 ")",
-            ),
-
-        builtin_type: ($) =>
-            choice(
-                "i8",
-                "i16",
-                "i32",
-                "i64",
-                "u8",
-                "u16",
-                "u32",
-                "u64",
-                "f32",
-                "f64",
-                "bool",
-                "char",
-                "str",
             ),
 
         type_parameters: ($) => prec.left(1, seq("<", comma_sep1(choice($.type, $.unit)), ">")),

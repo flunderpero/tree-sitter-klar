@@ -1,27 +1,27 @@
 extern:
-    fn function_a<T>(a T, b i32) i32
-    fn function_b(c i32, d str) str
+    fn function_a<T>(a T, b Int) Int
+    fn function_b(c Int, d Str) Str
     struct A<I, O>:
         x Foo<I>
-        y str
+        y Str
     end
     impl A:
-        fn function_c(self, a i32) i32
+        fn function_c(self, a Int) Int
     end
     impl ToStr for A
 end
 
 struct Person:
-    name str
-    age i32
-    city str
+    name Str
+    age Int
+    city Str
 end
 
 enum Color:
     Red
     Green
-    Blue(i32)
-    Yellow(i32, i32)
+    Blue(Int)
+    Yellow(Int, Int)
 end
 
 impl Person:
@@ -46,7 +46,7 @@ impl Greeter for Person:
 end
 
 -- This is a line comment.
-fn test(x i32, y i32?) (str, i32):
+fn test(x Int, y Int?) (Str, Int):
     x.test.what = 10
     return ("test", 32)
 end
@@ -54,14 +54,14 @@ end
 ---
     This is a block comment.
 ---
-fn add(x i32, y i32) i32 => x + y 
+fn add(x Int, y Int) Int => x + y 
 
-fn sub(x i32, y i32) i32?:
+fn sub(x Int, y Int) Int?:
     return x - y
 end
 
-fn do_math(f (fn(i32, i32) i32)?, x i32, y i32) (fn(i32) i32):
-    return fn(z i32) => f(x, y)
+fn do_math(f (fn(Int, Int) Int)?, x Int, y Int) (fn(Int) Int):
+    return fn(z Int) => f(x, y)
 end
 
 fn something_with_the_unit_type() ():
@@ -71,22 +71,26 @@ end
 
 fn main():
     struct InnerStruct:
-        x i32?
-        y str
-        c char
+        x Int?
+        y Str
+        b Bool
+        c Char
+        u UInt
+        u64 U64
+        u8 U8
     end
 
     enum InnerEnum:
         A
     end
 
-    let optional str? = None
+    let optional Str? = None
 
-    mut mutable i32 = 1
+    mut mutable Int = 1
 
-    let list [i32] = [1, 2, 3]
+    let list [Int] = [1, 2, 3]
 
-    let nested_list [[str]] = [["a", "b"], ["c", "d"]]
+    let nested_list [[Str]] = [["a", "b"], ["c", "d"]]
 
     let person = Person{ name: "John", age, city: "London" }
 

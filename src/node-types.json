@@ -722,11 +722,6 @@
     "fields": {}
   },
   {
-    "type": "builtin_type",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "call_arguments",
     "named": true,
     "fields": {},
@@ -3168,10 +3163,6 @@
           "named": true
         },
         {
-          "type": "builtin_type",
-          "named": true
-        },
-        {
           "type": "function_type",
           "named": true
         },
@@ -3674,16 +3665,8 @@
     "named": false
   },
   {
-    "type": "bool",
-    "named": false
-  },
-  {
     "type": "break_statement",
     "named": true
-  },
-  {
-    "type": "char",
-    "named": false
   },
   {
     "type": "comment",
@@ -3722,14 +3705,6 @@
     "named": false
   },
   {
-    "type": "f32",
-    "named": false
-  },
-  {
-    "type": "f64",
-    "named": false
-  },
-  {
     "type": "false",
     "named": false
   },
@@ -3739,22 +3714,6 @@
   },
   {
     "type": "for",
-    "named": false
-  },
-  {
-    "type": "i16",
-    "named": false
-  },
-  {
-    "type": "i32",
-    "named": false
-  },
-  {
-    "type": "i64",
-    "named": false
-  },
-  {
-    "type": "i8",
     "named": false
   },
   {
@@ -3810,10 +3769,6 @@
     "named": true
   },
   {
-    "type": "str",
-    "named": false
-  },
-  {
     "type": "struct",
     "named": false
   },
@@ -3828,22 +3783,6 @@
   {
     "type": "type_identifier",
     "named": true
-  },
-  {
-    "type": "u16",
-    "named": false
-  },
-  {
-    "type": "u32",
-    "named": false
-  },
-  {
-    "type": "u64",
-    "named": false
-  },
-  {
-    "type": "u8",
-    "named": false
   },
   {
     "type": "unit",
