@@ -1077,8 +1077,8 @@ end
       (statement
         (loop_statement
           (loop_block
-            (break_statement)
-            (continue_statement))))
+            (statement)
+            (statement))))
       (statement
         (while_statement
           (binary_expression

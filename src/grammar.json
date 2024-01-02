@@ -1093,6 +1093,14 @@
         {
           "type": "SYMBOL",
           "name": "while_statement"
+        },
+        {
+          "type": "STRING",
+          "value": "break"
+        },
+        {
+          "type": "STRING",
+          "value": "continue"
         }
       ]
     },
@@ -1253,7 +1261,7 @@
               "type": "REPEAT",
               "content": {
                 "type": "SYMBOL",
-                "name": "_loop_block_part"
+                "name": "_block_part"
               }
             },
             {
@@ -1271,36 +1279,11 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_loop_block_part"
+              "name": "_block_part"
             }
           ]
         }
       ]
-    },
-    "_loop_block_part": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_block_part"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "break_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "continue_statement"
-        }
-      ]
-    },
-    "break_statement": {
-      "type": "STRING",
-      "value": "break"
-    },
-    "continue_statement": {
-      "type": "STRING",
-      "value": "continue"
     },
     "expression_statement": {
       "type": "PREC",

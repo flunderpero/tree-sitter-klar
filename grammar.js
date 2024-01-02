@@ -202,6 +202,8 @@ module.exports = grammar({
                 $.loop_statement,
                 $.for_statement,
                 $.while_statement,
+                "break",
+                "continue",
             ),
 
         assignment_statement: ($) =>
@@ -228,13 +230,7 @@ module.exports = grammar({
             seq("while", field("condition", $._expression), field("body", $.loop_block)),
 
         loop_block: ($) =>
-            choice(seq(":", repeat($._loop_block_part), "end"), seq("=>", $._loop_block_part)),
-
-        _loop_block_part: ($) => choice($._block_part, $.break_statement, $.continue_statement),
-
-        break_statement: ($) => "break",
-
-        continue_statement: ($) => "continue",
+            choice(seq(":", repeat($._block_part), "end"), seq("=>", $._block_part)),
 
         expression_statement: ($) => prec(-1, seq($._expression, ";")),
 

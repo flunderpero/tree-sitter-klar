@@ -32,6 +32,8 @@
     "for"
     "while"
     "loop"
+    "break"
+    "continue"
 ] @repeat
 
 [
@@ -178,43 +180,11 @@
   ]
 )
 
-(for_statement
+(loop_block
   [
-    "for" @repeat
-    "in" @repeat
-    (loop_block "=>" @repeat) 
-    (loop_block ":" @repeat) 
-    (loop_block "end" @repeat) 
-  ]
-)
-
-(while_statement
-  [
-    (loop_block "=>" @repeat) 
-    (loop_block ":" @repeat) 
-    (loop_block "end" @repeat) 
-  ]
-)
-
-(loop_statement
-  [
-    (loop_block "=>" @repeat) 
-    (loop_block ":" @repeat) 
-    (loop_block "end" @repeat) 
-  ]
-)
-
-(break_statement) @repeat
-
-(continue_statement) @repeat
-
-(if_expression
-  [
-    "=>" @conditional
-    ":" @conditional
-    (block "=>" @conditional)
-    (block ":" @conditional)
-    (block "end" @conditional)
+    "=>" @repeat
+    ":" @repeat
+    "end" @repeat
   ]
 )
 

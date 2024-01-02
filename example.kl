@@ -121,9 +121,9 @@ fn main():
     match x:
         1 => print("one")
         2 => print("two")
-        3..10 => print("three to ten")
-        11 | 12 | 13 => print("eleven, twelve or thirteen")
-        Some(x | 3) => print(x)
+        3..10 => return ()
+        11 | 12 | 13 => break
+        Some(x | 3) => continue
         Person{ name: a, age: _} => print(a)
         _ :
             print("other")
