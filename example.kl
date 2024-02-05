@@ -1,7 +1,7 @@
-use .local.module.SomeType
-use std.math.pi as my_pi
-use SomeEnum.Variant as SomeOtherName
-use SomeEnum.*
+use .local::module::SomeType
+use std::math::pi as MyPi
+use SomeEnum::Variant as SomeOtherName
+use SomeEnum::*
 
 extern:
     fn function_a<T>(a T, b Int) Int
@@ -30,6 +30,11 @@ enum Color:
 end
 
 impl Person:
+
+    fn new(name Str, age Int, city Str) Person:
+        Person{ name, age, city }
+    end
+
     fn greet(self):
         print(f"Hello {self.name}")
     end
@@ -44,7 +49,7 @@ trait Greeter:
     fn greet(self)
 end
 
-impl Greeter for Person:
+impl Greeter for other::Person<std::Str>:
     fn greet(self):
         print(f"Hello {self.name}")
     end
@@ -111,7 +116,8 @@ fn main():
 
     print(nested_list[0][1])
 
-    let person = Person{ name: "John", age, city: "London" }
+    let john = Person{ name: "John", age, city: "London" }
+    let mary = Person::new("Mary", 25, "Paris")
 
     match optional:
         Some(x) => print(x)
@@ -129,8 +135,8 @@ fn main():
             print("other")
             return
         end
-        Enum.Variant(f) => print(f)
-        Enum.Variant(items, {a: _, b: 1..10}) => print(items)
+        Enum::Variant(f) => print(f)
+        Enum::Variant(items, {a: _, b: 1..10}) => print(items)
     end
 
     my_ver.iter().filter(fn(x) => x > 10)

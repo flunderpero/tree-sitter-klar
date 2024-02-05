@@ -3,6 +3,9 @@
 (other_identifier) @variable
 (type) @type
 (unit) @type
+(fqn_type
+  (other_identifier) @type
+) 
 (comment) @comment
 (int_literal) @number
 (string_literal) @string
@@ -70,6 +73,7 @@
     ","
     "."
     ";"
+    "::"
 ] @punctuation.delimiter
 
 [
@@ -223,7 +227,12 @@
 
 (use_declaration
   [
-    "as" @include
-    "use" @include
+    "use" @keyword
+    "as" @keyword
+    (use_path
+      [
+        (other_identifier) @type
+      ]
+    )
   ]
 )

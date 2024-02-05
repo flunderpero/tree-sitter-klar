@@ -59,16 +59,43 @@ end
     (block)))
 
 ================================================================================
+Fully qualified names
+================================================================================
+
+fn main():
+    let a std::collection::List<Int> = 1
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (other_identifier))
+    (block
+      (variable_declaration
+        (other_identifier)
+        (type
+          (fqn_type
+            (other_identifier)
+            (other_identifier)
+            (type_identifier)
+            (type_parameters
+              (type
+                (type_identifier)))))
+        (int_literal)))))
+
+================================================================================
 Use statement
 ================================================================================
 
-use .my.local.module
+use .my::local::module
 
-use std.collection.List
+use std::collection::List
 
-use Enum.Variant as SomeOtherName
+use Enum::Variant as SomeOtherName
 
-use Enum.*
+use Enum::*
 
 --------------------------------------------------------------------------------
 
@@ -375,6 +402,7 @@ fn main():
     test("string", 42, some_variable, a == 10)
     test<Int>(1)
     Foo<Int>(1)
+    Foo::bar<Int>(1)
 end
 
 --------------------------------------------------------------------------------
@@ -420,6 +448,16 @@ end
           (type_parameters
             (type
               (type_identifier))))
+        (call_arguments
+          (int_literal)))
+      (call_expression
+        (type
+          (fqn_type
+            (type_identifier)
+            (other_identifier)
+            (type_parameters
+              (type
+                (type_identifier)))))
         (call_arguments
           (int_literal))))))
 
@@ -1408,7 +1446,7 @@ end
 Trait implementation
 ================================================================================
 
-impl Greeter<K> for Person<K>:
+impl Greeter<K> for other::Person<K>:
     fn greet(self):
         print(self.name)
     end
@@ -1424,10 +1462,12 @@ end
         (type
           (type_identifier))))
     (type
-      (type_identifier)
-      (type_parameters
-        (type
-          (type_identifier))))
+      (fqn_type
+        (other_identifier)
+        (type_identifier)
+        (type_parameters
+          (type
+            (type_identifier)))))
     (function_definition
       (function_declaration
         (other_identifier)

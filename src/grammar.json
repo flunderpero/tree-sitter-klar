@@ -108,7 +108,7 @@
                 "members": [
                   {
                     "type": "STRING",
-                    "value": "."
+                    "value": "::"
                   },
                   {
                     "type": "SYMBOL",
@@ -127,7 +127,7 @@
               "members": [
                 {
                   "type": "STRING",
-                  "value": "."
+                  "value": "::"
                 },
                 {
                   "type": "STRING",
@@ -3661,6 +3661,60 @@
         }
       ]
     },
+    "fqn_type": {
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_fqn_part"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "::"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_fqn_part"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "_fqn_part": {
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_any_identifier"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "type_parameters"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
     "type": {
       "type": "PREC_LEFT",
       "value": 1,
@@ -3690,6 +3744,10 @@
                     ]
                   }
                 ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "fqn_type"
               },
               {
                 "type": "SYMBOL",
@@ -4055,6 +4113,10 @@
     [
       "enum_pattern",
       "array_type"
+    ],
+    [
+      "_expression",
+      "_any_identifier"
     ]
   ],
   "precedences": [],

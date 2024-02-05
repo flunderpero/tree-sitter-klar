@@ -23,6 +23,7 @@ module.exports = grammar({
     conflicts: ($) => [
         [$.enum_pattern, $.tuple_type],
         [$.enum_pattern, $.array_type],
+        [$._expression, $._any_identifier],
     ],
 
     rules: {
@@ -50,7 +51,8 @@ module.exports = grammar({
                 optional(seq("as", field("as", $._any_identifier))),
             ),
 
-        use_path: ($) => seq(optional("."), dot_sep1($._any_identifier), optional(seq(".", "*"))),
+        use_path: ($) =>
+            seq(optional("."), double_colon_sep($._any_identifier), optional(seq("::", "*"))),
 
         struct_declaration: ($) =>
             seq(
@@ -229,8 +231,7 @@ module.exports = grammar({
         while_statement: ($) =>
             seq("while", field("condition", $._expression), field("body", $.loop_block)),
 
-        loop_block: ($) =>
-            choice(seq(":", repeat($._block_part), "end"), seq("=>", $._block_part)),
+        loop_block: ($) => choice(seq(":", repeat($._block_part), "end"), seq("=>", $._block_part)),
 
         expression_statement: ($) => prec(-1, seq($._expression, ";")),
 
@@ -573,12 +574,17 @@ module.exports = grammar({
 
         _any_identifier: ($) => choice($.other_identifier, $.type_identifier),
 
+        fqn_type: ($) => prec.left(1, double_colon_sep1($._fqn_part)),
+
+        _fqn_part: ($) => prec.left(1, seq($._any_identifier, optional($.type_parameters))),
+
         type: ($) =>
             prec.left(
                 1,
                 seq(
                     choice(
                         seq($.type_identifier, optional($.type_parameters)),
+                        $.fqn_type,
                         $.function_type,
                         $.array_type,
                         $.tuple_type,
@@ -632,6 +638,14 @@ function comma_sep(rule) {
 
 function dot_sep1(rule) {
     return seq(rule, repeat(seq(".", rule)))
+}
+
+function double_colon_sep1(rule) {
+    return seq(rule, repeat1(seq("::", rule)))
+}
+
+function double_colon_sep(rule) {
+    return seq(rule, repeat(seq("::", rule)))
 }
 
 function pipe_sep1(rule) {

@@ -1627,6 +1627,29 @@
     }
   },
   {
+    "type": "fqn_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "other_identifier",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "function_declaration",
     "named": true,
     "fields": {
@@ -3477,6 +3500,10 @@
           "named": true
         },
         {
+          "type": "fqn_type",
+          "named": true
+        },
+        {
           "type": "function_type",
           "named": true
         },
@@ -3981,6 +4008,10 @@
   },
   {
     "type": ":",
+    "named": false
+  },
+  {
+    "type": "::",
     "named": false
   },
   {
