@@ -326,7 +326,7 @@ end
     (block)))
 
 ================================================================================
-Anonymous functions (lambdas).
+Anonymous functions (closures).
 ================================================================================
 
 fn main():
@@ -345,8 +345,8 @@ end
     (block
       (variable_declaration
         (other_identifier)
-        (lambda_expression
-          (lambda_parameter
+        (closure_expression
+          (closure_parameter
             (other_identifier)
             (type
               (fqn
@@ -370,8 +370,8 @@ end
           (fqn
             (name
               (other_identifier)))
-          (lambda_expression
-            (lambda_parameter
+          (closure_expression
+            (closure_parameter
               (other_identifier))
             (block
               (binary_expression
@@ -384,8 +384,8 @@ end
           (name
             (other_identifier)))
         (call_arguments
-          (lambda_expression
-            (lambda_parameter
+          (closure_expression
+            (closure_parameter
               (other_identifier)
               (type
                 (fqn

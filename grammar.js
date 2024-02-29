@@ -144,18 +144,18 @@ module.exports = grammar({
         function_definition: ($) =>
             seq(field("declaration", $.function_declaration), field("body", $.block)),
 
-        lambda_expression: ($) =>
+        closure_expression: ($) =>
             seq(
                 "fn",
                 optional(field("type_parameters", $.type_parameters)),
                 "(",
-                field("parameters", comma_sep($.lambda_parameter)),
+                field("parameters", comma_sep($.closure_parameter)),
                 ")",
                 field("return_type", optional($.type)),
                 field("body", $.block),
             ),
 
-        lambda_parameter: ($) =>
+        closure_parameter: ($) =>
             seq(
                 optional(field("mutable", "mut")),
                 field("name", $.other_identifier),
@@ -255,7 +255,7 @@ module.exports = grammar({
                 $.binary_expression,
                 $.unary_expression,
                 $.struct_instantiation_expression,
-                $.lambda_expression,
+                $.closure_expression,
                 $.call_expression,
                 $.if_expression,
                 $.unit,

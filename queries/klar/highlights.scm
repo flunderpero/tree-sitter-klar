@@ -112,11 +112,11 @@
   ]
 )
 
-(lambda_parameter
+(closure_parameter
   name: (other_identifier) @parameter
 )
 
-(lambda_expression
+(closure_expression
   [
     (block "=>" @keyword.function) 
     (block ":" @keyword.function) 
