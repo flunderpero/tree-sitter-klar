@@ -313,16 +313,18 @@ end
       (type
         (fqn
           (name
-            (type_identifier)))))
+            (type_identifier))))
+      (throws))
     (block))
   (function_definition
     (function_declaration
       (name
         (other_identifier))
-      (type
-        (fqn
-          (name
-            (type_identifier)))))
+      (throws
+        (type
+          (fqn
+            (name
+              (type_identifier))))))
     (block)))
 
 ================================================================================
@@ -333,6 +335,7 @@ fn main():
     let f = fn(x Int) Int => x + 1
     lef g = fn(x) => x + 1
     foo(fn(x Int) => x + 1)
+    does_throw(fn(x) throws Error => ())
 end
 
 --------------------------------------------------------------------------------
@@ -396,7 +399,22 @@ end
                 (fqn
                   (name
                     (other_identifier)))
-                (int_literal)))))))))
+                (int_literal))))))
+      (call_expression
+        (fqn
+          (name
+            (other_identifier)))
+        (call_arguments
+          (closure_expression
+            (closure_parameter
+              (other_identifier))
+            (throws
+              (type
+                (fqn
+                  (name
+                    (type_identifier)))))
+            (block
+              (unit))))))))
 
 ================================================================================
 Return statement without expression (make sure the keyword `end` is not consumed)
@@ -426,7 +444,7 @@ end
 Function type
 ================================================================================
 
-fn test(func (fn(Int) Int)):
+fn test(func (fn(Int) Int), func2 (fn(Str) Str throws MyError)):
 end
 
 --------------------------------------------------------------------------------
@@ -447,7 +465,24 @@ end
             (type
               (fqn
                 (name
-                  (type_identifier))))))))
+                  (type_identifier)))))))
+      (function_parameter
+        (other_identifier)
+        (type
+          (function_type
+            (type
+              (fqn
+                (name
+                  (type_identifier))))
+            (type
+              (fqn
+                (name
+                  (type_identifier))))
+            (throws
+              (type
+                (fqn
+                  (name
+                    (type_identifier)))))))))
     (block)))
 
 ================================================================================

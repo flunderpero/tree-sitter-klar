@@ -41,7 +41,7 @@ impl Person:
 end
 
 trait Greeter:
-    fn default_impl(self):
+    fn default_impl(self) throws:
         self.whatever.anything.do_something()
         print("default")
     end
@@ -50,7 +50,7 @@ trait Greeter:
 end
 
 impl Greeter for other::Person<std::Str>:
-    fn greet(self):
+    fn greet(self) throws MyError:
         print(f"Hello {self.name}")
     end
 end
@@ -72,6 +72,10 @@ end
 
 fn do_math(f (fn(Int, Int) Int)?, x Int, y Int) (fn(Int) Int):
     return fn(z Int) => f(x, y)
+end
+
+fn do_something_with_a_closure_that_throws(f (fn() throws MyError)) throws:
+    f()!
 end
 
 fn something_with_the_unit_type() ():
@@ -197,5 +201,7 @@ fn main():
     let elm = document.query("test")
     elm.setAttribute("test", a == 10)
     for child in elm.children => child.remove()
+
+    do_something(fn(x) throws Error => "aha")
 end
 

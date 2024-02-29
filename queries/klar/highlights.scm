@@ -101,6 +101,9 @@
 
 (function_declaration
   name: (name) @function
+)
+
+(throws
   "throws" @exception
 )
 

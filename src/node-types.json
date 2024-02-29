@@ -995,6 +995,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "throws",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1688,21 +1698,17 @@
             "named": true
           }
         ]
-      },
-      "throws": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "throws",
-            "named": false
-          },
-          {
-            "type": "type",
-            "named": true
-          }
-        ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "throws",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1805,6 +1811,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "throws",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3190,6 +3206,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "throws",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
     }
   },
   {

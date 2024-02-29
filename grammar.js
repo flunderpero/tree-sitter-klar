@@ -92,7 +92,7 @@ module.exports = grammar({
                 field("parameters", comma_sep($.function_parameter)),
                 ")",
                 field("return_type", optional(choice($.type, $.unit))),
-                optional(field("throws", seq("throws", optional($.type)))),
+                optional($.throws),
             ),
 
         function_parameter: ($) =>
@@ -100,6 +100,8 @@ module.exports = grammar({
                 optional(field("mutable", "mut")),
                 choice($.self, seq(field("name", $.other_identifier), field("type", $.type))),
             ),
+
+        throws: ($) => seq("throws", optional($.type)),
 
         variable_declaration: ($) =>
             seq(
@@ -152,6 +154,7 @@ module.exports = grammar({
                 field("parameters", comma_sep($.closure_parameter)),
                 ")",
                 field("return_type", optional($.type)),
+                optional($.throws),
                 field("body", $.block),
             ),
 
@@ -571,6 +574,7 @@ module.exports = grammar({
                 field("parameters", comma_sep($.type)),
                 ")",
                 field("return_type", optional($.type)),
+                optional($.throws),
                 ")",
             ),
 
