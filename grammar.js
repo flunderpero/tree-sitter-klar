@@ -23,7 +23,7 @@ module.exports = grammar({
     conflicts: ($) => [
         [$.enum_pattern, $.tuple_type],
         [$.enum_pattern, $.array_type],
-        [$._expression, $._any_identifier],
+        [$._expression, $.type],
     ],
 
     rules: {
@@ -48,16 +48,20 @@ module.exports = grammar({
             seq(
                 "use",
                 field("path", $.use_path),
-                optional(seq("as", field("as", $._any_identifier))),
+                optional(seq("as", field("as", choice($.other_identifier, $.type_identifier)))),
             ),
 
         use_path: ($) =>
-            seq(optional("."), double_colon_sep($._any_identifier), optional(seq("::", "*"))),
+            seq(
+                optional("."),
+                double_colon_sep(choice($.other_identifier, $.type_identifier)),
+                optional(seq("::", "*")),
+            ),
 
         struct_declaration: ($) =>
             seq(
                 "struct",
-                field("name", $.type),
+                field("name", $.name),
                 ":",
                 field("fields", optional(repeat($.struct_field))),
                 "end",
@@ -68,7 +72,7 @@ module.exports = grammar({
         enum_declaration: ($) =>
             seq(
                 "enum",
-                field("name", $.type),
+                field("name", $.name),
                 ":",
                 field("variants", optional(repeat($.enum_variant_declaration))),
                 "end",
@@ -83,8 +87,7 @@ module.exports = grammar({
         function_declaration: ($) =>
             seq(
                 "fn",
-                field("name", $.other_identifier),
-                optional(field("type_parameters", $.type_parameters)),
+                field("name", $.name),
                 "(",
                 field("parameters", comma_sep($.function_parameter)),
                 ")",
@@ -245,8 +248,7 @@ module.exports = grammar({
                 $.string_literal,
                 $.array_literal,
                 $.tuple_literal,
-                $.other_identifier,
-                $.type_identifier,
+                $.fqn,
                 $.f_string_expression,
                 $.field_expression,
                 $.index_expression,
@@ -367,17 +369,7 @@ module.exports = grammar({
             prec.left(
                 PREC.CALL,
                 seq(
-                    field(
-                        "target",
-                        choice(
-                            seq(
-                                $._expression,
-                                optional(field("type_parameters", $.type_parameters)),
-                            ),
-                            // Enum variants are also valid call targets.
-                            $.type,
-                        ),
-                    ),
+                    field("target", $._expression),
                     $.call_arguments,
                     optional(field("propagate_error", "!")),
                 ),
@@ -390,18 +382,7 @@ module.exports = grammar({
             prec.left(
                 PREC.FIELD,
                 seq(
-                    field(
-                        "target",
-                        choice(
-                            seq(
-                                $._expression,
-                                optional(field("type_parameters", $.type_parameters)),
-                            ),
-                            $.self,
-                            // Types like enums and structs can also be used in a field access.
-                            $.type,
-                        ),
-                    ),
+                    field("target", choice($._expression, $.self)),
                     ".",
                     dot_sep1(field("field", $._field_field_expression)),
                 ),
@@ -410,22 +391,14 @@ module.exports = grammar({
         _field_field_expression: ($) =>
             prec.left(
                 PREC.FIELD,
-                choice(
-                    $.int_literal,
-                    seq($.other_identifier, optional(field("type_parameters", $.type_parameters))),
-                    $.call_expression,
-                    $.type,
-                ),
+                choice($.int_literal, seq($.other_identifier), $.call_expression, $.type),
             ),
 
         index_expression: ($) =>
             prec.left(
                 PREC.FIELD,
                 seq(
-                    field(
-                        "target",
-                        seq($._expression, optional(field("type_parameters", $.type_parameters))),
-                    ),
+                    field("target", $._expression),
                     token.immediate("["),
                     field("index", $._expression),
                     "]",
@@ -572,26 +545,15 @@ module.exports = grammar({
 
         type_identifier: ($) => /[A-Z][a-zA-Z0-9_]*/,
 
-        _any_identifier: ($) => choice($.other_identifier, $.type_identifier),
+        fqn: ($) => prec.dynamic(PREC.FIELD, double_colon_sep($.name)),
 
-        fqn_type: ($) => prec.left(1, double_colon_sep1($._fqn_part)),
-
-        _fqn_part: ($) => prec.left(1, seq($._any_identifier, optional($.type_parameters))),
-
-        type: ($) =>
+        name: ($) =>
             prec.left(
                 1,
-                seq(
-                    choice(
-                        seq($.type_identifier, optional($.type_parameters)),
-                        $.fqn_type,
-                        $.function_type,
-                        $.array_type,
-                        $.tuple_type,
-                    ),
-                    optional("?"),
-                ),
+                seq(choice($.other_identifier, $.type_identifier), optional($.type_parameters)),
             ),
+
+        type: ($) => seq(choice($.fqn, $.function_type, $.array_type, $.tuple_type), optional("?")),
 
         unit: ($) => "()",
 
@@ -612,7 +574,14 @@ module.exports = grammar({
                 ")",
             ),
 
-        type_parameters: ($) => prec.left(1, seq("<", comma_sep1(choice($.type, $.unit)), ">")),
+        type_parameters: ($) =>
+            seq(
+                // todo: This is a hack to disambiguate between type_parameters and the less-than operator.
+                //       This makes it impossible to write `x< y`.
+                token.immediate("<"),
+                comma_sep1(choice($.type, $.unit)),
+                ">",
+            ),
 
         // Comments:
 

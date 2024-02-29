@@ -17,45 +17,68 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (function_parameter
         (other_identifier)
         (type
-          (type_identifier)))
-      (function_parameter
-        (other_identifier)
-        (type
-          (type_identifier)))
-      (function_parameter
-        (other_identifier)
-        (type
-          (type_identifier)))
-      (function_parameter
-        (other_identifier)
-        (type
-          (type_identifier)))
-      (function_parameter
-        (other_identifier)
-        (type
-          (type_identifier)
-          (type_parameters
-            (type
+          (fqn
+            (name
               (type_identifier)))))
       (function_parameter
         (other_identifier)
         (type
-          (type_identifier)
-          (type_parameters
-            (type
+          (fqn
+            (name
+              (type_identifier)))))
+      (function_parameter
+        (other_identifier)
+        (type
+          (fqn
+            (name
+              (type_identifier)))))
+      (function_parameter
+        (other_identifier)
+        (type
+          (fqn
+            (name
+              (type_identifier)))))
+      (function_parameter
+        (other_identifier)
+        (type
+          (fqn
+            (name
               (type_identifier)
               (type_parameters
                 (type
-                  (type_identifier))
+                  (fqn
+                    (name
+                      (type_identifier)))))))))
+      (function_parameter
+        (other_identifier)
+        (type
+          (fqn
+            (name
+              (type_identifier)
+              (type_parameters
                 (type
-                  (type_identifier)
-                  (type_parameters
-                    (type
-                      (type_identifier))))))))))
+                  (fqn
+                    (name
+                      (type_identifier)
+                      (type_parameters
+                        (type
+                          (fqn
+                            (name
+                              (type_identifier))))
+                        (type
+                          (fqn
+                            (name
+                              (type_identifier)
+                              (type_parameters
+                                (type
+                                  (fqn
+                                    (name
+                                      (type_identifier))))))))))))))))))
     (block)))
 
 ================================================================================
@@ -63,7 +86,9 @@ Fully qualified names
 ================================================================================
 
 fn main():
-    let a std::collection::List<Int> = 1
+    -- let a std::collection::List<Int> = 1
+    -- let b std::Option<Str> = std::Option<Str>::Some("a")
+    let b = std::Option<Str>::None
 end
 
 --------------------------------------------------------------------------------
@@ -71,19 +96,25 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
+      (comment)
+      (comment)
       (variable_declaration
         (other_identifier)
-        (type
-          (fqn_type
-            (other_identifier)
-            (other_identifier)
+        (fqn
+          (name
+            (other_identifier))
+          (name
             (type_identifier)
             (type_parameters
               (type
-                (type_identifier)))))
-        (int_literal)))))
+                (fqn
+                  (name
+                    (type_identifier))))))
+          (name
+            (type_identifier)))))))
 
 ================================================================================
 Use statement
@@ -131,7 +162,8 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block)))
 
 ================================================================================
@@ -146,12 +178,17 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
-      (type_parameters
-        (type
-          (type_identifier)))
+      (name
+        (other_identifier)
+        (type_parameters
+          (type
+            (fqn
+              (name
+                (type_identifier))))))
       (type
-        (type_identifier)))
+        (fqn
+          (name
+            (type_identifier)))))
     (block)))
 
 ================================================================================
@@ -159,7 +196,7 @@ Function definition with mutable and optional parameters and binary expression r
 ================================================================================
 
 fn test(mut x Int, y Int?) Int?:
-    return x< y
+    return x < y
 end
 
 --------------------------------------------------------------------------------
@@ -167,23 +204,34 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (function_parameter
         (other_identifier)
         (type
-          (type_identifier)))
+          (fqn
+            (name
+              (type_identifier)))))
       (function_parameter
         (other_identifier)
         (type
-          (type_identifier)))
+          (fqn
+            (name
+              (type_identifier)))))
       (type
-        (type_identifier)))
+        (fqn
+          (name
+            (type_identifier)))))
     (block
       (statement
         (return_statement
           (binary_expression
-            (other_identifier)
-            (other_identifier)))))))
+            (fqn
+              (name
+                (other_identifier)))
+            (fqn
+              (name
+                (other_identifier)))))))))
 
 ================================================================================
 Function definition with single expression
@@ -196,9 +244,12 @@ fn test() Int => 42
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (type
-        (type_identifier)))
+        (fqn
+          (name
+            (type_identifier)))))
     (block
       (int_literal))))
 
@@ -218,11 +269,13 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (function_definition
         (function_declaration
-          (other_identifier))
+          (name
+            (other_identifier)))
         (block
           (variable_declaration
             (other_identifier)
@@ -243,23 +296,33 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (function_parameter
         (other_identifier)
         (type
-          (type_identifier)))
+          (fqn
+            (name
+              (type_identifier)))))
       (function_parameter
         (other_identifier)
         (type
-          (type_identifier)))
+          (fqn
+            (name
+              (type_identifier)))))
       (type
-        (type_identifier)))
+        (fqn
+          (name
+            (type_identifier)))))
     (block))
   (function_definition
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (type
-        (type_identifier)))
+        (fqn
+          (name
+            (type_identifier)))))
     (block)))
 
 ================================================================================
@@ -277,7 +340,8 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (variable_declaration
         (other_identifier)
@@ -285,35 +349,53 @@ end
           (lambda_parameter
             (other_identifier)
             (type
-              (type_identifier)))
+              (fqn
+                (name
+                  (type_identifier)))))
           (type
-            (type_identifier))
+            (fqn
+              (name
+                (type_identifier))))
           (block
             (binary_expression
-              (other_identifier)
+              (fqn
+                (name
+                  (other_identifier)))
               (int_literal)))))
-      (other_identifier)
+      (fqn
+        (name
+          (other_identifier)))
       (statement
         (assignment_statement
-          (other_identifier)
+          (fqn
+            (name
+              (other_identifier)))
           (lambda_expression
             (lambda_parameter
               (other_identifier))
             (block
               (binary_expression
-                (other_identifier)
+                (fqn
+                  (name
+                    (other_identifier)))
                 (int_literal))))))
       (call_expression
-        (other_identifier)
+        (fqn
+          (name
+            (other_identifier)))
         (call_arguments
           (lambda_expression
             (lambda_parameter
               (other_identifier)
               (type
-                (type_identifier)))
+                (fqn
+                  (name
+                    (type_identifier)))))
             (block
               (binary_expression
-                (other_identifier)
+                (fqn
+                  (name
+                    (other_identifier)))
                 (int_literal)))))))))
 
 ================================================================================
@@ -331,7 +413,8 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (if_expression
         (bool_literal)
@@ -351,15 +434,20 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (function_parameter
         (other_identifier)
         (type
           (function_type
             (type
-              (type_identifier))
+              (fqn
+                (name
+                  (type_identifier))))
             (type
-              (type_identifier))))))
+              (fqn
+                (name
+                  (type_identifier))))))))
     (block)))
 
 ================================================================================
@@ -375,21 +463,30 @@ end
 (source_file
   (extern_declaration
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (function_parameter
         (other_identifier)
         (type
           (function_type
             (type
-              (type_identifier))
+              (fqn
+                (name
+                  (type_identifier))))
             (type
-              (type_identifier)))))
+              (fqn
+                (name
+                  (type_identifier)))))))
       (type
         (function_type
           (type
-            (type_identifier))
+            (fqn
+              (name
+                (type_identifier))))
           (type
-            (type_identifier)))))))
+            (fqn
+              (name
+                (type_identifier)))))))))
 
 ================================================================================
 Calls (function call, method call, enum instantiation)
@@ -410,54 +507,77 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (call_expression
-        (other_identifier)
+        (fqn
+          (name
+            (other_identifier)))
         (call_arguments))
       (call_expression
         (field_expression
-          (other_identifier)
+          (fqn
+            (name
+              (other_identifier)))
           (other_identifier))
         (call_arguments))
       (call_expression
         (call_expression
-          (other_identifier)
+          (fqn
+            (name
+              (other_identifier)))
           (call_arguments))
         (call_arguments
           (int_literal)))
       (call_expression
-        (other_identifier)
+        (fqn
+          (name
+            (other_identifier)))
         (call_arguments
           (string_literal)
           (int_literal)
-          (other_identifier)
+          (fqn
+            (name
+              (other_identifier)))
           (binary_expression
-            (other_identifier)
+            (fqn
+              (name
+                (other_identifier)))
             (int_literal))))
       (call_expression
-        (other_identifier)
-        (type_parameters
-          (type
-            (type_identifier)))
-        (call_arguments
-          (int_literal)))
-      (call_expression
-        (type
-          (type_identifier)
-          (type_parameters
-            (type
-              (type_identifier))))
-        (call_arguments
-          (int_literal)))
-      (call_expression
-        (type
-          (fqn_type
-            (type_identifier)
+        (fqn
+          (name
             (other_identifier)
             (type_parameters
               (type
-                (type_identifier)))))
+                (fqn
+                  (name
+                    (type_identifier)))))))
+        (call_arguments
+          (int_literal)))
+      (call_expression
+        (fqn
+          (name
+            (type_identifier)
+            (type_parameters
+              (type
+                (fqn
+                  (name
+                    (type_identifier)))))))
+        (call_arguments
+          (int_literal)))
+      (call_expression
+        (fqn
+          (name
+            (type_identifier))
+          (name
+            (other_identifier)
+            (type_parameters
+              (type
+                (fqn
+                  (name
+                    (type_identifier)))))))
         (call_arguments
           (int_literal))))))
 
@@ -477,23 +597,30 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (function_parameter
         (other_identifier)
         (type
           (array_type
             (type
-              (type_identifier)))))
+              (fqn
+                (name
+                  (type_identifier)))))))
       (function_parameter
         (other_identifier)
         (type
           (array_type
             (type
-              (type_identifier)))))
+              (fqn
+                (name
+                  (type_identifier)))))))
       (type
         (array_type
           (type
-            (type_identifier)))))
+            (fqn
+              (name
+                (type_identifier)))))))
     (block
       (array_literal
         (int_literal)
@@ -501,14 +628,17 @@ end
         (int_literal))))
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (variable_declaration
         (other_identifier)
         (type
           (array_type
             (type
-              (type_identifier))))
+              (fqn
+                (name
+                  (type_identifier))))))
         (array_literal))
       (variable_declaration
         (other_identifier)
@@ -517,7 +647,9 @@ end
             (type
               (array_type
                 (type
-                  (type_identifier))))))
+                  (fqn
+                    (name
+                      (type_identifier))))))))
         (array_literal
           (array_literal
             (string_literal)
@@ -543,36 +675,53 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (index_expression
-        (other_identifier)
+        (fqn
+          (name
+            (other_identifier)))
         (int_literal))
       (index_expression
         (index_expression
-          (other_identifier)
+          (fqn
+            (name
+              (other_identifier)))
           (int_literal))
         (call_expression
-          (other_identifier)
+          (fqn
+            (name
+              (other_identifier)))
           (call_arguments)))
       (statement
         (assignment_statement
           (index_expression
-            (other_identifier)
+            (fqn
+              (name
+                (other_identifier)))
             (int_literal))
           (int_literal)))
       (call_expression
-        (other_identifier)
+        (fqn
+          (name
+            (other_identifier)))
         (call_arguments
           (index_expression
-            (other_identifier)
+            (fqn
+              (name
+                (other_identifier)))
             (int_literal))))
       (call_expression
-        (other_identifier)
+        (fqn
+          (name
+            (other_identifier)))
         (call_arguments
           (index_expression
             (index_expression
-              (other_identifier)
+              (fqn
+                (name
+                  (other_identifier)))
               (int_literal))
             (int_literal)))))))
 
@@ -599,16 +748,25 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
-      (other_identifier)
+      (fqn
+        (name
+          (other_identifier)))
       (comment)
-      (other_identifier)
+      (fqn
+        (name
+          (other_identifier)))
       (comment)
       (comment)
-      (other_identifier)
+      (fqn
+        (name
+          (other_identifier)))
       (comment)
-      (other_identifier))))
+      (fqn
+        (name
+          (other_identifier))))))
 
 ================================================================================
 Char literal
@@ -625,7 +783,8 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (variable_declaration
         (other_identifier)
@@ -652,7 +811,8 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (unit))
     (block
       (bool_literal)
@@ -671,19 +831,23 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (unit))
     (block
-      (field_expression
-        (type
-          (type_identifier)
-          (type_parameters
-            (unit)))
-        (call_expression
+      (call_expression
+        (field_expression
+          (fqn
+            (name
+              (type_identifier)
+              (type_parameters
+                (unit))))
           (type
-            (type_identifier))
-          (call_arguments
-            (unit))))
+            (fqn
+              (name
+                (type_identifier)))))
+        (call_arguments
+          (unit)))
       (unit))))
 
 ================================================================================
@@ -698,28 +862,39 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (function_parameter
         (other_identifier)
         (type
           (tuple_type
             (type
-              (type_identifier))
+              (fqn
+                (name
+                  (type_identifier))))
             (type
-              (type_identifier)))))
+              (fqn
+                (name
+                  (type_identifier)))))))
       (type
         (tuple_type
           (type
-            (type_identifier)))))
+            (fqn
+              (name
+                (type_identifier)))))))
     (block
       (variable_declaration
         (other_identifier)
         (type
           (tuple_type
             (type
-              (type_identifier))
+              (fqn
+                (name
+                  (type_identifier))))
             (type
-              (type_identifier))))
+              (fqn
+                (name
+                  (type_identifier))))))
         (tuple_literal
           (int_literal)
           (string_literal))))))
@@ -732,13 +907,15 @@ fn test():
     let c = (1,)
     let a = (1, 2, 3, Test{a: 1}, function_call())
     let b = ("a", 'b', EnumVariant(3), [1, 2])
+    let c = (Option::None, a)
 end
 --------------------------------------------------------------------------------
 
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (variable_declaration
         (other_identifier)
@@ -752,12 +929,16 @@ end
           (int_literal)
           (struct_instantiation_expression
             (type
-              (type_identifier))
+              (fqn
+                (name
+                  (type_identifier))))
             (struct_field_assignment
               (other_identifier)
               (int_literal)))
           (call_expression
-            (other_identifier)
+            (fqn
+              (name
+                (other_identifier)))
             (call_arguments))))
       (variable_declaration
         (other_identifier)
@@ -765,13 +946,25 @@ end
           (string_literal)
           (char_literal)
           (call_expression
-            (type
-              (type_identifier))
+            (fqn
+              (name
+                (type_identifier)))
             (call_arguments
               (int_literal)))
           (array_literal
             (int_literal)
-            (int_literal)))))))
+            (int_literal))))
+      (variable_declaration
+        (other_identifier)
+        (tuple_literal
+          (fqn
+            (name
+              (type_identifier))
+            (name
+              (type_identifier)))
+          (fqn
+            (name
+              (other_identifier))))))))
 
 ================================================================================
 Tuple, function call, and unit type ambiguity
@@ -792,9 +985,12 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
-      (other_identifier)
+      (fqn
+        (name
+          (other_identifier)))
       (tuple_literal
         (int_literal)
         (int_literal))
@@ -802,7 +998,9 @@ end
         (field_expression
           (field_expression
             (field_expression
-              (other_identifier)
+              (fqn
+                (name
+                  (other_identifier)))
               (other_identifier))
             (other_identifier))
           (other_identifier))
@@ -823,7 +1021,8 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (string_literal)
       (string_literal
@@ -847,7 +1046,8 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (string_literal
         (escape_sequence)))))
@@ -866,18 +1066,25 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (variable_declaration
         (other_identifier)
         (type
-          (type_identifier))
+          (fqn
+            (name
+              (type_identifier))))
         (string_literal))
       (variable_declaration
         (other_identifier)
         (type
-          (type_identifier))
-        (type_identifier)))))
+          (fqn
+            (name
+              (type_identifier))))
+        (fqn
+          (name
+            (type_identifier)))))))
 
 ================================================================================
 Variable declaration with `mut`.
@@ -893,18 +1100,25 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (variable_declaration
         (other_identifier)
         (type
-          (type_identifier))
+          (fqn
+            (name
+              (type_identifier))))
         (string_literal))
       (variable_declaration
         (other_identifier)
         (type
-          (type_identifier))
-        (type_identifier)))))
+          (fqn
+            (name
+              (type_identifier))))
+        (fqn
+          (name
+            (type_identifier)))))))
 
 ================================================================================
 String interpolation.
@@ -919,20 +1133,25 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (variable_declaration
         (other_identifier)
         (f_string_expression
           (f_string_interpolation
-            (other_identifier))
+            (fqn
+              (name
+                (other_identifier))))
           (f_string_interpolation
             (binary_expression
               (int_literal)
               (int_literal)))
           (f_string_interpolation
             (field_expression
-              (other_identifier)
+              (fqn
+                (name
+                  (other_identifier)))
               (other_identifier)))
           (escape_sequence)
           (escape_sequence))))))
@@ -952,20 +1171,25 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (variable_declaration
         (other_identifier)
         (f_string_expression
           (f_string_interpolation
-            (other_identifier))
+            (fqn
+              (name
+                (other_identifier))))
           (f_string_interpolation
             (binary_expression
               (int_literal)
               (int_literal)))
           (f_string_interpolation
             (field_expression
-              (other_identifier)
+              (fqn
+                (name
+                  (other_identifier)))
               (other_identifier)))
           (escape_sequence)
           (escape_sequence))))))
@@ -984,11 +1208,16 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (binary_expression
-        (other_identifier)
-        (other_identifier))
+        (fqn
+          (name
+            (other_identifier)))
+        (fqn
+          (name
+            (other_identifier))))
       (binary_expression
         (binary_expression
           (binary_expression
@@ -1014,7 +1243,8 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (binary_expression
         (unary_expression
@@ -1037,9 +1267,12 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (type
-        (type_identifier)))
+        (fqn
+          (name
+            (type_identifier)))))
     (block
       (if_expression
         (bool_literal)
@@ -1069,9 +1302,12 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (type
-        (type_identifier)))
+        (fqn
+          (name
+            (type_identifier)))))
     (block
       (if_expression
         (bool_literal)
@@ -1102,15 +1338,20 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (statement
         (for_statement
           (other_identifier)
-          (other_identifier)
+          (fqn
+            (name
+              (other_identifier)))
           (loop_block
             (field_expression
-              (other_identifier)
+              (fqn
+                (name
+                  (other_identifier)))
               (other_identifier)))))
       (statement
         (loop_statement
@@ -1120,14 +1361,20 @@ end
       (statement
         (while_statement
           (binary_expression
-            (other_identifier)
+            (fqn
+              (name
+                (other_identifier)))
             (int_literal))
           (loop_block
             (statement
               (assignment_statement
-                (other_identifier)
+                (fqn
+                  (name
+                    (other_identifier)))
                 (binary_expression
-                  (other_identifier)
+                  (fqn
+                    (name
+                      (other_identifier)))
                   (int_literal))))))))))
 
 ================================================================================
@@ -1150,31 +1397,40 @@ end
 
 (source_file
   (struct_declaration
-    (type
+    (name
       (type_identifier))
     (struct_field
       (other_identifier)
       (type
-        (type_identifier)))
+        (fqn
+          (name
+            (type_identifier)))))
     (struct_field
       (other_identifier)
       (type
-        (type_identifier)))
+        (fqn
+          (name
+            (type_identifier)))))
     (struct_field
       (other_identifier)
       (type
-        (type_identifier))))
+        (fqn
+          (name
+            (type_identifier))))))
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (struct_declaration
-        (type
+        (name
           (type_identifier))
         (struct_field
           (other_identifier)
           (type
-            (type_identifier)))))))
+            (fqn
+              (name
+                (type_identifier)))))))))
 
 ================================================================================
 Struct instantiation
@@ -1188,13 +1444,16 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (variable_declaration
         (other_identifier)
         (struct_instantiation_expression
           (type
-            (type_identifier))
+            (fqn
+              (name
+                (type_identifier))))
           (struct_field_assignment
             (other_identifier)
             (string_literal))
@@ -1237,90 +1496,135 @@ end
 
 (source_file
   (struct_declaration
-    (type
+    (name
       (type_identifier)
       (type_parameters
         (type
-          (type_identifier))))
+          (fqn
+            (name
+              (type_identifier))))))
     (struct_field
       (other_identifier)
       (type
-        (type_identifier))))
+        (fqn
+          (name
+            (type_identifier))))))
   (impl_definition
     (type
-      (type_identifier)
-      (type_parameters
-        (type
-          (type_identifier))))
-    (type
-      (type_identifier)
-      (type_parameters
-        (type
-          (type_identifier))))
-    (function_definition
-      (function_declaration
-        (other_identifier)
-        (type
+      (fqn
+        (name
           (type_identifier)
           (type_parameters
             (type
-              (type_identifier)))))
+              (fqn
+                (name
+                  (type_identifier))))))))
+    (type
+      (fqn
+        (name
+          (type_identifier)
+          (type_parameters
+            (type
+              (fqn
+                (name
+                  (type_identifier))))))))
+    (function_definition
+      (function_declaration
+        (name
+          (other_identifier))
+        (type
+          (fqn
+            (name
+              (type_identifier)
+              (type_parameters
+                (type
+                  (fqn
+                    (name
+                      (type_identifier)))))))))
       (block)))
   (enum_declaration
-    (type
+    (name
       (type_identifier)
       (type_parameters
         (type
-          (type_identifier))))
+          (fqn
+            (name
+              (type_identifier))))))
     (enum_variant_declaration
       (type_identifier)
       (type
-        (type_identifier)))
+        (fqn
+          (name
+            (type_identifier)))))
     (enum_variant_declaration
       (type_identifier)))
   (trait_definition
     (type
-      (type_identifier)
-      (type_parameters
-        (type
-          (type_identifier))
-        (type
-          (type_identifier)))))
+      (fqn
+        (name
+          (type_identifier)
+          (type_parameters
+            (type
+              (fqn
+                (name
+                  (type_identifier))))
+            (type
+              (fqn
+                (name
+                  (type_identifier)))))))))
   (function_definition
     (function_declaration
-      (other_identifier)
-      (type_parameters
-        (type
-          (type_identifier))
-        (type
-          (type_identifier)))
+      (name
+        (other_identifier)
+        (type_parameters
+          (type
+            (fqn
+              (name
+                (type_identifier))))
+          (type
+            (fqn
+              (name
+                (type_identifier))))))
       (function_parameter
         (other_identifier)
         (type
-          (type_identifier)))
+          (fqn
+            (name
+              (type_identifier)))))
       (function_parameter
         (other_identifier)
         (type
-          (type_identifier)))
+          (fqn
+            (name
+              (type_identifier)))))
       (type
-        (type_identifier)))
+        (fqn
+          (name
+            (type_identifier)))))
     (block
       (variable_declaration
         (other_identifier)
-        (field_expression
-          (type
-            (type_identifier)
-            (type_parameters
-              (type
-                (type_identifier))))
-          (call_expression
+        (call_expression
+          (field_expression
+            (fqn
+              (name
+                (type_identifier)
+                (type_parameters
+                  (type
+                    (fqn
+                      (name
+                        (type_identifier)))))))
             (type
-              (type_identifier))
-            (call_arguments
-              (int_literal)))))
+              (fqn
+                (name
+                  (type_identifier)))))
+          (call_arguments
+            (int_literal))))
       (statement
         (return_statement
-          (other_identifier))))))
+          (fqn
+            (name
+              (other_identifier))))))))
 
 ================================================================================
 Implementation definition
@@ -1341,30 +1645,43 @@ end
 (source_file
   (impl_definition
     (type
-      (type_identifier))
+      (fqn
+        (name
+          (type_identifier))))
     (function_definition
       (function_declaration
-        (other_identifier)
+        (name
+          (other_identifier))
         (function_parameter
           (other_identifier)
           (type
-            (type_identifier)))
+            (fqn
+              (name
+                (type_identifier)))))
         (type
-          (type_identifier)))
+          (fqn
+            (name
+              (type_identifier)))))
       (block
         (call_expression
-          (type
-            (type_identifier))
+          (fqn
+            (name
+              (type_identifier)))
           (call_arguments
-            (other_identifier)))))
+            (fqn
+              (name
+                (other_identifier)))))))
     (function_definition
       (function_declaration
-        (other_identifier)
+        (name
+          (other_identifier))
         (function_parameter
           (self)))
       (block
         (call_expression
-          (other_identifier)
+          (fqn
+            (name
+              (other_identifier)))
           (call_arguments
             (field_expression
               (self)
@@ -1389,29 +1706,40 @@ end
 (source_file
   (trait_definition
     (type
-      (type_identifier))
+      (fqn
+        (name
+          (type_identifier))))
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (function_parameter
         (self))
       (type
         (function_type
           (type
-            (type_identifier))
+            (fqn
+              (name
+                (type_identifier))))
           (type
-            (type_identifier)))))
+            (fqn
+              (name
+                (type_identifier)))))))
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (function_parameter
         (self)))
     (function_definition
       (function_declaration
-        (other_identifier)
+        (name
+          (other_identifier))
         (function_parameter
           (self)))
       (block
         (call_expression
-          (other_identifier)
+          (fqn
+            (name
+              (other_identifier)))
           (call_arguments
             (string_literal)))))))
 
@@ -1430,17 +1758,23 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (trait_definition
         (type
-          (type_identifier))
+          (fqn
+            (name
+              (type_identifier))))
         (function_declaration
-          (other_identifier)
+          (name
+            (other_identifier))
           (function_parameter
             (self))
           (type
-            (type_identifier)))))))
+            (fqn
+              (name
+                (type_identifier)))))))))
 
 ================================================================================
 Trait implementation
@@ -1457,25 +1791,36 @@ end
 (source_file
   (impl_definition
     (type
-      (type_identifier)
-      (type_parameters
-        (type
-          (type_identifier))))
+      (fqn
+        (name
+          (type_identifier)
+          (type_parameters
+            (type
+              (fqn
+                (name
+                  (type_identifier))))))))
     (type
-      (fqn_type
-        (other_identifier)
-        (type_identifier)
-        (type_parameters
-          (type
-            (type_identifier)))))
+      (fqn
+        (name
+          (other_identifier))
+        (name
+          (type_identifier)
+          (type_parameters
+            (type
+              (fqn
+                (name
+                  (type_identifier))))))))
     (function_definition
       (function_declaration
-        (other_identifier)
+        (name
+          (other_identifier))
         (function_parameter
           (self)))
       (block
         (call_expression
-          (other_identifier)
+          (fqn
+            (name
+              (other_identifier)))
           (call_arguments
             (field_expression
               (self)
@@ -1496,7 +1841,7 @@ end
 
 (source_file
   (enum_declaration
-    (type
+    (name
       (type_identifier))
     (enum_variant_declaration
       (type_identifier))
@@ -1507,9 +1852,13 @@ end
     (enum_variant_declaration
       (type_identifier)
       (type
-        (type_identifier))
+        (fqn
+          (name
+            (type_identifier))))
       (type
-        (type_identifier)))))
+        (fqn
+          (name
+            (type_identifier)))))))
 
 ================================================================================
 Field access
@@ -1529,22 +1878,29 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (variable_declaration
         (other_identifier)
         (field_expression
-          (other_identifier)
+          (fqn
+            (name
+              (other_identifier)))
           (other_identifier)))
       (statement
         (assignment_statement
           (field_expression
-            (other_identifier)
+            (fqn
+              (name
+                (other_identifier)))
             (other_identifier))
           (string_literal)))
       (binary_expression
         (field_expression
-          (other_identifier)
+          (fqn
+            (name
+              (other_identifier)))
           (other_identifier))
         (string_literal))
       (field_expression
@@ -1552,29 +1908,41 @@ end
           (field_expression
             (call_expression
               (field_expression
-                (other_identifier)
+                (fqn
+                  (name
+                    (other_identifier)))
                 (other_identifier))
               (call_arguments))
             (other_identifier))
           (call_arguments))
         (other_identifier))
       (field_expression
+        (fqn
+          (name
+            (type_identifier)))
         (type
-          (type_identifier))
-        (type
-          (type_identifier)))
+          (fqn
+            (name
+              (type_identifier)))))
       (call_expression
         (field_expression
+          (fqn
+            (name
+              (type_identifier)
+              (type_parameters
+                (type
+                  (fqn
+                    (name
+                      (type_identifier)))))))
           (type
-            (type_identifier)
-            (type_parameters
-              (type
-                (type_identifier))))
-          (type
-            (type_identifier)))
-        (type_parameters
-          (type
-            (type_identifier)))
+            (fqn
+              (name
+                (type_identifier)
+                (type_parameters
+                  (type
+                    (fqn
+                      (name
+                        (type_identifier)))))))))
         (call_arguments
           (int_literal))))))
 
@@ -1609,10 +1977,13 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (match_expression
-        (other_identifier)
+        (fqn
+          (name
+            (other_identifier)))
         (match_arm
           (pattern
             (range_pattern
@@ -1671,7 +2042,11 @@ end
             (int_literal)))
         (match_arm
           (pattern
-            (other_identifier))
+            (enum_pattern
+              (type
+                (fqn
+                  (name
+                    (other_identifier))))))
           (block
             (int_literal)))
         (match_arm
@@ -1685,7 +2060,9 @@ end
           (pattern
             (struct_pattern
               (type
-                (type_identifier))
+                (fqn
+                  (name
+                    (type_identifier))))
               (struct_pattern_field
                 (other_identifier)
                 (pattern
@@ -1696,14 +2073,18 @@ end
           (pattern
             (enum_pattern
               (type
-                (type_identifier))))
+                (fqn
+                  (name
+                    (type_identifier))))))
           (block
             (int_literal)))
         (match_arm
           (pattern
             (enum_pattern
               (type
-                (type_identifier))
+                (fqn
+                  (name
+                    (type_identifier))))
               (type_identifier)
               (pattern
                 (int_literal))
@@ -1715,7 +2096,9 @@ end
           (pattern
             (enum_pattern
               (type
-                (type_identifier))
+                (fqn
+                  (name
+                    (type_identifier))))
               (pattern
                 (int_literal)
                 (range_pattern
@@ -1753,38 +2136,57 @@ end
 (source_file
   (extern_declaration
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (function_parameter
         (other_identifier)
         (type
-          (type_identifier)))
+          (fqn
+            (name
+              (type_identifier)))))
       (type
-        (type_identifier)))
+        (fqn
+          (name
+            (type_identifier)))))
     (function_declaration
-      (other_identifier)
+      (name
+        (other_identifier))
       (function_parameter
         (other_identifier)
         (type
-          (type_identifier))))
+          (fqn
+            (name
+              (type_identifier))))))
     (struct_declaration
-      (type
+      (name
         (type_identifier))
       (struct_field
         (other_identifier)
         (type
-          (type_identifier))))
+          (fqn
+            (name
+              (type_identifier))))))
     (extern_impl_declaration
       (type
-        (type_identifier))
+        (fqn
+          (name
+            (type_identifier))))
       (function_declaration
-        (other_identifier)
+        (name
+          (other_identifier))
         (type
-          (type_identifier))))
+          (fqn
+            (name
+              (type_identifier))))))
     (extern_impl_declaration
       (type
-        (type_identifier))
+        (fqn
+          (name
+            (type_identifier))))
       (type
-        (type_identifier)))))
+        (fqn
+          (name
+            (type_identifier)))))))
 
 ================================================================================
 Types don't clash with less-than operator.
@@ -1800,32 +2202,49 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier)
-      (type_parameters
-        (type
-          (type_identifier))))
+      (name
+        (other_identifier)
+        (type_parameters
+          (type
+            (fqn
+              (name
+                (type_identifier)))))))
     (block
       (struct_instantiation_expression
         (type
-          (type_identifier)
-          (type_parameters
-            (type
-              (type_identifier))))
+          (fqn
+            (name
+              (type_identifier)
+              (type_parameters
+                (type
+                  (fqn
+                    (name
+                      (type_identifier))))))))
         (struct_field_assignment
           (other_identifier)
           (int_literal)))
       (call_expression
-        (other_identifier)
-        (type_parameters
-          (type
-            (type_identifier)
+        (fqn
+          (name
+            (other_identifier)
             (type_parameters
               (type
-                (type_identifier)))))
+                (fqn
+                  (name
+                    (type_identifier)
+                    (type_parameters
+                      (type
+                        (fqn
+                          (name
+                            (type_identifier)))))))))))
         (call_arguments
           (binary_expression
-            (other_identifier)
-            (other_identifier)))))))
+            (fqn
+              (name
+                (other_identifier)))
+            (fqn
+              (name
+                (other_identifier)))))))))
 
 ================================================================================
 Expression statement optional (`;`)
@@ -1841,15 +2260,22 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (expression_statement
         (binary_expression
           (call_expression
-            (other_identifier)
+            (fqn
+              (name
+                (other_identifier)))
             (call_arguments))
-          (other_identifier)))
-      (other_identifier))))
+          (fqn
+            (name
+              (other_identifier)))))
+      (fqn
+        (name
+          (other_identifier))))))
 
 ================================================================================
 Parenthesized expression
@@ -1864,14 +2290,21 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (binary_expression
         (parenthesized_expression
           (binary_expression
-            (other_identifier)
-            (other_identifier)))
-        (other_identifier)))))
+            (fqn
+              (name
+                (other_identifier)))
+            (fqn
+              (name
+                (other_identifier)))))
+        (fqn
+          (name
+            (other_identifier)))))))
 
 ================================================================================
 Propagate errors
@@ -1886,10 +2319,13 @@ end
 (source_file
   (function_definition
     (function_declaration
-      (other_identifier))
+      (name
+        (other_identifier)))
     (block
       (call_expression
-        (other_identifier)
+        (fqn
+          (name
+            (other_identifier)))
         (call_arguments
           (int_literal)
           (int_literal))))))

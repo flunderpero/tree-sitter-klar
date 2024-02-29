@@ -3,8 +3,10 @@
 (other_identifier) @variable
 (type) @type
 (unit) @type
-(fqn_type
-  (other_identifier) @type
+(fqn
+  (name
+      (other_identifier) @type
+  )
 ) 
 (comment) @comment
 (int_literal) @number
@@ -98,7 +100,7 @@
 )
 
 (function_declaration
-  name: (other_identifier) @function
+  name: (name) @function
   "throws" @exception
 )
 
@@ -129,7 +131,7 @@
 
 (struct_declaration
   [
-    name: (type) @type.definition
+    name: (name) @type.definition
     ":" @keyword
     "end" @keyword
   ]
@@ -141,7 +143,7 @@
 
 (enum_declaration
   [
-    name: (type) @type.definition
+    name: (name) @type.definition
     ":" @keyword
     "end" @keyword
   ]
@@ -216,7 +218,7 @@
 )
  
 (call_expression
-  target: (other_identifier) @function
+  target: (fqn) @function
 )
 
 (call_expression
