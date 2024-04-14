@@ -90,7 +90,13 @@
 ] @punctuation.braces
 
 (if_expression 
-  (block "end" @conditional)
+  (block 
+    [
+      "end" 
+      "=>" 
+      ":"
+    ] @conditional
+  )
 )
 
 (function_parameter

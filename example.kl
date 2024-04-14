@@ -175,8 +175,14 @@ fn main():
         false
     end
 
+    if self.line.text.len() > 0 and londoners[0] == "Peter" => self.line.text.push(" ")
+
     if a > 10:
         print("yes")
+    end
+
+    if a != 10:
+        print("no")
     end
 
     -- let x = if londoners.length > 10 then true else false and  

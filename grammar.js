@@ -452,6 +452,7 @@ module.exports = grammar({
                         ["<", PREC.COMPARE],
                         ["<=", PREC.COMPARE],
                         ["==", PREC.COMPARE],
+                        ["!=", PREC.COMPARE],
                         ["~=", PREC.COMPARE],
                         [">=", PREC.COMPARE],
                         [">", PREC.COMPARE],

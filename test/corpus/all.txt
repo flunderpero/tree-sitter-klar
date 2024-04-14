@@ -1236,6 +1236,7 @@ Binary expression
 fn test():
     x < y
     42 + 7 - 3 * 2 / 1 < 10
+    a != b
 end
 
 --------------------------------------------------------------------------------
@@ -1263,7 +1264,14 @@ end
               (int_literal)
               (int_literal))
             (int_literal)))
-        (int_literal)))))
+        (int_literal))
+      (binary_expression
+        (fqn
+          (name
+            (other_identifier)))
+        (fqn
+          (name
+            (other_identifier)))))))
 
 ================================================================================
 Unary expression
