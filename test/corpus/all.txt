@@ -1325,7 +1325,7 @@ Conditional: if then else
 fn test() Bool:
     if true:
         true
-    else => false
+    end else => false
     if true => true
     else:
         false
@@ -1346,12 +1346,14 @@ end
     (block
       (if_expression
         (bool_literal)
-        (bool_literal)
+        (block
+          (bool_literal))
         (block
           (bool_literal)))
       (if_expression
         (bool_literal)
-        (bool_literal)
+        (block
+          (bool_literal))
         (block
           (bool_literal))))))
 

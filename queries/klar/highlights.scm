@@ -1,13 +1,7 @@
 (type_identifier) @type
 ((type_identifier) @exception (#eq? @exception "Error")) @exception
-(other_identifier) @variable
 (type) @type
 (unit) @type
-(fqn
-  (name
-      (other_identifier) @type
-  )
-) 
 (comment) @comment
 (int_literal) @number
 (string_literal) @string
@@ -94,6 +88,10 @@
     "{"
     "}"
 ] @punctuation.braces
+
+(if_expression 
+  (block "end" @conditional)
+)
 
 (function_parameter
   name: (other_identifier) @parameter

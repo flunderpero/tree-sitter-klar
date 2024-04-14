@@ -170,7 +170,7 @@ fn main():
     if londoners.length() > 10:
         print("yes")
         true
-    else:
+    end else:
         print("no")
         false
     end

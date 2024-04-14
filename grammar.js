@@ -341,12 +341,7 @@ module.exports = grammar({
                     choice(
                         field("then_block", $.block),
                         seq(
-                            field("then_block", seq(":", repeat($._block_part))),
-                            "else",
-                            field("else_block", $.block),
-                        ),
-                        seq(
-                            field("then_block", seq("=>", $._block_part)),
+                            field("then_block", $.block),
                             "else",
                             field("else_block", $.block),
                         ),
