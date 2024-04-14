@@ -1366,6 +1366,43 @@ end
           (bool_literal))))))
 
 ================================================================================
+Conditional: if then else with expression statement operator
+================================================================================
+
+fn test() Bool:
+    if true => func();
+    else => other_func()
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (function_declaration
+      (name
+        (other_identifier))
+      (type
+        (fqn
+          (name
+            (type_identifier)))))
+    (block
+      (if_expression
+        (bool_literal)
+        (block
+          (expression_statement
+            (call_expression
+              (fqn
+                (name
+                  (other_identifier)))
+              (call_arguments))))
+        (block
+          (call_expression
+            (fqn
+              (name
+                (other_identifier)))
+            (call_arguments)))))))
+
+================================================================================
 Loops
 ================================================================================
 

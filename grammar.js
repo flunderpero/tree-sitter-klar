@@ -239,7 +239,7 @@ module.exports = grammar({
 
         loop_block: ($) => choice(seq(":", repeat($._block_part), "end"), seq("=>", $._block_part)),
 
-        expression_statement: ($) => prec(-1, seq($._expression, ";")),
+        expression_statement: ($) => prec(1, seq($._expression, ";")),
 
         // Expressions:
 

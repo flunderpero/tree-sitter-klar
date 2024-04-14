@@ -175,7 +175,8 @@ fn main():
         false
     end
 
-    if self.line.text.len() > 0 and londoners[0] == "Peter" => self.line.text.push(" ")
+    if a == 10 => some_func();  -- `;` is the expression statement operator.
+    else => some_other_func()
 
     if a > 10:
         print("yes")
